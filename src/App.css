@@ -893,10 +893,10 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 @media only screen and (max-width:500px) {
   .listen {
     width: 40%;
-    font-size: 18px;
+    font-size: 10px;
   }
   .surah-name {
-    font-size: 15px;
+    font-size: 14px;
   }
   .werd-container {
     width: 90%;
@@ -926,5 +926,32 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   .search-result {
     width: 90%;
     height: 70%;
+  }
+  .fehres h1 {
+    font-size: 24px;
+  }
+  .prev button, .next button {
+    font-size: 7px;
+  }
+  .quran-parts h1 {
+    font-size: 18px;
+  }
+  .save-button button {
+    font-size: 7px;
+  }
+  .qaree {
+    width: 100%;
+  }
+  .tool-name {
+    font-size: 15px;
+  }
+  .type-name {
+    font-size: 15px;
+  }
+  .start-werd-btn {
+    font-size: 15px;
+  }
+  .tool-name.counter {
+    font-size: 10px;
   }
 }

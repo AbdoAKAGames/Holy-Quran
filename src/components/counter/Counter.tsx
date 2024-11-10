@@ -17,6 +17,12 @@ export function Counter() {
         setCounter(Number(localStorage.getItem("counter")));
     }, [])
 
+    window.addEventListener("load", () => {
+        if (!localStorage.counter) {
+            localStorage.setItem("counter", "0");
+        }
+    })
+
 
 
     return (

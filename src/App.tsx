@@ -102,14 +102,35 @@ function listenSurah(qaree: string) {
   if (listening) {
     document.querySelector('audio')?.remove();
     const Surah = document.createElement('audio');
-    if (currentSurahNass < 10) {
-      Surah.src = `src/quraa/${qaree}/00${currentSurahNass}.mp3`;
+    if (qaree == 'عبد الباسط عبد الصمد') {
+      if (currentSurahNass < 10) {
+        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${currentSurahNass}.mp3`;
+      }
+      else if (currentSurahNass >= 10) {
+        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${currentSurahNass}.mp3`;
+      } else if (currentSurahNass >= 100) {
+        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${currentSurahNass}.mp3`;
+      }
     }
-    else if (currentSurahNass >= 10) {
-      Surah.src = `src/quraa/${qaree}/0${currentSurahNass}.mp3`;
+    else if (qaree == 'محمود خليل الحصري') {
+      if (currentSurahNass < 10) {
+        Surah.src = `https://server13.mp3quran.net/husr/00${currentSurahNass}.mp3`;
+      }
+      else if (currentSurahNass >= 10) {
+        Surah.src = `https://server13.mp3quran.net/husr/0${currentSurahNass}.mp3`;
+      } else if (currentSurahNass >= 100) {
+        Surah.src = `https://server13.mp3quran.net/husr/${currentSurahNass}.mp3`;
+      }
     }
-    if (currentSurahNass >= 100) {
-      Surah.src = `src/quraa/${qaree}/${currentSurahNass}.mp3`;
+    else if (qaree == 'محمد صديق المنشاوي') {
+      if (currentSurahNass < 10) {
+        Surah.src = `https://server10.mp3quran.net/minsh/00${currentSurahNass}.mp3`;
+      }
+      else if (currentSurahNass >= 10) {
+        Surah.src = `https://server10.mp3quran.net/minsh/0${currentSurahNass}.mp3`;
+      } else if (currentSurahNass >= 100) {
+        Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
+      }
     }
     Surah.controls = true;
     ref.current?.append(Surah);
