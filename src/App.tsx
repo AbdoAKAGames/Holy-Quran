@@ -335,6 +335,7 @@ window.addEventListener("load", async () => {
 window.addEventListener("load", () => {
   const element = document.getElementsByClassName('first')[0] as HTMLDivElement;
   element.click();
+  setCurrentPage('home')
 })
 
 function handleClick(className: string, newPage: string) {
