@@ -43,15 +43,15 @@ export default function App() {
 const quraa = [
   {
     name: 'عبد الباسط عبد الصمد',
-    image: 'src/quraa-images/Abd-Elbaset-Abd-Elsamad.png',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/master/src/quraa-images/Abd-Elbaset-Abd-Elsamad.png?raw=true',
   },
   {
     name: 'محمود خليل الحصري',
-    image: 'src/quraa-images/Al-Hussary.png',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/master/src/quraa-images/Al-Hussary.png?raw=true',
   },
   {
     name: 'محمد صديق المنشاوي',
-    image: 'src/quraa-images/Al-Minshawi.png',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/master/src/quraa-images/Al-Minshawi.png?raw=true',
   },
 ];
 // const tafaseer = [
@@ -335,7 +335,7 @@ window.addEventListener("load", async () => {
 window.addEventListener("load", () => {
   const element = document.getElementsByClassName('first')[0] as HTMLDivElement;
   element.click();
-  setCurrentPage('home')
+  setCurrentPage('home');
 })
 
 function handleClick(className: string, newPage: string) {
