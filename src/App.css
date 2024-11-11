@@ -931,7 +931,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     font-size: 24px;
   }
   .buttons div button {
-    font-size: 4px;
+    font-size: 8px;
   }
   .quran-parts h1 {
     font-size: 18px;
