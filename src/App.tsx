@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // import { ReactNode } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Search } from './components/search/Search';
@@ -440,7 +440,7 @@ function getPageWerd() {
 
 
 
-window.addEventListener("load", () => {
+useEffect(() => {
   if (phoneRegEx.test(userAgent)) {
     if (!localStorage.current_surah) {
       localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]))
@@ -471,7 +471,7 @@ window.addEventListener("load", () => {
       }
     }
   }
-})
+}, []);
 
 
   return (
