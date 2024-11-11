@@ -255,9 +255,9 @@ window.addEventListener("load", () => {
       await supabase.from('current_surah').insert([{ id: localStorage.id, surah_num: null, scroll_top: null, }]);
     } else {
       if (data?.at(0).surah_num != null) {
-        setCurrentPartNass(data?.at(0).surah_num);
+        setCurrentSurahNass(data?.at(0).surah_num);
         let int = setInterval(() => {
-          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
+          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
           el.scrollTo({ top: data?.at(0).scroll_top, behavior: 'smooth' });
           if (el) {
             clearInterval(int);
