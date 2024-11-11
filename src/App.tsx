@@ -213,42 +213,6 @@ window.addEventListener("load", () => {
   if (!localStorage.id) {
     localStorage.setItem("id", crypto.randomUUID());
   }
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
-    const data = localStorage.getItem("current_surah");
-    if (data == null) {
-      const stringifiedData = JSON.stringify([{ id: localStorage.id, surah_num: null, scroll_top: null, }])
-      localStorage.setItem("current_surah", stringifiedData);
-    } else {
-      if (JSON.parse(data)[0].surah_num != null) {
-        setCurrentSurahNass(JSON.parse(data)[0].surah_num);
-        let int = setInterval(() => {
-          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
-          el.scrollTo({ top: JSON.parse(data)[0].scroll_top, behavior: 'smooth' });
-          if (el) {
-            clearInterval(int);
-          }
-        }, 100);
-      }
-    }
-  }
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
-    const data = localStorage.getItem("current_part");
-    if (data == null) {
-      const stringifiedData = JSON.stringify([{ id: localStorage.id, part_num: null, scroll_top: null, }])
-      localStorage.setItem("current_part", stringifiedData);
-    } else {
-      if (JSON.parse(data)[0].part_num != null) {
-        setCurrentPartNass(JSON.parse(data)[0].part_num);
-        let int = setInterval(() => {
-          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
-          el.scrollTo({ top: JSON.parse(data)[0].scroll_top, behavior: 'smooth' });
-          if (el) {
-            clearInterval(int);
-          }
-        }, 100);
-      }
-    }
-  }
   (async () => {
     const { data } = await supabase.from('current_surah').select().eq('id', localStorage.id);
     if (data?.length == 0) {
@@ -319,7 +283,7 @@ async function save() {
 }
 async function unsave() {
   await supabase.from('current_surah').update({ surah_num: null, scroll_top: null }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ surah_num: null, scroll_top: null }])
     localStorage.setItem("current_surah", stringifiedData);
   }
@@ -334,7 +298,7 @@ async function unsave() {
 async function savePart() {
   let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
   await supabase.from('current_part').update({ part_num: currentPartNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ part_num: currentPartNass, scroll_top: el.scrollTop }])
     localStorage.setItem("current_part", stringifiedData);
   }
@@ -477,6 +441,42 @@ function getPageWerd() {
     return  <img src={`src/data/werd/pages/page${currentWerd + 1}.png`} alt="werd" className="werd-img" />
   }
 }
+
+
+
+window.addEventListener("load", () => {
+  if (phoneRegEx.test(userAgent)) {
+    if (!localStorage.current_surah) {
+      localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]))
+    } else {
+      if (JSON.parse(localStorage.current_surah)[0].surah_num != null) {
+        setCurrentSurahNass(JSON.parse(localStorage.current_surah)[0].surah_num);
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+          el.scrollTo({ top: JSON.parse(localStorage.current_surah)[0].scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+    if (!localStorage.current_part) {
+      localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]))
+    } else {
+      if (JSON.parse(localStorage.current_part)[0].part_num != null) {
+        setCurrentSurahNass(JSON.parse(localStorage.current_part)[0].part_num);
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
+          el.scrollTo({ top: JSON.parse(localStorage.current_part)[0].scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+  }
+})
+
 
   return (
     <>
