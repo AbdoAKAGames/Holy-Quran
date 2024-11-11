@@ -255,15 +255,6 @@ window.addEventListener("load", () => {
       setStartedWerd(data?.at(0).started);
     }
   })();
-  if (phoneRegEx.test(userAgent)) {
-    const data = localStorage.getItem("werd");
-    if (data == null) {
-      const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
-      localStorage.setItem("werd", stringifiedData);
-    } else {
-      setStartedWerd(JSON.parse(data)[0].started);
-    }
-  }
 });
 
 async function save() {
@@ -479,6 +470,18 @@ useEffect(() => {
       setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
     }
   };
+}, []);
+
+useEffect(() => {
+  if (phoneRegEx.test(userAgent)) {
+    const data = localStorage.getItem("werd");
+    if (data == null) {
+      const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
+      localStorage.setItem("werd", stringifiedData);
+    } else {
+      setStartedWerd(JSON.parse(data)[0].started);
+    }
+  }
 }, [])
 
 
