@@ -240,7 +240,7 @@ window.addEventListener("load", () => {
       if (JSON.parse(data)[0].part_num != null) {
         setCurrentPartNass(JSON.parse(data)[0].part_num);
         let int = setInterval(() => {
-          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
           el.scrollTo({ top: JSON.parse(data)[0].scroll_top, behavior: 'smooth' });
           if (el) {
             clearInterval(int);
