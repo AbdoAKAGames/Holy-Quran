@@ -14,36 +14,36 @@ export function Azkar() {
     const firstRow = [
         {
             name: "أذكار الصباح",
-            src: "src/assets/sun.png",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/sun.png?raw=true",
             type: "morning",
         },
         {
             name: "أذكار المساء",
-            src: "src/assets/moon.png",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/moon.png?raw=true",
             type: "night",
         }
     ];
     const secondRow = [
         {
             name: "الصلاة على الرسول ﷺ",
-            src: "src/assets/parying-our-sir-muhammed.png",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/parying-our-sir-mohammed.png?raw=true",
             type: "parying-our-sir-mohammed",
         },
         {
             name: "أذكار بعد الصلاة",
-            src: "src/assets/mosque.png",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/mosque.png?raw=true",
             type: "praying",
         }
     ];
     const thirdRow = [
         {
             name: "أذكار النوم",
-            src: "src/assets/sleep.png",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/sleep.png?raw=true",
             type: "sleep",
         },
         {
             name: "أذكار الاستيقاظ",
-            src: "src/assets/wake.png",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/wake.png?raw=true",
             type: "wake",
         }
     ];
