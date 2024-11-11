@@ -48,15 +48,15 @@ export default function App() {
 const quraa = [
   {
     name: 'عبد الباسط عبد الصمد',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/master/src/quraa-images/Abd-Elbaset-Abd-Elsamad.png?raw=true',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Abd-Elbaset-Abd-Elsamad.png?raw=true',
   },
   {
     name: 'محمود خليل الحصري',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/master/src/quraa-images/Al-Hussary.png?raw=true',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Hussary.png?raw=true',
   },
   {
     name: 'محمد صديق المنشاوي',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/master/src/quraa-images/Al-Minshawi.png?raw=true',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
   },
 ];
 // const tafaseer = [
