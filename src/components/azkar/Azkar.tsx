@@ -26,7 +26,7 @@ export function Azkar() {
     const secondRow = [
         {
             name: "الصلاة على الرسول ﷺ",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/parying-our-sir-mohammed.png?raw=true",
+            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/parying-our-sir-muhammed.png?raw=true",
             type: "parying-our-sir-mohammed",
         },
         {
