@@ -369,38 +369,6 @@ window.addEventListener("load", async () => {
     }
     setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
   }
-  if (phoneRegEx.test(userAgent)) {
-    if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
-      if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
-        if (JSON.parse(localStorage.werd)[0].index != 603) {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'page', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
-          localStorage.setItem("werd", stringifiedData);
-        } else {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'page', last_time: new Date().getTime(), index: 0 }])
-          localStorage.setItem("werd", stringifiedData);
-        }
-      }
-      if (JSON.parse(localStorage.werd)[0].current_werd == 'hezb') {
-        if (JSON.parse(localStorage.werd)[0].index != 59) {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'hezb', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
-          localStorage.setItem("werd", stringifiedData);
-        } else {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'hezb', last_time: new Date().getTime(), index: 0 }])
-          localStorage.setItem("werd", stringifiedData);
-        }
-      }
-      if (JSON.parse(localStorage.werd)[0].current_werd == 'part') {
-        if (JSON.parse(localStorage.werd)[0].index != 29) {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'part', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
-          localStorage.setItem("werd", stringifiedData);
-        } else {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'part', last_time: new Date().getTime(), index: 0 }])
-          localStorage.setItem("werd", stringifiedData);
-        }
-      }
-      setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
-    }
-  };
 })
 window.addEventListener("load", () => {
   const element = document.getElementsByClassName('first')[0] as HTMLDivElement;
@@ -476,6 +444,42 @@ useEffect(() => {
     }
   }
 }, []);
+
+useEffect(() => {
+  const currentTime = new Date().getTime();
+  if (phoneRegEx.test(userAgent)) {
+    if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
+      if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
+        if (JSON.parse(localStorage.werd)[0].index != 603) {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'page', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+          localStorage.setItem("werd", stringifiedData);
+        } else {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'page', last_time: new Date().getTime(), index: 0 }])
+          localStorage.setItem("werd", stringifiedData);
+        }
+      }
+      if (JSON.parse(localStorage.werd)[0].current_werd == 'hezb') {
+        if (JSON.parse(localStorage.werd)[0].index != 59) {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'hezb', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+          localStorage.setItem("werd", stringifiedData);
+        } else {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'hezb', last_time: new Date().getTime(), index: 0 }])
+          localStorage.setItem("werd", stringifiedData);
+        }
+      }
+      if (JSON.parse(localStorage.werd)[0].current_werd == 'part') {
+        if (JSON.parse(localStorage.werd)[0].index != 29) {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'part', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+          localStorage.setItem("werd", stringifiedData);
+        } else {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'part', last_time: new Date().getTime(), index: 0 }])
+          localStorage.setItem("werd", stringifiedData);
+        }
+      }
+      setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+    }
+  };
+}, [])
 
 
   return (
