@@ -269,10 +269,6 @@ window.addEventListener("load", () => {
 async function save() {
   let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
   await supabase.from('current_surah').update({ surah_num: currentSurahNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
-    const stringifiedData = JSON.stringify([{ surah_num: currentSurahNass, scroll_top: el.scrollTop }])
-    localStorage.setItem("current_surah", stringifiedData);
-  }
   if (!animated) {
     setAnimated(true);
     setTimeout(() => {
@@ -517,7 +513,11 @@ window.addEventListener("load", () => {
       <>
         <div className="listen-surah">
           <div className="save-button">
-            <button onClick={() => {save();savedRef.current?.setAttribute('style', 'display: flex;');}}>حفظ السورة</button>
+            <button onClick={() => {save();savedRef.current?.setAttribute('style', 'display: flex;');let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ surah_num: currentSurahNass, scroll_top: el.scrollTop }])
+    localStorage.setItem("current_surah", stringifiedData);
+  }}}>حفظ السورة</button>
             <button onClick={() => {unsave();unsavedRef.current?.setAttribute('style', 'display: flex;');}}>إلغاء حفط السورة</button>
           </div>
           <div className="buttons">
