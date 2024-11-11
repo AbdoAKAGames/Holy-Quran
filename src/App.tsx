@@ -373,38 +373,38 @@ async function startWerd(werd: string) {
   setDailyWerd(werd);
 }
 window.addEventListener("load", async () => {
-  setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
-  setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
+  // setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
+  // setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
   if (phoneRegEx.test(userAgent)) {
     setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
     setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
   };
   const currentTime = new Date().getTime();
   // console.log(currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000);
-  if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
-    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'page') {
-      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 603) {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-      } else {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-      }
-    }
-    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'hezb') {
-      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 59) {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-      } else {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-      }
-    }
-    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'part') {
-      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 29) {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-      } else {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-      }
-    }
-    setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
-  }
+  // if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
+  //   if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'page') {
+  //     if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 603) {
+  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
+  //     } else {
+  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
+  //     }
+  //   }
+  //   if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'hezb') {
+  //     if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 59) {
+  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
+  //     } else {
+  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
+  //     }
+  //   }
+  //   if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'part') {
+  //     if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 29) {
+  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
+  //     } else {
+  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
+  //     }
+  //   }
+  //   setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
+  // }
   if (phoneRegEx.test(userAgent)) {
     if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
       if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
