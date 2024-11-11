@@ -930,7 +930,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   .fehres h1 {
     font-size: 24px;
   }
-  .prev button, .next button {
+  .buttons div button {
     font-size: 4px;
   }
   .quran-parts h1 {
