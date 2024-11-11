@@ -14,7 +14,7 @@ import './App.css'
 export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<string>('home');
   const [currentSurahNass, setCurrentSurahNass] = useState<number>(0);
   const [currentPartNass, setCurrentPartNass] = useState<number>(0);
   const [listen, setListen] = useState<boolean>(false);
@@ -213,7 +213,7 @@ window.addEventListener("load", () => {
   if (!localStorage.id) {
     localStorage.setItem("id", crypto.randomUUID());
   }
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const data = localStorage.getItem("current_surah");
     if (data == null) {
       const stringifiedData = JSON.stringify([{ id: localStorage.id, surah_num: null, scroll_top: null, }])
@@ -231,7 +231,7 @@ window.addEventListener("load", () => {
       }
     }
   }
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const data = localStorage.getItem("current_part");
     if (data == null) {
       const stringifiedData = JSON.stringify([{ id: localStorage.id, part_num: null, scroll_top: null, }])
@@ -291,7 +291,7 @@ window.addEventListener("load", () => {
       setStartedWerd(data?.at(0).started);
     }
   })();
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const data = localStorage.getItem("werd");
     if (data == null) {
       const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
@@ -305,7 +305,7 @@ window.addEventListener("load", () => {
 async function save() {
   let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
   await supabase.from('current_surah').update({ surah_num: currentSurahNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ surah_num: currentSurahNass, scroll_top: el.scrollTop }])
     localStorage.setItem("current_surah", stringifiedData);
   }
@@ -319,7 +319,7 @@ async function save() {
 }
 async function unsave() {
   await supabase.from('current_surah').update({ surah_num: null, scroll_top: null }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ surah_num: null, scroll_top: null }])
     localStorage.setItem("current_surah", stringifiedData);
   }
@@ -334,7 +334,7 @@ async function unsave() {
 async function savePart() {
   let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
   await supabase.from('current_part').update({ part_num: currentPartNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ part_num: currentPartNass, scroll_top: el.scrollTop }])
     localStorage.setItem("current_part", stringifiedData);
   }
@@ -348,7 +348,7 @@ async function savePart() {
 }
 async function unsavePart() {
   await supabase.from('current_part').update({ part_num: null, scroll_top: null }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ part_num: null, scroll_top: null }])
     localStorage.setItem("current_part", stringifiedData);
   }
@@ -363,7 +363,7 @@ async function unsavePart() {
 async function startWerd(werd: string) {
   const date = new Date().getTime();
   await supabase.from('werd').update([{ started: true, current_werd: werd, last_time: date, index: 0 }]).eq('id', localStorage.id);
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ started: true, current_werd: werd, last_time: date, index: 0 }])
     localStorage.setItem("werd", stringifiedData);
   }
@@ -375,7 +375,7 @@ async function startWerd(werd: string) {
 window.addEventListener("load", async () => {
   setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
   setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
     setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
   };
@@ -405,7 +405,7 @@ window.addEventListener("load", async () => {
     }
     setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
   }
-  if (!phoneRegEx.test(userAgent)) {
+  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
     if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
       if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
         if (JSON.parse(localStorage.werd)[0].index != 603) {
