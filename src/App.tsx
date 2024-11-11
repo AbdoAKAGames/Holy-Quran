@@ -391,13 +391,13 @@ function handleClick(className: string, newPage: string) {
 
 function getPageWerd() {
   if (currentWerd < 10) {
-    return  <img src={`src/data/werd/pages/page00${currentWerd + 1}.png`} alt="werd" className="werd-img" />
+    return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page00${currentWerd + 1}.png?raw=true`} alt="werd" className="werd-img" />
   }
   else if (currentWerd >= 10 && currentWerd < 100) {
-    return  <img src={`src/data/werd/pages/page0${currentWerd + 1}.png`} alt="werd" className="werd-img" />
+    return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page0${currentWerd + 1}.png?raw=true`} alt="werd" className="werd-img" />
   }
   else if (currentWerd >= 100) {
-    return  <img src={`src/data/werd/pages/page${currentWerd + 1}.png`} alt="werd" className="werd-img" />
+    return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page${currentWerd + 1}.png?raw=true`} alt="werd" className="werd-img" />
   }
 }
 
