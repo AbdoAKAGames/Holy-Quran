@@ -39,6 +39,11 @@ export default function App() {
 
 
 
+  const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
+  const userAgent = navigator.userAgent;
+
+
+
 
 const quraa = [
   {
@@ -208,15 +213,51 @@ window.addEventListener("load", () => {
   if (!localStorage.id) {
     localStorage.setItem("id", crypto.randomUUID());
   }
+  if (phoneRegEx.test(userAgent)) {
+    const data = localStorage.getItem("current_surah");
+    if (data == null) {
+      const stringifiedData = JSON.stringify([{ id: localStorage.id, surah_num: null, scroll_top: null, }])
+      localStorage.setItem("current_surah", stringifiedData);
+    } else {
+      if (JSON.parse(data)[0].surah_num != null) {
+        setCurrentSurahNass(JSON.parse(data)[0].surah_num);
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+          el.scrollTo({ top: JSON.parse(data)[0].scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+  }
+  if (phoneRegEx.test(userAgent)) {
+    const data = localStorage.getItem("current_part");
+    if (data == null) {
+      const stringifiedData = JSON.stringify([{ id: localStorage.id, part_num: null, scroll_top: null, }])
+      localStorage.setItem("current_part", stringifiedData);
+    } else {
+      if (JSON.parse(data)[0].part_num != null) {
+        setCurrentSurahNass(JSON.parse(data)[0].part_num);
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+          el.scrollTo({ top: JSON.parse(data)[0].scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+  }
   (async () => {
     const { data } = await supabase.from('current_surah').select().eq('id', localStorage.id);
     if (data?.length == 0) {
       await supabase.from('current_surah').insert([{ id: localStorage.id, surah_num: null, scroll_top: null, }]);
     } else {
       if (data?.at(0).surah_num != null) {
-        setCurrentSurahNass(data?.at(0).surah_num);
+        setCurrentPartNass(data?.at(0).surah_num);
         let int = setInterval(() => {
-          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
           el.scrollTo({ top: data?.at(0).scroll_top, behavior: 'smooth' });
           if (el) {
             clearInterval(int);
@@ -250,11 +291,24 @@ window.addEventListener("load", () => {
       setStartedWerd(data?.at(0).started);
     }
   })();
+  if (phoneRegEx.test(userAgent)) {
+    const data = localStorage.getItem("werd");
+    if (data == null) {
+      const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
+      localStorage.setItem("werd", stringifiedData);
+    } else {
+      setStartedWerd(JSON.parse(data)[0].started);
+    }
+  }
 });
 
 async function save() {
   let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
   await supabase.from('current_surah').update({ surah_num: currentSurahNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ surah_num: currentSurahNass, scroll_top: el.scrollTop }])
+    localStorage.setItem("current_surah", stringifiedData);
+  }
   if (!animated) {
     setAnimated(true);
     setTimeout(() => {
@@ -265,6 +319,10 @@ async function save() {
 }
 async function unsave() {
   await supabase.from('current_surah').update({ surah_num: null, scroll_top: null }).eq('id', localStorage.id)
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ surah_num: null, scroll_top: null }])
+    localStorage.setItem("current_surah", stringifiedData);
+  }
   if (!animatedUns) {
     setAnimatedUns(true);
     setTimeout(() => {
@@ -276,6 +334,10 @@ async function unsave() {
 async function savePart() {
   let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
   await supabase.from('current_part').update({ part_num: currentPartNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ part_num: currentPartNass, scroll_top: el.scrollTop }])
+    localStorage.setItem("current_part", stringifiedData);
+  }
   if (!animatedPart) {
     setAnimatedPart(true);
     setTimeout(() => {
@@ -286,6 +348,10 @@ async function savePart() {
 }
 async function unsavePart() {
   await supabase.from('current_part').update({ part_num: null, scroll_top: null }).eq('id', localStorage.id)
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ part_num: null, scroll_top: null }])
+    localStorage.setItem("current_part", stringifiedData);
+  }
   if (!animatedUnsPart) {
     setAnimatedUnsPart(true);
     setTimeout(() => {
@@ -297,6 +363,10 @@ async function unsavePart() {
 async function startWerd(werd: string) {
   const date = new Date().getTime();
   await supabase.from('werd').update([{ started: true, current_werd: werd, last_time: date, index: 0 }]).eq('id', localStorage.id);
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ started: true, current_werd: werd, last_time: date, index: 0 }])
+    localStorage.setItem("werd", stringifiedData);
+  }
   setWerdModal(false);
   setStartedWerd(true);
   setCurrentWerd(0);
@@ -305,6 +375,10 @@ async function startWerd(werd: string) {
 window.addEventListener("load", async () => {
   setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
   setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
+  if (phoneRegEx.test(userAgent)) {
+    setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
+    setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+  };
   const currentTime = new Date().getTime();
   // console.log(currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000);
   if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
@@ -331,6 +405,38 @@ window.addEventListener("load", async () => {
     }
     setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
   }
+  if (phoneRegEx.test(userAgent)) {
+    if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
+      if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
+        if (JSON.parse(localStorage.werd)[0].index != 603) {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'page', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+          localStorage.setItem("werd", stringifiedData);
+        } else {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'page', last_time: new Date().getTime(), index: 0 }])
+          localStorage.setItem("werd", stringifiedData);
+        }
+      }
+      if (JSON.parse(localStorage.werd)[0].current_werd == 'hezb') {
+        if (JSON.parse(localStorage.werd)[0].index != 59) {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'hezb', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+          localStorage.setItem("werd", stringifiedData);
+        } else {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'hezb', last_time: new Date().getTime(), index: 0 }])
+          localStorage.setItem("werd", stringifiedData);
+        }
+      }
+      if (JSON.parse(localStorage.werd)[0].current_werd == 'part') {
+        if (JSON.parse(localStorage.werd)[0].index != 29) {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'part', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+          localStorage.setItem("werd", stringifiedData);
+        } else {
+          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'part', last_time: new Date().getTime(), index: 0 }])
+          localStorage.setItem("werd", stringifiedData);
+        }
+      }
+      setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+    }
+  };
 })
 window.addEventListener("load", () => {
   const element = document.getElementsByClassName('first')[0] as HTMLDivElement;
