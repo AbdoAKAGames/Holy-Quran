@@ -255,7 +255,7 @@ window.addEventListener("load", () => {
       setStartedWerd(data?.at(0).started);
     }
   })();
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     const data = localStorage.getItem("werd");
     if (data == null) {
       const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
@@ -268,6 +268,10 @@ window.addEventListener("load", () => {
 
 async function save() {
   let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ surah_num: currentSurahNass, scroll_top: el.scrollTop }])
+    localStorage.setItem("current_surah", stringifiedData);
+  }
   await supabase.from('current_surah').update({ surah_num: currentSurahNass, scroll_top: el.scrollTop }).eq('id', localStorage.id)
   if (!animated) {
     setAnimated(true);
@@ -308,7 +312,7 @@ async function savePart() {
 }
 async function unsavePart() {
   await supabase.from('current_part').update({ part_num: null, scroll_top: null }).eq('id', localStorage.id)
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ part_num: null, scroll_top: null }])
     localStorage.setItem("current_part", stringifiedData);
   }
@@ -323,7 +327,7 @@ async function unsavePart() {
 async function startWerd(werd: string) {
   const date = new Date().getTime();
   await supabase.from('werd').update([{ started: true, current_werd: werd, last_time: date, index: 0 }]).eq('id', localStorage.id);
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     const stringifiedData = JSON.stringify([{ started: true, current_werd: werd, last_time: date, index: 0 }])
     localStorage.setItem("werd", stringifiedData);
   }
@@ -335,7 +339,7 @@ async function startWerd(werd: string) {
 window.addEventListener("load", async () => {
   setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
   setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
     setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
   };
@@ -365,7 +369,7 @@ window.addEventListener("load", async () => {
     }
     setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
   }
-  if (!phoneRegEx.test(userAgent) || phoneRegEx.test(userAgent)) {
+  if (phoneRegEx.test(userAgent)) {
     if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
       if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
         if (JSON.parse(localStorage.werd)[0].index != 603) {
@@ -513,11 +517,7 @@ useEffect(() => {
       <>
         <div className="listen-surah">
           <div className="save-button">
-            <button onClick={() => {save();savedRef.current?.setAttribute('style', 'display: flex;');let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
-  if (phoneRegEx.test(userAgent)) {
-    const stringifiedData = JSON.stringify([{ surah_num: currentSurahNass, scroll_top: el.scrollTop }])
-    localStorage.setItem("current_surah", stringifiedData);
-  }}}>حفظ السورة</button>
+            <button onClick={() => {save();savedRef.current?.setAttribute('style', 'display: flex;');}}>حفظ السورة</button>
             <button onClick={() => {unsave();unsavedRef.current?.setAttribute('style', 'display: flex;');}}>إلغاء حفط السورة</button>
           </div>
           <div className="buttons">
