@@ -14,7 +14,7 @@ import './App.css'
 export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<string>('home');
+  const [currentPage, setCurrentPage] = useState<string>('');
   const [currentSurahNass, setCurrentSurahNass] = useState<number>(0);
   const [currentPartNass, setCurrentPartNass] = useState<number>(0);
   const [listen, setListen] = useState<boolean>(false);
@@ -238,9 +238,9 @@ window.addEventListener("load", () => {
       localStorage.setItem("current_part", stringifiedData);
     } else {
       if (JSON.parse(data)[0].part_num != null) {
-        setCurrentPartNass(JSON.parse(data)[0].part_num);
+        setCurrentSurahNass(JSON.parse(data)[0].part_num);
         let int = setInterval(() => {
-          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
+          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
           el.scrollTo({ top: JSON.parse(data)[0].scroll_top, behavior: 'smooth' });
           if (el) {
             clearInterval(int);
@@ -373,38 +373,38 @@ async function startWerd(werd: string) {
   setDailyWerd(werd);
 }
 window.addEventListener("load", async () => {
-  // setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
-  // setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
+  setDailyWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd)
+  setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
   if (phoneRegEx.test(userAgent)) {
     setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
     setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
   };
   const currentTime = new Date().getTime();
   // console.log(currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000);
-  // if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
-  //   if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'page') {
-  //     if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 603) {
-  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-  //     } else {
-  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-  //     }
-  //   }
-  //   if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'hezb') {
-  //     if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 59) {
-  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-  //     } else {
-  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-  //     }
-  //   }
-  //   if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'part') {
-  //     if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 29) {
-  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-  //     } else {
-  //       await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-  //     }
-  //   }
-  //   setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
-  // }
+  if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
+    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'page') {
+      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 603) {
+        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
+      } else {
+        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
+      }
+    }
+    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'hezb') {
+      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 59) {
+        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
+      } else {
+        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
+      }
+    }
+    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'part') {
+      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 29) {
+        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
+      } else {
+        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
+      }
+    }
+    setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
+  }
   if (phoneRegEx.test(userAgent)) {
     if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
       if (JSON.parse(localStorage.werd)[0].current_werd == 'page') {
