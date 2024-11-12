@@ -975,4 +975,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   .surah-nass {
     font-size: 24px;
   }
+  .quran-part {
+    font-size: 16px;
+  }
 }
