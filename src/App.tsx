@@ -73,7 +73,7 @@ function listenSurah(qaree: string) {
       if (currentSurahNass < 10) {
         Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${currentSurahNass}.mp3`;
       }
-      else if (currentSurahNass >= 10) {
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
         Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${currentSurahNass}.mp3`;
       } else if (currentSurahNass >= 100) {
         Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${currentSurahNass}.mp3`;
@@ -83,7 +83,7 @@ function listenSurah(qaree: string) {
       if (currentSurahNass < 10) {
         Surah.src = `https://server13.mp3quran.net/husr/00${currentSurahNass}.mp3`;
       }
-      else if (currentSurahNass >= 10) {
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
         Surah.src = `https://server13.mp3quran.net/husr/0${currentSurahNass}.mp3`;
       } else if (currentSurahNass >= 100) {
         Surah.src = `https://server13.mp3quran.net/husr/${currentSurahNass}.mp3`;
@@ -93,7 +93,7 @@ function listenSurah(qaree: string) {
       if (currentSurahNass < 10) {
         Surah.src = `https://server10.mp3quran.net/minsh/00${currentSurahNass}.mp3`;
       }
-      else if (currentSurahNass >= 10) {
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
         Surah.src = `https://server10.mp3quran.net/minsh/0${currentSurahNass}.mp3`;
       } else if (currentSurahNass >= 100) {
         Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
@@ -111,7 +111,7 @@ function listenSurah(qaree: string) {
       if (currentSurahNass < 10) {
         Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${currentSurahNass}.mp3`;
       }
-      else if (currentSurahNass >= 10) {
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
         Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${currentSurahNass}.mp3`;
       } else if (currentSurahNass >= 100) {
         Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${currentSurahNass}.mp3`;
@@ -121,7 +121,7 @@ function listenSurah(qaree: string) {
       if (currentSurahNass < 10) {
         Surah.src = `https://server13.mp3quran.net/husr/00${currentSurahNass}.mp3`;
       }
-      else if (currentSurahNass >= 10) {
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
         Surah.src = `https://server13.mp3quran.net/husr/0${currentSurahNass}.mp3`;
       } else if (currentSurahNass >= 100) {
         Surah.src = `https://server13.mp3quran.net/husr/${currentSurahNass}.mp3`;
@@ -131,7 +131,7 @@ function listenSurah(qaree: string) {
       if (currentSurahNass < 10) {
         Surah.src = `https://server10.mp3quran.net/minsh/00${currentSurahNass}.mp3`;
       }
-      else if (currentSurahNass >= 10) {
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
         Surah.src = `https://server10.mp3quran.net/minsh/0${currentSurahNass}.mp3`;
       } else if (currentSurahNass >= 100) {
         Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
@@ -492,6 +492,12 @@ useEffect(() => {
     setStartedWerd(JSON.parse(localStorage.werd)[0].started);
     setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
     setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+  } else {
+    (async () => {
+      setStartedWerd((await supabase.from("werd").select()).data?.at(0).started);
+      setDailyWerd((await supabase.from("werd").select()).data?.at(0).current_werd);
+      setCurrentWerd((await supabase.from("werd").select()).data?.at(0).index);
+    })();
   }
 }, []);
 
