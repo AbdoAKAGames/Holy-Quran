@@ -892,8 +892,10 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 
 @media only screen and (max-width:500px) {
   .listen {
-    width: 40%;
+    width: 30%;
     font-size: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .surah-name {
     font-size: 14px;
@@ -928,13 +930,13 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     height: 70%;
   }
   .fehres h1 {
-    font-size: 24px;
+    font-size: 16px;
   }
   .buttons div button {
     font-size: 8px;
   }
   .quran-parts h1 {
-    font-size: 18px;
+    font-size: 16px;
   }
   .save-button button {
     font-size: 7px;
@@ -968,5 +970,8 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     flex-direction: row;
     flex-wrap: wrap;
     overflow-y: auto;
+  }
+  .surah-nass {
+    font-size: 24px;
   }
 }
