@@ -511,7 +511,7 @@ useEffect(() => {
     <>
     <div id="app">
       <div className="app-title">
-        <h1>القرآن الكريم</h1>
+        <h1>وَرَتَّلْنَاهُ تَرْتِيلًا</h1>
       </div>
       {currentPage == 'home' && <>
       <div className="quran">
