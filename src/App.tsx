@@ -624,6 +624,20 @@ useEffect(() => {
         </div>
       </div>
       }
+        }
+        {currentPage == 'home' ? <div className="audio" ref={ref} style={{ background: 'rgb(175, 252, 175)', }}>
+
+</div> : <div className="audio" ref={ref}>
+
+        </div>
+}
+{currentPage == 'home' ? <div className="audio" ref={ref2} style={{ background: 'rgb(175, 252, 175)', }}>
+
+</div> : <div className="audio" ref={ref2}>
+
+        </div>
+}
+        {currentPage == 'home' && <>
       <div className="parts">
         <div className="quran-parts">
             <h1>فهرس أجزاء القرآن الكريم</h1>
@@ -732,18 +746,6 @@ useEffect(() => {
 {currentPage == 'search' && <Search /> }
 {currentPage == 'azkar' && <Azkar />}
 {currentPage == 'counter' && <Counter />}
-      {currentPage == 'home' ? <div className="audio" ref={ref} style={{ background: 'rgb(175, 252, 175)', }}>
-
-</div> : <div className="audio" ref={ref}>
-
-        </div>
-}
-{currentPage == 'home' ? <div className="audio" ref={ref2} style={{ background: 'rgb(175, 252, 175)', }}>
-
-</div> : <div className="audio" ref={ref2}>
-
-        </div>
-}
        <div className="tools">
        <div className="tool" onClick={() => {handleClick('counter', 'counter')}}>
           <div className="tool-img">
