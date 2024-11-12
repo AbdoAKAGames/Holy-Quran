@@ -892,10 +892,9 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 
 @media only screen and (max-width:500px) {
   .listen {
-    width: 30%;
-    font-size: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    width: 25%;
+    font-size: 8px;
+    padding: 5px;
   }
   .surah-name {
     font-size: 14px;
