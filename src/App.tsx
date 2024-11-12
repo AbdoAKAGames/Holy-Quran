@@ -520,7 +520,7 @@ useEffect(() => {
         <div className="fehres">
           <h1>فهرس سور القرآن الكريم</h1>
           {allSurah_s.map((surah, i) => (
-            <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });window.scrollBy({ behavior: "smooth", top: 150, });}}>
+            <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });window.scrollBy({ behavior: "smooth", top: 120, });}}>
             <div className="surah-number">
               {i + 1}-
             </div>
