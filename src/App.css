@@ -179,7 +179,6 @@ html, body {
     &:hover {
       transform: scale(1.08);
       filter: brightness(110%);
-      
     }
   }
 }
@@ -939,6 +938,9 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   }
   .save-button button {
     font-size: 7px;
+  }
+  .save-button {
+    width: 30%;
   }
   .qaree {
     width: 100%;
