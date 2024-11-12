@@ -973,4 +973,9 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   .surah-nass {
     font-size: 24px;
   }
+  .surah {
+    margin: 2px;
+    width: 70%;
+    height: 10%;
+  }
 }
