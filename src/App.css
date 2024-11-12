@@ -892,7 +892,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 @media only screen and (max-width:500px) {
   .listen {
     width: 25%;
-    font-size: 11px;
+    font-size: 10px;
     padding: 5px;
   }
   .surah {
