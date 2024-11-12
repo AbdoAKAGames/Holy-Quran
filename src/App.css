@@ -891,7 +891,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 
 @media only screen and (max-width:500px) {
   .listen {
-    width: 25%;
+    width: 30%;
     font-size: 10px;
     padding: 5px;
   }
@@ -940,7 +940,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     font-size: 7px;
   }
   .save-button {
-    width: 30%;
+    width: 25%;
   }
   .qaree {
     width: 100%;
