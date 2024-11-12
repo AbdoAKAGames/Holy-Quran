@@ -488,9 +488,11 @@ useEffect(() => {
 
 useEffect(() => {
   if (phoneRegEx.test(userAgent)) {
-    setStartedWerd(JSON.parse(localStorage.werd)[0].started);
-    setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
-    setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+    if (localStorage.werd) {
+      setStartedWerd(JSON.parse(localStorage.werd)[0].started);
+      setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
+      setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+    }
   } else {
     (async () => {
       setStartedWerd((await supabase.from("werd").select()).data?.at(0).started);
