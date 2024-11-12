@@ -623,6 +623,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
+        </>
       }
         }
         {currentPage == 'home' ? <div className="audio" ref={ref} style={{ background: 'rgb(175, 252, 175)', }}>
