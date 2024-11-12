@@ -484,7 +484,16 @@ useEffect(() => {
       setStartedWerd(JSON.parse(data)[0].started);
     }
   }
-}, [])
+}, []);
+
+
+useEffect(() => {
+  if (phoneRegEx.test(userAgent)) {
+    setStartedWerd(JSON.parse(localStorage.werd)[0].started);
+    setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
+    setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+  }
+}, []);
 
 
   return (
