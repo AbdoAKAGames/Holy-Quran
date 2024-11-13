@@ -102,6 +102,7 @@ function listenSurah(qaree: string) {
     ref.current?.append(Surah);
     Surah.play();
     setListening(true);
+    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
   };
   if (listening) {
     document.querySelector('audio')?.remove();
@@ -139,8 +140,8 @@ function listenSurah(qaree: string) {
     Surah.controls = true;
     ref.current?.append(Surah);
     Surah.play();
+    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
   }
-  window.scrollTo({ top: 9999999, behavior: 'smooth' });
 };
 function listenParts(qaree: string){
   if (!listening) {
@@ -173,6 +174,7 @@ function listenParts(qaree: string){
     ref2.current?.append(Surah);
     Surah.play();
     setListening(true);
+    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
   };
   if (listening) {
     document.querySelector('audio')?.remove();
@@ -204,8 +206,8 @@ function listenParts(qaree: string){
     Surah.controls = true;
     ref2.current?.append(Surah);
     Surah.play();
+    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
   }
-  window.scrollTo({ top: 9999999, behavior: 'smooth' });
 }
 
 window.addEventListener("load", () => {
