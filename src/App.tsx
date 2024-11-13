@@ -527,6 +527,15 @@ useEffect(() => {
   }, 1);
 }, []);
 
+async function cancelWerd() {
+  await supabase.from("werd").update({ started: false, current_werd: '', last_time: 0, index: 0 }).eq("id", localStorage.id);
+  if (phoneRegEx.test(userAgent)) {
+    const stringifiedData = JSON.stringify([{ started: false, current_werd: '', last_time: 0, index: 0 }]);
+    localStorage.setItem("werd", stringifiedData);
+  }
+  setStartedWerd(false);
+}
+
 
   return (
     <>
@@ -747,7 +756,7 @@ useEffect(() => {
         </div>
       </div>
       }
-      {startedWerd && 
+      {startedWerd && <>
       <div className="daily-werd">
         <div className="werd-container">
           <div className="werd-title">
@@ -760,6 +769,10 @@ useEffect(() => {
           </div>
         </div>
       </div>
+        <div className="cancel-werd">
+          <div onClick={() => cancelWerd()}>إلغاء الورد اليومي</div>
+        </div>
+        </>
       }
       </>
 }
