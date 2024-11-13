@@ -37,6 +37,19 @@ export default function App() {
   const unsavedRefPart = useRef<HTMLDivElement>(null);
 
 
+  useEffect(() => {
+    if (!localStorage.getItem("current_surah")) {
+      localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]));
+    };
+    if (!localStorage.getItem("current_part")) {
+      localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]));
+    };
+    if (!localStorage.getItem("werd")) {
+      localStorage.setItem("werd", JSON.stringify([{ started: false, current_werd: '', last_time: 0, index: 0 }]));
+    };
+  }, []);
+
+
 
   const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
   const userAgent = navigator.userAgent;
