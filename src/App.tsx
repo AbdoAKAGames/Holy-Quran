@@ -508,6 +508,24 @@ useEffect(() => {
 }, []);
 
 
+useEffect(() => {
+  let int = setInterval(() => {
+    let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start', });
+      clearInterval(int);
+    }
+  }, 1);
+  let int2 = setInterval(() => {
+    let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start', });
+      clearInterval(int2);
+    }
+  }, 1);
+}, []);
+
+
   return (
     <>
     <div id="app">
