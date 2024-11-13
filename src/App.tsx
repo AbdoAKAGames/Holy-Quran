@@ -519,7 +519,7 @@ useEffect(() => {
         <div className="fehres">
           <h1>فهرس سور القرآن الكريم</h1>
           {allSurah_s.map((surah, i) => (
-            <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });window.scrollBy({ behavior: "smooth", top: 100, });}}>
+            <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });window.scrollTo({ behavior: "smooth", top: 100, });}}>
             <div className="surah-number">
               {i + 1}-
             </div>
@@ -625,13 +625,13 @@ useEffect(() => {
       }
       </>
     }
-        {currentPage == 'home' ? <div className="audio" ref={ref} style={{ background: 'rgb(175, 252, 175)', }}>
+        {currentPage == 'home' ? <div className="audio" ref={ref} style={{ background: '#0f0', }}>
 
 </div> : <div className="audio" ref={ref}>
 
         </div>
 }
-{currentPage == 'home' ? <div className="audio" ref={ref2} style={{ background: 'rgb(175, 252, 175)', }}>
+{currentPage == 'home' ? <div className="audio" ref={ref2} style={{ background: '#0f0', }}>
 
 </div> : <div className="audio" ref={ref2}>
 
@@ -643,7 +643,7 @@ useEffect(() => {
             <h1>فهرس أجزاء القرآن الكريم</h1>
             {Array.from({ length: 30}).map((_x, i) => (
               <>
-                <div className="quran-part" key={i} onClick={() => {setCurrentPartNass(i + 1); let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' })}}>
+                <div className="quran-part" key={i} onClick={() => {setCurrentPartNass(i + 1); let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });el.scrollIntoView({ behavior: 'smooth', block: 'start', });}}>
                   الجزء {i + 1}
                   
                 </div>
