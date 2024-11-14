@@ -38,14 +38,14 @@ export default function App() {
 
 
   useEffect(() => {
-    if (!localStorage.getItem("current_surah")) {
+    if (!localStorage.getItem("current_surah") || localStorage.getItem("current_surah") == null) {
       localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]));
     };
-    if (!localStorage.getItem("current_part")) {
+    if (!localStorage.getItem("current_part") || localStorage.getItem("current_part") == null) {
       localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]));
     };
-    if (!localStorage.getItem("werd")) {
-      localStorage.setItem("werd", JSON.stringify([{ started: false, current_werd: '', last_time: 0, index: 0 }]));
+    if (!localStorage.getItem("werd") || localStorage.getItem("werd") == null) {
+      localStorage.setItem("werd", JSON.stringify([{ started: false, current_werd: '', last_time: null, index: null }]));
     };
   }, []);
 
@@ -502,7 +502,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (phoneRegEx.test(userAgent)) {
-    if (localStorage.werd) {
+    if (localStorage.werd && JSON.parse(localStorage.werd)[0].started) {
       setStartedWerd(JSON.parse(localStorage.werd)[0].started);
       setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
       setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
