@@ -502,7 +502,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (phoneRegEx.test(userAgent)) {
-    if (localStorage.werd && JSON.parse(localStorage.werd)[0].started) {
+    if (localStorage.werd) {
       setStartedWerd(JSON.parse(localStorage.werd)[0].started);
       setDailyWerd(JSON.parse(localStorage.werd)[0].current_werd);
       setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
