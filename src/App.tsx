@@ -70,6 +70,18 @@ const quraa = [
     name: 'محمد صديق المنشاوي',
     image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
   },
+  {
+    name: 'ياسر الدوسري',
+    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Dossari.png?raw=true',
+  },
+  // {
+  //   name: 'محمد صديق المنشاوي',
+  //   image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
+  // },
+  // {
+  //   name: 'محمد صديق المنشاوي',
+  //   image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
+  // },
 ];
 // const tafaseer = [
 //   {
@@ -111,6 +123,16 @@ function listenSurah(qaree: string) {
         Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
       }
     }
+    else if (qaree == 'ياسر الدوسري') {
+      if (currentSurahNass < 10) {
+        Surah.src = `https://server11.mp3quran.net/yasser/00${currentSurahNass}.mp3`;
+      }
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
+        Surah.src = `https://server11.mp3quran.net/yasser/0${currentSurahNass}.mp3`;
+      } else if (currentSurahNass >= 100) {
+        Surah.src = `https://server11.mp3quran.net/yasser/${currentSurahNass}.mp3`;
+      }
+    }
     Surah.controls = true;
     ref.current?.append(Surah);
     Surah.play();
@@ -150,6 +172,16 @@ function listenSurah(qaree: string) {
         Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
       }
     }
+    else if (qaree == 'ياسر الدوسري') {
+      if (currentSurahNass < 10) {
+        Surah.src = `https://server11.mp3quran.net/yasser/00${currentSurahNass}.mp3`;
+      }
+      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
+        Surah.src = `https://server11.mp3quran.net/yasser/0${currentSurahNass}.mp3`;
+      } else if (currentSurahNass >= 100) {
+        Surah.src = `https://server11.mp3quran.net/yasser/${currentSurahNass}.mp3`;
+      }
+    }
     Surah.controls = true;
     ref.current?.append(Surah);
     Surah.play();
@@ -183,6 +215,14 @@ function listenParts(qaree: string){
         Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
       }
     }
+    else if (qaree == 'ياسر الدوسري') {
+      if (currentPartNass < 10) {
+        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
+      }
+      else if (currentPartNass >= 10) {
+        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
+      }
+    }
     Surah.controls = true;
     ref2.current?.append(Surah);
     Surah.play();
@@ -214,6 +254,14 @@ function listenParts(qaree: string){
       }
       else if (currentPartNass >= 10) {
         Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
+      }
+    }
+    else if (qaree == 'ياسر الدوسري') {
+      if (currentPartNass < 10) {
+        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
+      }
+      else if (currentPartNass >= 10) {
+        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
       }
     }
     Surah.controls = true;
