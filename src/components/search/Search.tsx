@@ -37,6 +37,7 @@ export function Search() {
                     const allWords = surah.split(" ") as any[];
                     allWords.forEach(word => {
                         if (word.includes(searchValue)) {
+                            setCurrentSurahName('سورة ' + el.innerHTML);
                             word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
                             const nass = allWords.join(" ");
                             document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
@@ -48,17 +49,17 @@ export function Search() {
         })
     }
 
-    function replaceTextWithElement(originalText: string, searchTerm: string, element: HTMLElement): string {
-        const tempDiv = document.createElement('div');
+    // function replaceTextWithElement(originalText: string, searchTerm: string, element: HTMLElement): string {
+    //     const tempDiv = document.createElement('div');
         
-        const modifiedText = originalText.replace(new RegExp(searchTerm, 'gi'), searchValue);
+    //     const modifiedText = originalText.replace(new RegExp(searchTerm, 'gi'), searchValue);
     
-        tempDiv.innerHTML = modifiedText;
+    //     tempDiv.innerHTML = modifiedText;
     
-        const placeholder = tempDiv.innerHTML.replace(searchValue, element.outerHTML);
+    //     const placeholder = tempDiv.innerHTML.replace(searchValue, element.outerHTML);
         
-        return placeholder;
-    }
+    //     return placeholder;
+    // }
 
         
 
