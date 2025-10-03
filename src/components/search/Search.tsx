@@ -13,10 +13,10 @@ export function Search() {
     function search() {
         surah_no_shapes.map((surah, i) => {
             if (surah.includes(searchValue)) {
-                // const el = document.createElement('div');
-                // el.innerHTML = allSurah_s[i];
-                // el.className = 'result';
-                // el.addEventListener("click", () => {
+                const el = document.createElement('div');
+                el.innerHTML = allSurah_s[i];
+                el.className = 'result';
+                el.addEventListener("click", () => {
                 //     setCurrentSurahName('سورة ' + el.innerHTML);
                 //     const newElement = document.createElement('span') as HTMLSpanElement;
                 //     newElement.innerHTML = searchValue;
@@ -34,9 +34,16 @@ export function Search() {
                 //         clearInterval(interval);
                 //       }
                 //     }, 1);
-                // });
-                // document.getElementsByClassName('all-results')[0]?.append(el);
-                console.log(surah);
+                    const allWords = surah.spilt(" ") as any[];
+                    allWords.forEach(word => {
+                        if (word.includes(searchValue)) {
+                            word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
+                            const nass = allWords.join(" ");
+                            document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
+                        }
+                    });
+                });
+                document.getElementsByClassName('all-results')[0]?.append(el);
             }
         })
     }
