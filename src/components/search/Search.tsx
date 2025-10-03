@@ -34,7 +34,7 @@ export function Search() {
                 //         clearInterval(interval);
                 //       }
                 //     }, 1);
-                    const allWords = surah.spilt(" ") as any[];
+                    const allWords = surah.split(" ") as any[];
                     allWords.forEach(word => {
                         if (word.includes(searchValue)) {
                             word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
