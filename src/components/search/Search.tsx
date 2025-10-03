@@ -13,29 +13,30 @@ export function Search() {
     function search() {
         surah_no_shapes.map((surah, i) => {
             if (surah.includes(searchValue)) {
-                const el = document.createElement('div');
-                el.innerHTML = allSurah_s[i];
-                el.className = 'result';
-                el.addEventListener("click", () => {
-                    setCurrentSurahName('سورة ' + el.innerHTML);
-                    const newElement = document.createElement('span') as HTMLSpanElement;
-                    newElement.innerHTML = searchValue;
-                    newElement.className = 'selected';
-                    let interval0 = setInterval(() => {
-                      const ele = document.getElementsByClassName('selected')[0] as HTMLDivElement;
-                      ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      setTimeout(() => {
-                        clearInterval(interval0);
-                      }, 100);
-                    }, 1);
-                    let interval = setInterval(() => {
-                      document.getElementsByClassName('search-result-text')[0].innerHTML = replaceTextWithElement(surah_no_shapes[i], searchValue, newElement);
-                      if (document.getElementsByClassName('search-result-text')[0] != undefined) {
-                        clearInterval(interval);
-                      }
-                    }, 1);
-                });
-                document.getElementsByClassName('all-results')[0]?.append(el);
+                // const el = document.createElement('div');
+                // el.innerHTML = allSurah_s[i];
+                // el.className = 'result';
+                // el.addEventListener("click", () => {
+                //     setCurrentSurahName('سورة ' + el.innerHTML);
+                //     const newElement = document.createElement('span') as HTMLSpanElement;
+                //     newElement.innerHTML = searchValue;
+                //     newElement.className = 'selected';
+                //     let interval0 = setInterval(() => {
+                //       const ele = document.getElementsByClassName('selected')[0] as HTMLDivElement;
+                //       ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                //       setTimeout(() => {
+                //         clearInterval(interval0);
+                //       }, 100);
+                //     }, 1);
+                //     let interval = setInterval(() => {
+                //       document.getElementsByClassName('search-result-text')[0].innerHTML = replaceTextWithElement(surah_no_shapes[i], searchValue, newElement);
+                //       if (document.getElementsByClassName('search-result-text')[0] != undefined) {
+                //         clearInterval(interval);
+                //       }
+                //     }, 1);
+                // });
+                // document.getElementsByClassName('all-results')[0]?.append(el);
+                console.log(surah);
             }
         })
     }
