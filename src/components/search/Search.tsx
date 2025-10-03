@@ -35,11 +35,14 @@ export function Search() {
                 //       }
                 //     }, 1);
                     const allWords = surah.split(" ") as any[];
+                    console.log(allWords);
                     allWords.forEach(word => {
                         if (word.includes(searchValue)) {
                             setCurrentSurahName('سورة ' + el.innerHTML);
-                            word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
+                            word = word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
+                            console.log(word);
                             const nass = allWords.join(" ");
+                            console.log("nass: " + nass);
                             document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
                         }
                     });
