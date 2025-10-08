@@ -38,7 +38,7 @@ function search() {
                     allWords.forEach((word, i) => {
                         if (word.includes(searchValue)) {
                             setCurrentSurahName('سورة ' + el.innerHTML);
-                            word = word.replace(searchValue, <span class="selected">${searchValue}</span>);
+                            word = word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
                             console.log("word: " + word);
                             allWords[i] = word;
                             console.log("new allWords: " + allWords);
