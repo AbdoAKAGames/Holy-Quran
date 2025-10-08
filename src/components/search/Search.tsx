@@ -44,7 +44,9 @@ function search() {
                             console.log("new allWords: " + allWords);
                             const nass = allWords.join(" ");
                             console.log("nass: " + nass);
-                            document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
+                            swtTimeout(() => {
+                                document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
+                            }, 50)
                         }
                     });
                 });
@@ -57,8 +59,7 @@ function search() {
 
     return (
         <>
-            <div className="search-title">الباحث القرآني</div>
-            <div className="search-container">
+            <div className="search-title">الباحث القرآني</div>    <div className="search-container">
               <div className="search-surah">
                 <input type="text" placeholder="ابحث في القرآن الكريم" onChange={e => {setSearchValue(e.target.value)}} />
                 <div className="enter" onClick={() => {const el = document.getElementsByClassName('all-results')[0];el.innerHTML = '';search()}}>
