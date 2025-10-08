@@ -10,49 +10,61 @@ export function Search() {
     const [currentSurahName, setCurrentSurahName] = useState<string>('');
 
 
-    function search() {
-    document.getElementsByClassName('all-results')[0].innerHTML = ""; // مسح النتائج القديمة
-    surah_no_shapes.map((surah, i) => {
-        if (surah.includes(searchValue)) {
-            const el = document.createElement('div');
-            el.innerHTML = allSurah_s[i];
-            el.className = 'result';
-            el.addEventListener("click", () => {
-                setCurrentSurahName('سورة ' + el.innerHTML);
-
-                // نحدد النص ونحط عليه span لو موجود أكتر من كلمة
-                const highlighted = surah.replaceAll(
-                    searchValue,
-                    `<span class="selected">${searchValue}</span>`
-                );
-
-                // نعرض النص بعد التظليل
-                document.getElementsByClassName('search-result-text')[0].innerHTML = highlighted;
-
-                // نسحب التظليل إلى المنتصف
-                setTimeout(() => {
-                    const ele = document.getElementsByClassName('selected')[0];
-                    if (ele) ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 100);
-            });
-
-            document.getElementsByClassName('all-results')[0]?.append(el);
-        }
-    });
+    // helper: امنع حالة البحث الفارغ
+function isEmpty(str) {
+  return !str || str.trim() === "";
 }
 
+// خيار 1: بسيط ويدعم كل المتصفحات
+function highlightLiteral(text, needle) {
+  if (isEmpty(needle)) return text;
+  return text.split(needle).join(`<span class="selected">${needle}</span>`);
+}
 
-    // function replaceTextWithElement(originalText: string, searchTerm: string, element: HTMLElement): string {
-    //     const tempDiv = document.createElement('div');
-        
-    //     const modifiedText = originalText.replace(new RegExp(searchTerm, 'gi'), searchValue);
-    
-    //     tempDiv.innerHTML = modifiedText;
-    
-    //     const placeholder = tempDiv.innerHTML.replace(searchValue, element.outerHTML);
-        
-    //     return placeholder;
-    // }
+// خيار 2: لو عايز RegExp (مع هروب الأحرف الخاصة)
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function highlightRegex(text, needle, flags = "g") {
+  if (isEmpty(needle)) return text;
+  const re = new RegExp(escapeRegExp(needle), flags);
+  return text.replace(re, match => `<span class="selected">${match}</span>`);
+}
+
+// الدالة الرئيسية
+function search() {
+  const resultsEl = document.getElementsByClassName('all-results')[0];
+  const resultTextEl = document.getElementsByClassName('search-result-text')[0];
+  if (resultsEl) resultsEl.innerHTML = ""; // مسح النتائج القديمة
+
+  if (isEmpty(searchValue)) return;
+
+  surah_no_shapes.forEach((surah, i) => {
+    if (surah.includes(searchValue)) {
+      const el = document.createElement('div');
+      el.innerHTML = allSurah_s[i];
+      el.className = 'result';
+      el.addEventListener("click", () => {
+        setCurrentSurahName('سورة ' + el.innerHTML);
+
+        // اختَر واحد من الاتنين:
+        // const highlighted = highlightLiteral(surah, searchValue); // أبسط، literal
+        const highlighted = highlightRegex(surah, searchValue, "g"); // أقوى (مثلاً اضف "i" للحساسية)
+
+        if (resultTextEl) resultTextEl.innerHTML = highlighted;
+
+        // scroll to highlighted
+        setTimeout(() => {
+          const ele = document.querySelector('.search-result-text .selected');
+          if (ele) ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 50);
+      });
+
+      resultsEl.appendChild(el);
+    }
+  });
+}
+
 
         
 
