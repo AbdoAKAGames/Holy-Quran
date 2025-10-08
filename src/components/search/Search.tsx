@@ -44,7 +44,7 @@ function search() {
                             console.log("new allWords: " + allWords);
                             const nass = allWords.join(" ");
                             console.log("nass: " + nass);
-                            swtTimeout(() => {
+                            setTimeout(() => {
                                 document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
                             }, 50)
                         }
