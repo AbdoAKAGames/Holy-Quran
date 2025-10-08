@@ -9,55 +9,36 @@ export function Search() {
     const [searchValue, setSearchValue] = useState<string>('');
     const [currentSurahName, setCurrentSurahName] = useState<string>('');
 
-
-    // helper: امنع حالة البحث الفارغ
-function isEmpty(str) {
-  return !str || str.trim() === "";
-}
-
-// خيار 1: بسيط ويدعم كل المتصفحات
-function highlightLiteral(text, needle) {
-  if (isEmpty(needle)) return text;
-  return text.split(needle).join(`<span class="selected">${needle}</span>`);
-}
-
-// خيار 2: لو عايز RegExp (مع هروب الأحرف الخاصة)
-function escapeRegExp(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-function highlightRegex(text, needle, flags = "g") {
-  if (isEmpty(needle)) return text;
-  const re = new RegExp(escapeRegExp(needle), flags);
-  return text.replace(re, match => `<span class="selected">${match}</span>`);
-}
-
-// الدالة الرئيسية
 function search() {
-  const resultsEl = document.getElementsByClassName('all-results')[0];
-  const resultTextEl = document.getElementsByClassName('search-result-text')[0];
-  if (resultsEl) resultsEl.innerHTML = ""; // مسح النتائج القديمة
+  const resultsEl = document.getElementsByClassName('all-results')[0] as HTMLDivElement | undefined;
+  const resultTextEl = document.getElementsByClassName('search-result-text')[0] as HTMLDivElement | undefined;
 
-  if (isEmpty(searchValue)) return;
+  if (!resultsEl) return;
+  resultsEl.innerHTML = ""; // مسح النتائج القديمة
 
-  surah_no_shapes.forEach((surah, i) => {
+  surah_no_shapes.map((surah: string, i: number) => {
     if (surah.includes(searchValue)) {
       const el = document.createElement('div');
       el.innerHTML = allSurah_s[i];
       el.className = 'result';
+
       el.addEventListener("click", () => {
         setCurrentSurahName('سورة ' + el.innerHTML);
 
-        // اختَر واحد من الاتنين:
-        // const highlighted = highlightLiteral(surah, searchValue); // أبسط، literal
-        const highlighted = highlightRegex(surah, searchValue, "g"); // أقوى (مثلاً اضف "i" للحساسية)
+        // 🔹 التظليل باستخدام split + join بدل replaceAll
+        const highlighted = surah.split(searchValue).join(
+          `<span class="selected">${searchValue}</span>`
+        );
 
-        if (resultTextEl) resultTextEl.innerHTML = highlighted;
+        if (resultTextEl) {
+          resultTextEl.innerHTML = highlighted;
 
-        // scroll to highlighted
-        setTimeout(() => {
-          const ele = document.querySelector('.search-result-text .selected');
-          if (ele) ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 50);
+          // 🔹 سحب العنصر المظلل إلى المنتصف
+          setTimeout(() => {
+            const ele = document.getElementsByClassName('selected')[0] as HTMLElement | undefined;
+            if (ele) ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+        }
       });
 
       resultsEl.appendChild(el);
