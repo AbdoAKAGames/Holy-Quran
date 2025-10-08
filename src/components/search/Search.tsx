@@ -30,6 +30,10 @@ function search() {
           `<span class="selected">${searchValue}</span>`
         );
 
+          setTimeout(() => {
+              resultTextEl.innerHTML = highlighted;
+          }, 1000)
+
         if (resultTextEl) {
           resultTextEl.innerHTML = highlighted;
 
