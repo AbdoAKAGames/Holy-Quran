@@ -31,7 +31,7 @@ function search() {
         );
 
           setTimeout(() => {
-              resultTextEl.innerHTML = highlighted;
+              if (resultTextEl) resultTextEl.innerHTML = highlighted;
           }, 1000)
 
         if (resultTextEl) {
