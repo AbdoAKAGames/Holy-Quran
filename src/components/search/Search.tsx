@@ -11,48 +11,36 @@ export function Search() {
 
 
     function search() {
-        surah_no_shapes.map((surah, i) => {
-            if (surah.includes(searchValue)) {
-                const el = document.createElement('div');
-                el.innerHTML = allSurah_s[i];
-                el.className = 'result';
-                el.addEventListener("click", () => {
-                //     setCurrentSurahName('سورة ' + el.innerHTML);
-                //     const newElement = document.createElement('span') as HTMLSpanElement;
-                //     newElement.innerHTML = searchValue;
-                //     newElement.className = 'selected';
-                //     let interval0 = setInterval(() => {
-                //       const ele = document.getElementsByClassName('selected')[0] as HTMLDivElement;
-                //       ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                //       setTimeout(() => {
-                //         clearInterval(interval0);
-                //       }, 100);
-                //     }, 1);
-                //     let interval = setInterval(() => {
-                //       document.getElementsByClassName('search-result-text')[0].innerHTML = replaceTextWithElement(surah_no_shapes[i], searchValue, newElement);
-                //       if (document.getElementsByClassName('search-result-text')[0] != undefined) {
-                //         clearInterval(interval);
-                //       }
-                //     }, 1);
-                    const allWords = surah.split(" ") as any[];
-                    console.log("allWords: " + allWords);
-                    allWords.forEach((word, i) => {
-                        if (word.includes(searchValue)) {
-                            setCurrentSurahName('سورة ' + el.innerHTML);
-                            word = word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
-                            console.log("word: " + word);
-                            allWords[i] = word;
-                            console.log("new allWords: " + allWords);
-                            const nass = allWords.join(" ");
-                            console.log("nass: " + nass);
-                            document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
-                        }
-                    });
-                });
-                document.getElementsByClassName('all-results')[0]?.append(el);
-            }
-        })
-    }
+    document.getElementsByClassName('all-results')[0].innerHTML = ""; // مسح النتائج القديمة
+    surah_no_shapes.map((surah, i) => {
+        if (surah.includes(searchValue)) {
+            const el = document.createElement('div');
+            el.innerHTML = allSurah_s[i];
+            el.className = 'result';
+            el.addEventListener("click", () => {
+                setCurrentSurahName('سورة ' + el.innerHTML);
+
+                // نحدد النص ونحط عليه span لو موجود أكتر من كلمة
+                const highlighted = surah.replaceAll(
+                    searchValue,
+                    `<span class="selected">${searchValue}</span>`
+                );
+
+                // نعرض النص بعد التظليل
+                document.getElementsByClassName('search-result-text')[0].innerHTML = highlighted;
+
+                // نسحب التظليل إلى المنتصف
+                setTimeout(() => {
+                    const ele = document.getElementsByClassName('selected')[0];
+                    if (ele) ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            });
+
+            document.getElementsByClassName('all-results')[0]?.append(el);
+        }
+    });
+}
+
 
     // function replaceTextWithElement(originalText: string, searchTerm: string, element: HTMLElement): string {
     //     const tempDiv = document.createElement('div');
