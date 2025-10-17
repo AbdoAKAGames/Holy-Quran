@@ -44,10 +44,11 @@ function search() {
                             console.log("new allWords: " + allWords);
                             const nass = allWords.join(" ");
                             console.log("nass: " + nass);
-                            setTimeout(() => {
+                            const interval = setInterval(() => {
                                 document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
                                 document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
-                            }, 50)
+                                if (document.getElementsByClassName('search-result-text')[0]) clearInterval(interval);
+                            }, 1)
                         }
                     });
                 });
