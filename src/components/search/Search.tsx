@@ -46,6 +46,7 @@ function search() {
                             console.log("nass: " + nass);
                             setTimeout(() => {
                                 document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
+                                document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
                             }, 50)
                         }
                     });
