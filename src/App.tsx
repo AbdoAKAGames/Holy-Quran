@@ -441,12 +441,12 @@ function handleClick(className: string, newPage: string) {
   ];
   allElements.map(element => {
     element.setAttribute("fill", "#fff");
-    element.style.color = '#fff';
+    element.style.color = '#9ca3af';
   })
   const el1 = document.getElementsByClassName(className)[0] as SVGElement;
   const el2 = document.getElementsByClassName(className)[1] as HTMLDivElement;
-  el1.setAttribute("fill", "#0f0");
-  el2.style.color = '#0f0';
+  el1.setAttribute("fill", "#b8860b");
+  el2.style.color = '#a89460ff';
   setCurrentPage(newPage);
 }
 
@@ -732,12 +732,10 @@ async function cancelWerd() {
         <div className="quran-parts">
             <h1>فهرس أجزاء القرآن الكريم</h1>
             {Array.from({ length: 30}).map((_x, i) => (
-              <>
-                <div className="quran-part" key={i} onClick={() => {setCurrentPartNass(i + 1); let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });el.scrollIntoView({ behavior: 'smooth', block: 'start', });}}>
-                  الجزء {i + 1}
-                  
-                </div>
-              </>
+              <div className="quran-part" key={i} onClick={() => {setCurrentPartNass(i + 1); let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });el.scrollIntoView({ behavior: 'smooth', block: 'start', });}}>
+                الجزء {i + 1}
+                
+              </div>
             ))}
         </div>
             {
