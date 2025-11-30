@@ -4,8 +4,8 @@ import { nightAzkar } from './data/night';
 import { afterPrayAzkar } from './data/afterPray';
 import { prayOurSirMohammedSegha_s } from './data/prayOurSirMohammed';
 import { sleepAzkar } from './data/sleep';
-import '../../App.css'
 import { wakeupAzkar } from './data/wakeup';
+import '../../App.css'
 
 export function Azkar() {
 
@@ -25,7 +25,7 @@ export function Azkar() {
     ];
     const secondRow = [
         {
-            name: "الصلاة على الرسول ﷺ",
+            name: "الصلاة على الرسول",
             src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/parying-our-sir-muhammed.png?raw=true",
             type: "parying-our-sir-mohammed",
         },
@@ -168,7 +168,7 @@ export function Azkar() {
                         </div>
                     </div>
                 }
-                {currentAzkar == "الصلاة على الرسول ﷺ" &&
+                {currentAzkar == "الصلاة على الرسول" &&
                     <div className="azkar-result-container">
                         <div className="azkar-result">
                             <div className="azkar-result-title">
