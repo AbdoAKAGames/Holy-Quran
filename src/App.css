@@ -784,7 +784,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 }
 .result {
   width: 20%;
-  height: 10%;
+  height: 25px;
   background: #333333;
   color: #fff;
   margin: 10px;
