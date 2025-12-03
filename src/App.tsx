@@ -715,13 +715,13 @@ async function cancelWerd() {
       }
       </>
     }
-        {currentPage == 'home' ? <div className="audio" ref={ref} style={{ background: '#0f0', }}>
+        {currentPage == 'home' ? <div className="audio" ref={ref}>
 
 </div> : <div className="audio" ref={ref}>
 
         </div>
 }
-{currentPage == 'home' ? <div className="audio" ref={ref2} style={{ background: '#0f0', }}>
+{currentPage == 'home' ? <div className="audio" ref={ref2}>
 
 </div> : <div className="audio" ref={ref2}>
 
