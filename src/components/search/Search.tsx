@@ -9,59 +9,42 @@ export function Search() {
     const [searchValue, setSearchValue] = useState<string>('');
     const [currentSurahName, setCurrentSurahName] = useState<string>('');
 
-function search() {
+    const escapeRegExp = (string: string) => {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    const times: Record<number, string> = {
+      1: "مرة واحدة",
+      2: "مرتين",
+    };
+
+    function search() {
         surah_no_shapes.map((surah, i) => {
             if (surah.includes(searchValue)) {
                 const el = document.createElement('div');
-                el.innerHTML = allSurah_s[i];
+                const safeSearchValue = escapeRegExp(searchValue);
+                const searchValueRepeatCount = (surah.match(new RegExp(safeSearchValue, 'gi')) || []).length;
+                el.innerHTML = `<span>${allSurah_s[i]} - ذكرت <span style="color: #dbdf06ff;">${times[searchValueRepeatCount] || (searchValueRepeatCount < 11 ? searchValueRepeatCount + ' مرات' : searchValueRepeatCount + ' مرة')}</span></span>`;
                 el.className = 'result';
+                el.innerHTML += ``;
                 el.addEventListener("click", () => {
-                //     setCurrentSurahName('سورة ' + el.innerHTML);
-                //     const newElement = document.createElement('span') as HTMLSpanElement;
-                //     newElement.innerHTML = searchValue;
-                //     newElement.className = 'selected';
-                //     let interval0 = setInterval(() => {
-                //       const ele = document.getElementsByClassName('selected')[0] as HTMLDivElement;
-                //       ele.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                //       setTimeout(() => {
-                //         clearInterval(interval0);
-                //       }, 100);
-                //     }, 1);
-                //     let interval = setInterval(() => {
-                //       document.getElementsByClassName('search-result-text')[0].innerHTML = replaceTextWithElement(surah_no_shapes[i], searchValue, newElement);
-                //       if (document.getElementsByClassName('search-result-text')[0] != undefined) {
-                //         clearInterval(interval);
-                //       }
-                //     }, 1);
-                    const allWords = surah.split(" ") as any[];
-                    console.log("allWords: " + allWords);
-                    allWords.forEach((word, i) => {
-                        if (word.includes(searchValue)) {
-                            setCurrentSurahName('سورة ' + el.innerHTML);
-                            word = word.replace(searchValue, `<span class="selected">${searchValue}</span>`);
-                            console.log("word: " + word);
-                            allWords[i] = word;
-                            console.log("new allWords: " + allWords);
-                            const nass = allWords.join(" ");
-                            console.log("nass: " + nass);
-                            const interval = setInterval(() => {
-                                document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
-                                document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
-                                if (document.getElementsByClassName('search-result-text')[0]) clearInterval(interval);
-                            }, 1)
-                        }
-                    });
+                  setCurrentSurahName('سورة ' + allSurah_s[i]);
+                  const nass = surah.replace(new RegExp(safeSearchValue, 'gi'), `<span class="selected">${searchValue}</span>`);
+                  const interval = setInterval(() => {
+                      document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
+                      document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
+                      if (document.getElementsByClassName('search-result-text')[0]) clearInterval(interval);
+                  }, 1)
                 });
                 document.getElementsByClassName('all-results')[0]?.append(el);
             }
         })
     }
 
-        
-
     return (
         <>
-            <div className="search-title">الباحث القرآني</div>    <div className="search-container">
+            <div className="search-title">الباحث القرآني</div>
+            <div className="search-container">
               <div className="search-surah">
                 <input type="text" placeholder="ابحث في القرآن الكريم" onChange={e => {setSearchValue(e.target.value)}} />
                 <div className="enter" onClick={() => {const el = document.getElementsByClassName('all-results')[0];el.innerHTML = '';search()}}>
