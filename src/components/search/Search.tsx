@@ -8,7 +8,7 @@ export function Search() {
 
     const [searchValue, setSearchValue] = useState<string>('');
     const [currentSurahName, setCurrentSurahName] = useState<string>('');
-
+    let total = 0;
     const escapeRegExp = (string: string) => {
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
@@ -19,6 +19,7 @@ export function Search() {
     };
 
     function search() {
+        total = 0;
         surah_no_shapes.map((surah, i) => {
             if (surah.includes(searchValue)) {
                 const el = document.createElement('div');
