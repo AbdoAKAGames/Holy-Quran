@@ -25,6 +25,7 @@ export function Search() {
                 const el = document.createElement('div');
                 const safeSearchValue = escapeRegExp(searchValue);
                 const searchValueRepeatCount = (surah.match(new RegExp(safeSearchValue, 'gi')) || []).length;
+                total += searchValueRepeatCount;
                 el.innerHTML = `<span>${allSurah_s[i]} - ذكرت <span style="color: #dbdf06ff;">${times[searchValueRepeatCount] || (searchValueRepeatCount < 11 ? searchValueRepeatCount + ' مرات' : searchValueRepeatCount + ' مرة')}</span></span>`;
                 el.className = 'result';
                 el.innerHTML += ``;
