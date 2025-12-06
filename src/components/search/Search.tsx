@@ -41,6 +41,10 @@ export function Search() {
                 document.getElementsByClassName('all-results')[0]?.append(el);
             }
         })
+        const totalEl = document.createElement('div');
+        totalEl.className = 'result';
+        totalEl.innerHTML = `${total}`;
+        document.getElementsByClassName('all-results')[0]?.append(totalEl);
     }
 
     return (
