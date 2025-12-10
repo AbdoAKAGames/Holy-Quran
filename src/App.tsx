@@ -751,7 +751,7 @@ async function cancelWerd() {
               }
       </div>
       {currentPartNass > 0 &&
-      <div className="listen-surah" style={{background: '#79ff79'}}>
+      <div className="listen-surah">
         <div className="save-button">
             <button onClick={() => {savePart();savedRefPart.current?.setAttribute('style', 'display: flex;');}}>حفظ الجزء</button>
             <button onClick={() => {unsavePart();unsavedRefPart.current?.setAttribute('style', 'display: flex;');}}>إلغاء حفط الجزء</button>
