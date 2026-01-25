@@ -682,16 +682,6 @@ async function cancelWerd() {
           !تم إلغاء حفظ السورة بنجاح
         </div>
       </div>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-        <div className="saved saved_part" ref={savedRefPart}>
-          !تم حفظ الجزء بنجاح
-        </div>
-      </div>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-        <div className="unsaved saved_part" ref={unsavedRefPart}>
-          !تم إلغاء حفظ الجزء بنجاح
-        </div>
-      </div>
 
       {listen && <div className="choose-qaree-modal" onClick={() => setListen(false)}>
         <div className="choose-qaree">
@@ -789,6 +779,16 @@ async function cancelWerd() {
         </div>
       </div>
     </div>
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <div className="saved saved_part" ref={savedRefPart}>
+          !تم حفظ الجزء بنجاح
+        </div>
+      </div>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <div className="unsaved saved_part" ref={unsavedRefPart}>
+          !تم إلغاء حفظ الجزء بنجاح
+        </div>
+      </div>
       }
       {!startedWerd && 
       <div className="start-werd">
