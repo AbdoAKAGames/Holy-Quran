@@ -3,7 +3,6 @@ html, body {
   margin: 0;
   user-select: none;
   background-color: #1c1c1c; /* خلفية داكنة جداً (رصاصي غامق) */
-  direction: rtl;
 }
 div, span {
   unicode-bidi: isolate;
