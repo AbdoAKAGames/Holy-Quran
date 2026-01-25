@@ -779,7 +779,8 @@ async function cancelWerd() {
         </div>
       </div>
     </div>
-        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+      }
+          <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
         <div className="saved saved_part" ref={savedRefPart}>
           !تم حفظ الجزء بنجاح
         </div>
@@ -789,7 +790,6 @@ async function cancelWerd() {
           !تم إلغاء حفظ الجزء بنجاح
         </div>
       </div>
-      }
       {!startedWerd && 
       <div className="start-werd">
         <button className="start-werd-btn" onClick={() => setWerdModal(true)}>إبدأ الورد اليومي</button>
