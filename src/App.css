@@ -4,9 +4,6 @@ html, body {
   user-select: none;
   background-color: #1c1c1c; /* خلفية داكنة جداً (رصاصي غامق) */
 }
-div, span {
-  unicode-bidi: isolate;
-}
 #root {
   height: 100%;
   width: 100%;
