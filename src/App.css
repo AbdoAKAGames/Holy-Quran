@@ -235,6 +235,7 @@ div, span {
 .saved_part {
   transform: translateY(250%);
   z-index: 99;
+  animation: saved-part 3s linear 0s forwards alternate;
 }
 .playing-surah {
   width: 100%;
