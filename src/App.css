@@ -1036,6 +1036,13 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   100% {opacity: 0; transform: translateY(-50%) scale(0.9);}
 }
 
+@keyframes saved-part {
+  0% {opacity: 0; transform: translateY(250%) scale(0.9);}
+  20% {opacity: 1; transform: translateY(250%) scale(1);}
+  80% {opacity: 1; transform: translateY(250%) scale(1);}
+  100% {opacity: 0; transform: translateY(250%) scale(0.9);}
+}
+
 @media only screen and (max-width:500px) {
   .listen {
     width: 25%;
