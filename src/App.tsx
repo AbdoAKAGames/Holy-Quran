@@ -319,6 +319,54 @@ window.addEventListener("load", () => {
   })();
 });
 
+  useEffect(() => {
+    if (!localStorage.id) {
+    localStorage.setItem("id", crypto.randomUUID());
+  }
+  (async () => {
+    const { data } = await supabase.from('current_surah').select().eq('id', localStorage.id);
+    if (data?.length == 0) {
+      await supabase.from('current_surah').insert([{ id: localStorage.id, surah_num: null, scroll_top: null, }]);
+    } else {
+      if (data?.at(0).surah_num != null) {
+        setCurrentSurahNass(data?.at(0).surah_num);
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
+          el.scrollTo({ top: data?.at(0).scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+  })();
+  (async () => {
+    const { data } = await supabase.from('current_part').select().eq('id', localStorage.id);
+    if (data?.length == 0) {
+      await supabase.from('current_part').insert([{ id: localStorage.id, part_num: null, scroll_top: null, }]);
+    } else {
+      if (data?.at(0).part_num != null) {
+        setCurrentPartNass(data?.at(0).part_num);
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
+          el.scrollTo({ top: data?.at(0).scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+  })();
+  (async () => {
+    const { data } = await supabase.from('werd').select().eq('id', localStorage.id);
+    if (data?.length == 0) {
+      await supabase.from('werd').insert([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
+    } else {
+      setStartedWerd(data?.at(0).started);
+    }
+  })();
+  }, []);
+
 async function save() {
   let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
   if (phoneRegEx.test(userAgent)) {
