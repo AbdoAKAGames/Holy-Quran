@@ -28,7 +28,6 @@ export function Search() {
                 total += searchValueRepeatCount;
                 el.innerHTML = `<span>${allSurah_s[i]} - ذكرت <span style="color: #dbdf06ff;">${times[searchValueRepeatCount] || (searchValueRepeatCount < 11 ? searchValueRepeatCount + ' مرات' : searchValueRepeatCount + ' مرة')}</span></span>`;
                 el.className = 'result';
-                el.innerHTML += ``;
                 el.addEventListener("click", () => {
                   setCurrentSurahName('سورة ' + allSurah_s[i]);
                   const nass = surah.replace(new RegExp(safeSearchValue, 'gi'), `<span class="selected">${searchValue}</span>`);
@@ -43,7 +42,7 @@ export function Search() {
         })
         const totalEl = document.createElement('div');
         totalEl.className = 'result';
-        totalEl.innerHTML = `${total}`;
+        totalEl.innerHTML = `ذكرت ${total} <span style="color: #dbdf06ff;">${times[total] || (total < 11 ? total + ' مرات' : total + ' مرة')} في القرآن الكريم</span>`;
         document.getElementsByClassName('all-results')[0]?.append(totalEl);
     }
 
