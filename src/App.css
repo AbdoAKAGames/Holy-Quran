@@ -1015,6 +1015,9 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 
 .reverse {
   flex-direction: row-reverse;
+  background: #1b2229;
+  border: 1px solid #263849;
+  cursor: default;
 }
 
 ::-webkit-scrollbar {
