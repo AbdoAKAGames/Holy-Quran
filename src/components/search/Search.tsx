@@ -42,7 +42,7 @@ export function Search() {
         })
         const totalEl = document.createElement('div');
         totalEl.className = 'result';
-        totalEl.innerHTML = `ذكرت ${total} <span style="color: #dbdf06ff;">${times[total] || (total < 11 ? total + ' مرات' : total + ' مرة')} في القرآن الكريم</span>`;
+        totalEl.innerHTML = `ذكرت <span style="color: #dbdf06ff;">${times[total] || (total < 11 ? total + ' مرات' : total + ' مرة')}</span>`;
         document.getElementsByClassName('all-results')[0]?.append(totalEl);
     }
 
