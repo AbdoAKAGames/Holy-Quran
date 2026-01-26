@@ -658,9 +658,9 @@ async function cancelWerd() {
         <div className="fehres">
           <h1>فهرس سور القرآن الكريم</h1>
           <div className="search-surah-names">
-            <input type="text" className="search-surah-names-input" value={surahSearchValue} onChange={e => setSurahSearchValue(e.target.value)} />
+            <input type="text" className="search-surah-names-input" value={surahSearchValue} onChange={e => setSurahSearchValue(e.target.value)} placeholder="البحث في السور" />
           </div>
-          {allSurah_s.filter(surah => surah.includes(surahSearchValue)).map((surah, i) => (
+          {allSurah_s.filter(surah => surah.replace("أ", "ا").replace("آ", "ا").includes(surahSearchValue.replace("أ", "ا").replace("آ", "ا"))).map((surah, i) => (
             <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });el.scrollIntoView({ behavior: 'smooth', block: 'start', });}}>
             <div className="surah-number">
               {i + 1}-
