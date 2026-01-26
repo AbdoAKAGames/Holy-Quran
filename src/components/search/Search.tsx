@@ -41,9 +41,9 @@ export function Search() {
             }
         })
         const totalEl = document.createElement('div');
-        totalEl.className = 'result';
+        totalEl.className = 'result reverse';
         totalEl.innerHTML = `
-        <span style="color:#dbdf06ff;"> ${times[total] || (total < 11 ? total + ' مرة' : total + ' مرة')} </span>ذكرت في القرآن الكريم  
+        ذكرت في القرآن الكريم&nbsp;<span style="color:#dbdf06ff;"> ${times[total] || (total < 11 ? total + ' مرة' : total + ' مرة')} </span>
 `;
         document.getElementsByClassName('all-results')[0]?.append(totalEl);
     }
