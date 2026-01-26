@@ -1013,6 +1013,10 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   }
 }
 
+.reverse {
+  flex-direction: row-reverse;
+}
+
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 8px;
