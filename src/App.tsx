@@ -663,7 +663,7 @@ async function cancelWerd() {
           {allSurah_s.filter(surah => surah.replace("أ", "ا").replace("آ", "ا").includes(surahSearchValue.replace("أ", "ا").replace("آ", "ا"))).map((surah, i) => (
             <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });el.scrollIntoView({ behavior: 'smooth', block: 'start', });}}>
             <div className="surah-number">
-              {allSurah_s.indexOf(currentSurahNass)}-
+              {allSurah_s.indexOf(currentSurahNass) + 1}-
             </div>
             <div className="surah-name">
               سورة {surah}
