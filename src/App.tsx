@@ -27,6 +27,7 @@ export default function App() {
   const [currentWerd, setCurrentWerd] = useState<number>(0);
   const [werdModal, setWerdModal] = useState<boolean>(false);
   const [dailyWerd, setDailyWerd] = useState<string>('');
+  const [surahSearchValue, setSurahSearchValue] = useState<string>('');
   // const [currentTafseer, setCurrentTafseer] = useState<ReactNode>();
   // const [currentTafseerName, setCurrentTafseerName] = useState<string>('');
   const ref = useRef<HTMLDivElement>(null);
@@ -656,7 +657,10 @@ async function cancelWerd() {
       <div className="quran">
         <div className="fehres">
           <h1>فهرس سور القرآن الكريم</h1>
-          {allSurah_s.map((surah, i) => (
+          <div className="search-surah-names">
+            <input type="text" className="search-surah-names-input" value={surahSearchValue} onChange={e => setSurahSearchValue(e.target.value)} />
+          </div>
+          {allSurah_s.filter(surah => surah.includes(surahSearchValue)).map((surah, i) => (
             <div className="surah" key={i} onClick={() => {setCurrentSurahNass(i + 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' });el.scrollIntoView({ behavior: 'smooth', block: 'start', });}}>
             <div className="surah-number">
               {i + 1}-
