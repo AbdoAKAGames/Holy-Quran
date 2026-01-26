@@ -43,7 +43,7 @@ export function Search() {
         const totalEl = document.createElement('div');
         totalEl.className = 'result reverse';
         totalEl.innerHTML = `
-        ذكرت في القرآن الكريم&nbsp;<span style="color:#dbdf06ff;"> ${times[total] || (total < 11 ? total + ' مرة' : total + ' مرة')} </span>
+        ذكرت في القرآن الكريم<span style="color:#dbdf06ff;display:flex;flex-direction:row-reverse"><span>&nbsp;${total}&nbsp;</span>${times[total] || (total < 11 ? 'مرات' : 'مرة')} </span>
 `;
         document.getElementsByClassName('all-results')[0]?.append(totalEl);
     }
