@@ -83,7 +83,7 @@ export function Search() {
                   </div>
                   <div className="advanced-search-options">
                     {advancedSearchOptions.map((option, i) => (
-                      <div className="advanced-search-option">
+                      <div className="advanced-search-option" key={i}>
                         {option.arName}
                         <p>{option.description}</p>
                       </div>
