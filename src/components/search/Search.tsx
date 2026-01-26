@@ -45,7 +45,7 @@ export function Search() {
         totalEl.innerHTML = `
         ذكرت في القرآن الكريم<span style="color:#dbdf06ff;display:flex;flex-direction:row-reverse"><span>&nbsp;${total}&nbsp;</span>${times[total] || (total < 11 ? 'مرات' : 'مرة')} </span>
 `;
-        document.getElementsByClassName('all-results')[0]?.append(totalEl);
+        document.getElementsByClassName('search-container')[0]?.append(totalEl);
     }
 
     return (
