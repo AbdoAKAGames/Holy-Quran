@@ -706,7 +706,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 }
 .search-container {
   width: 100%;
-  height: 100%;
+  height: 200%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -714,7 +714,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 }
 .search-surah {
   width: 70%;
-  height: 30%;
+  height: 10%;
   display: flex;
   justify-content: center;
   align-items: start;
@@ -1018,6 +1018,9 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   background: #1b2229;
   border: 1px solid #263849;
   cursor: default;
+  width: 30%;
+  height: 5%;
+  font-size: 20px;
 }
 
 ::-webkit-scrollbar {
