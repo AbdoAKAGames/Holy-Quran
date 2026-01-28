@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { allSurah_s } from '../../data/surah_name/surah_name';
 import { surah_nass } from '../../data/surah/surah_nass';
 import '../../App.css'
@@ -14,8 +14,11 @@ export function Search() {
     const [mawdee, setMawdee] = useState<boolean>(false);
     const [lastSurah, setLastSurah] = useState<string>('');
     const [currentSurahRepeats, setCurrentSurahRepeats] = useState<number>(0);
+    const [showAllTimes, setShowAllTimes] = useState<boolean>(false);
+    const [allTimes, setAllTimes] = useState<React.ReactNode>(<></>);
 
-    const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED]*";
+    const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0610-\\u061A\\u06D6-\\u06ED]*";
+    const TATWEEL_HAMZA_TASHKEEL = "(?:ـ\\u0654" + TASHKEEL + ")*";
 
     let total = 0;
 
@@ -43,6 +46,7 @@ export function Search() {
       "يسءلون": "يَسۡـَٔلُونَ",
       "أولئك": "أُوْلَٰٓئِكَ",
       "اولئك": "أُوْلَٰٓئِكَ",
+      "تطئوها": "تَطَـُٔوهَا",
     }
 
     const advancedSearchOptions = [
@@ -90,34 +94,30 @@ export function Search() {
         
       return safeWord.replace(/./g, (char) => {
       
-        // ألف
         if (char === "ا") {
-          return `[اأإآٱ\\u0670]${TASHKEEL}`;
+          return `${TATWEEL_HAMZA_TASHKEEL}[اأإآٱ]${TASHKEEL}`;
         }
       
-        // ياء
-        if (char === "ي") {
-          return `[يى]${TASHKEEL}`;
-        }
-      
-        // واو
         if (char === "و") {
-          return `[وؤ]${TASHKEEL}`;
+          return `${TATWEEL_HAMZA_TASHKEEL}[وؤ]${TASHKEEL}`;
         }
       
-        // همزة مفردة
+        if (char === "ي") {
+          return `${TATWEEL_HAMZA_TASHKEEL}[يىئ]${TASHKEEL}`;
+        }
+      
         if (char === "ء") {
-          return `[ء]${TASHKEEL}`;
+          return `${TATWEEL_HAMZA_TASHKEEL}ء${TASHKEEL}`;
         }
       
-        // أي حرف عربي
         if (/[\u0621-\u064A]/.test(char)) {
-          return `${char}${TASHKEEL}`;
+          return `${TATWEEL_HAMZA_TASHKEEL}${char}${TASHKEEL}`;
         }
       
         return char;
       });
     }
+
 
     function replaceValues(value: string) {
       let newValue = value;
@@ -127,7 +127,7 @@ export function Search() {
         }
       })
 
-      return newValue.replace("آ", "ءا");
+      return newValue.replace("آ", "ءا").replace("ـ", "");
     }
 
     function search(value: string, type?: string) {
@@ -149,15 +149,16 @@ export function Search() {
                 console.log(allSurah_s[i]);
                 console.log(lastSurah);
                 setCurrentSurahRepeats(searchValueRepeatCount);
-                if (allSurah_s[i] != currentSurahName) {
+                if (allSurah_s[i] != lastSurah) {
                   setMawdee(true);
                   setCurrentMawdee(0);
                 }
                 setLastSurah(allSurah_s[i]);
-                const flexible = arabicFlexibleRegex(value);
+                const normalizedValue = normalizeArabic(value, type || "");
+                const flexible = arabicFlexibleRegex(normalizedValue);
                 const nass = surah.replace(
                   new RegExp(flexible, "g"),
-                  match => `${type == "ayah-start" ? ") " : ""}${type == "no-add" ? " " : ""}<span class="selected">${match.replace(") ", "").trim()}</span>${type == "no-add" ? " " : ""}`
+                  match => `<span class="selected">${match}</span>`
                 );
                 const interval = setInterval(() => {
                     document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
@@ -169,19 +170,9 @@ export function Search() {
               if (total == 0) setMawdee(false);
           }
       })
-      const prevEl = document.getElementsByClassName("reverse")[0];
-      const prevMawdeeEl = document.getElementsByClassName("mawdee")[0];
-      
-      if (prevEl) prevEl.remove();
-      if (prevMawdeeEl) prevMawdeeEl.remove();
 
-      const totalEl = document.createElement('div');
-      totalEl.className = 'result reverse';
-      totalEl.innerHTML = `
-      ذكرت في القرآن الكريم ${value.startsWith(")") ? "في أول آية" : (value.startsWith(" ") && value.endsWith(" ")) ? "دون إضافة" : ""}<span style="color:#dbdf06ff;display:flex;flex-direction:row-reverse"><span>&nbsp;${total}&nbsp;</span>${times[total] || (total < 11 ? 'مرات' : 'مرة')} </span>
-      `;
-      
-      document.getElementsByClassName('result-details')[0]?.append(totalEl);
+      setShowAllTimes(true);
+      setAllTimes(<>ذكرت في القرآن الكريم {value.startsWith(")") ? "في أول آية" : (value.startsWith(" ") && value.endsWith(" ")) ? "دون إضافة" : ""}<span className="all-times-span"><span>&nbsp;{total}&nbsp;</span>{times[total] || (total < 11 ? 'مرات' : 'مرة')} </span></>)
     }
 
     function advancedSearch(type: string, value: string) {
@@ -231,6 +222,7 @@ export function Search() {
               </div>}
               <div className="all-results"></div>
               <div className="result-details">
+                {showAllTimes && <div className="result reverse">{allTimes}</div>}
                 {mawdee && <>
                   <div className="mawdee">
                     <span>الموضع: <span style={{ color: "#dbdf06" }}>{currentMawdee + 1}</span></span>
