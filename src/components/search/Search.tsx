@@ -12,9 +12,7 @@ export function Search() {
     const [advancedSearchValue, setAdvancedSearchValue] = useState<string>('');
     const [currentMawdee, setCurrentMawdee] = useState<number>(0);
     const [mawdee, setMawdee] = useState<boolean>(false);
-    const [lastSurah, setLastSurah] = useState<string>('');
     const [currentSurahRepeats, setCurrentSurahRepeats] = useState<number>(0);
-    const [lastSearchValue, setLastSearchValue] = useState<string>('');
     const [showAllTimes, setShowAllTimes] = useState<boolean>(false);
     const [allTimes, setAllTimes] = useState<React.ReactNode>(<></>);
 
@@ -137,15 +135,9 @@ export function Search() {
               el.className = 'result';
               el.addEventListener("click", () => {
                 setCurrentSurahName('سورة ' + allSurah_s[i]);
-                console.log(allSurah_s[i]);
-                console.log(lastSurah);
                 setCurrentSurahRepeats(searchValueRepeatCount);
-                if (allSurah_s[i] != lastSurah && value != lastSearchValue) {
-                  setMawdee(true);
-                  setCurrentMawdee(0);
-                }
-                setLastSurah(allSurah_s[i]);
-                setLastSearchValue(value);
+                setMawdee(true);
+                setCurrentMawdee(0);
                 const flexible = arabicFlexibleRegex(value);
                 const nass = surah.replace(
                   new RegExp(flexible, "g"),
