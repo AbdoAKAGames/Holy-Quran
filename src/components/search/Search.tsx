@@ -149,11 +149,12 @@ export function Search() {
                 const flexible = arabicFlexibleRegex(value);
                 const nass = surah.replace(
                   new RegExp(flexible, "g"),
-                  match => `<span class="selected current-selected">${match}</span>`
+                  match => `<span class="selected">${match}</span>`
                 );
                 const interval = setInterval(() => {
                     document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
                     if (document.getElementsByClassName('selected')[0]) document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
+                    if (document.getElementsByClassName('selected')[0]) document.getElementsByClassName('selected')[0].classList.add("current-selected");
                     if (document.getElementsByClassName('search-result-text')[0]) clearInterval(interval);
                 }, 1)
               });
