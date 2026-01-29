@@ -95,7 +95,7 @@ export function Search() {
       return safeWord.replace(/./g, (char) => {
       
         if (char === "ا") {
-          return `${TATWEEL_HAMZA_TASHKEEL}[اأإآٱ]${TASHKEEL}`;
+          return `${TATWEEL_HAMZA_TASHKEEL}${TASHKEEL}[اأإآٱ]${TASHKEEL}${TATWEEL_HAMZA_TASHKEEL}`;
         }
       
         if (char === "و") {
