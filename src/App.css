@@ -1211,7 +1211,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 }
 
 .current-selected {
-  background: #ff2e58;
+  background: #ffee2e;
 }
 
 ::-webkit-scrollbar {
