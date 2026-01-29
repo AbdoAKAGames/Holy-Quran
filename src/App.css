@@ -907,8 +907,8 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 .mawdee {
   width: 30%;
   height: 100%;
-  background: #1b2229;
-  border: 1px solid #263849;
+  background: #1c1c1c;
+  border: 1px solid #333;
   border-radius: 5px;
   display: flex;
   flex-direction: row-reverse;
@@ -920,14 +920,20 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 .change-mawdee {
   width: 20%;
   height: 50%;
-  background: #263849;
+  background: #b8860b;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
   cursor: pointer;
   /* box-shadow: 0 0 10px 2px #00f2ff; */
-  border: 1px solid #4d7294;
+  border: 1px solid #d4af37;
+  color: #000;
+}
+.all-times-span {
+  color: #dbdf06ff;
+  display: flex;
+  flex-direction: row-reverse;
 }
 .search-result {
   width: 40%;
@@ -1202,6 +1208,10 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   width: 30%;
   height: 100%;
   font-size: 20px;
+}
+
+.current-selected {
+  background: #ffc400;
 }
 
 ::-webkit-scrollbar {
