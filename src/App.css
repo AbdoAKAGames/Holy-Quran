@@ -1560,12 +1560,18 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     width: 100%;
     text-align: center;
     padding-bottom: 10px;
+    font-size: 20px;
   }
   
   .zekr-number {
     width: 40px;
     height: 40px;
-    margin-top: 5px;
+    margin: 5px;
+    font-size: 10px;
+  }
+
+  .zekr-done-checkbox {
+    transform: scale(1);
   }
 
   /* --- العداد (السبحة) --- */
@@ -1634,7 +1640,6 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   
   .tool-name {
     font-size: 10px;
-    display: none; /* إخفاء النص لتوفير المساحة */
   }
   
   .tool-img {
