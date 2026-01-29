@@ -668,6 +668,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   }
 }
 .tools {
+  width: 100%;
   height: 10%;
   background: #1a1a1a;
   position: sticky;
@@ -1202,8 +1203,8 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 
 .reverse {
   flex-direction: row-reverse;
-  background: #1b2229;
-  border: 1px solid #263849;
+  background: #1c1c1c;
+  border: 1px solid #333;
   cursor: default;
   width: 30%;
   height: 100%;
@@ -1242,104 +1243,406 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   100% {opacity: 0; transform: translateY(250%) scale(0.9);}
 }
 
+/* ========================================= */
+/* تعديلات الشاشات الصغيرة (الجوال)      */
+/* ========================================= */
 @media only screen and (max-width:500px) {
+  
+  /* --- عام --- */
+  .app-title h1 {
+    font-size: 20px;
+    padding: 5px 10px;
+  }
+  
+  /* --- صفحة المصحف والقراءة --- */
+  .listen-surah {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+  }
+  
   .listen {
-    width: 25%;
-    font-size: 10px;
-    padding: 5px;
-  }
-  .surah {
-    font-size: 16px;
-  }
-  .werd-container {
-    width: 90%;
-  }
-  .enter {
-    width: 50%;
-  }
-  .search-surah input[type=text] {
-    width: 100%;
-    font-size: 24px;
-    &::placeholder {
-      font-size: 20px;
-    }
-  }
-  .type-img img {
     width: 80%;
-  }
-  .azkar-result {
-    width: 90%;
-  }
-  .counter-button {
-    width: 120px;
-    height: 120px;
-  }
-  .reset {
-    width: 50%;
+    font-size: 14px;
+    padding: 5px;
+    margin: 5px;
     height: 40px;
   }
-  .search-result {
-    width: 90%;
-    height: 70%;
+
+  .quran {
+    flex-direction: column;
+    height: auto;
+    min-height: 80%;
   }
+
+  .fehres {
+    width: 100%;
+    height: 25vh; /* الفهرس يأخذ ربع الشاشة في الأعلى */
+    border-radius: 0;
+    order: 1;
+  }
+  
   .fehres h1 {
     font-size: 18px;
+    padding: 5px 0;
   }
-  .buttons div button {
-    font-size: 10px;
-  }
-  .quran-parts h1 {
+
+  .surah {
     font-size: 18px;
+    width: 95%;
+    padding: 5px;
+    height: 50px;
   }
-  .save-button button {
-    font-size: 9px;
+
+  .nass {
+    width: 100%;
+    height: 55vh; /* النص يأخذ باقي المساحة */
+    border-radius: 0;
+    order: 2;
   }
+
+  .surah-nass-name {
+    font-size: 22px;
+    margin: 10px;
+  }
+
+  .surah-nass {
+    font-size: 20px;
+    padding: 10px;
+    line-height: 1.8;
+  }
+  
+  /* --- الأزرار السفلية --- */
+  .buttons {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+  
+  .buttons div {
+    width: 45%;
+  }
+
+  .buttons div button {
+    font-size: 12px;
+    height: 40px;
+  }
+
   .save-button {
+    width: 100%;
+    height: auto;
+    margin: 5px 0;
+  }
+  
+  .save-button button {
+    font-size: 12px;
+    height: 35px;
     width: 30%;
   }
-  .qaree {
-    width: 45%; /* تحسين الشبكة في الموبايل */
+
+  /* --- البحث --- */
+  .search-container {
+    height: 100vh;
+    overflow-y: auto;
   }
-  .tool-name {
+
+  .search-title {
+    font-size: 24px;
+    margin: 15px 0;
+  }
+
+  .search-surah {
+    width: 95%;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+  
+  .search-surah input[type=text] {
+    width: 95%;
+    font-size: 18px;
+    margin-bottom: 10px;
+    height: 45px;
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
+  
+  .enter {
+    width: 95%;
+    margin: 0;
+    height: 40px;
+  }
+  
+  .show-advanced-search-button {
+    width: 95%;
+    margin: 10px 0;
+    height: 40px;
+  }
+
+  /* --- البحث المتقدم --- */
+  .advanced-search {
+    width: 95%;
+    height: 80%;
+  }
+
+  .advanced-search-options {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .advanced-search-option {
+    width: 45%;
+    height: 60px;
+    font-size: 14px;
+    margin: 5px;
+  }
+
+  .advanced-search-inputs {
+    flex-direction: column;
+  }
+  
+  .advanced-search-input {
+    width: 90%;
+    margin: 5px 0;
+  }
+
+  .advanced-search-buttons {
+    flex-wrap: wrap;
+  }
+  
+  .advanced-search-button {
+    width: 45%;
+    font-size: 16px;
+  }
+
+  /* --- نتائج البحث --- */
+  .search-result {
+    width: 95%;
+    height: 60%;
+    margin-bottom: 10px;
+  }
+
+  .result {
+    width: 40%;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  .mawdee {
+    width: 50%;
+  }
+
+  .change-mawdee {
+    font-size: 20px;
+  }
+
+  .reverse {
+    font-size: 15px;
+    width: 45%;
+    margin: 0;
+  }
+
+  .advanced-search-option {
+    width: 47%;
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .option-description {
     font-size: 12px;
   }
-  .type-name {
-    font-size: 14px;
+
+  .advanced-search-button {
+    height: 20%;
   }
-  .start-werd-btn {
-    font-size: 16px;
-    width: 60%;
+  
+  .search-result-text {
+    font-size: 18px;
   }
-  .tool-name.counter {
-    font-size: 10px;
+
+  /* --- الأوراد --- */
+  .werd-container {
+    width: 95%;
+    height: 85%;
   }
-  .surah-nass-name {
-    font-size: 20px;
+  
+  .werd-title {
+    font-size: 22px;
   }
+  
+  .werd-text {
+    font-size: 18px;
+  }
+  
+  .werd-modal {
+    width: 95%;
+    height: 80%;
+  }
+  
   .werd-modal-title {
-    font-size: 16px;
-  }
-  .werd-option {
-    width: 100%;
     font-size: 20px;
   }
+  
   .werd-options {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-content: center;
     overflow-y: auto;
   }
-  .surah-nass {
-    font-size: 20px;
-    padding: 10px;
+  
+  .werd-option {
+    width: 90%;
+    font-size: 18px;
+    height: 50px;
+    margin: 5px;
   }
+  
+  .start-werd-btn {
+    font-size: 14px;
+    width: 80%;
+    height: 40px;
+  }
+
+  .cancel-werd div {
+    width: 60%;
+  }
+
+  /* --- الأذكار --- */
+  .azkar-types {
+    height: auto;
+    padding-bottom: 20px;
+  }
+  
+  .type-row {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .type {
+    width: 95%;
+    height: 80px;
+    margin: 5px 0;
+  }
+  
+  .type-name {
+    font-size: 18px;
+  }
+  
+  .type-img img {
+    width: auto;
+    height: 70%;
+  }
+
+  .azkar-result-container {
+    height: 35%;
+    align-items: start;
+  }
+  
+  .azkar-result {
+    width: 95%;
+    height: 80%;
+    margin-top: 0;
+  }
+  
+  .azkar-result-title {
+    font-size: 22px;
+  }
+  
+  .zekr {
+    font-size: 16px;
+    flex-direction: column;
+  }
+  
+  .zekr-text {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  .zekr-number {
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+  }
+
+  /* --- العداد (السبحة) --- */
+  .counter-button {
+    width: 180px;
+    height: 180px;
+    margin-top: 50px;
+  }
+  
+  .reset {
+    width: 60%;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  /* --- الأجزاء --- */
+  .parts {
+    flex-direction: column;
+  }
+  
+  .quran-parts {
+    width: 100%;
+    height: 30%;
+    border-radius: 0;
+  }
+  
+  .quran-parts h1 {
+    font-size: 18px;
+  }
+  
   .quran-part {
     font-size: 16px;
+    height: 50px;
   }
-  input[type=text] {
-    font-size: 16px;
+  
+  .quran-part-nass {
+    width: 100%;
+    height: 70%;
+    border-radius: 0;
   }
-  .result {
+
+  .quran-part-nass-text {
+    font-size: 20px;
+    line-height: 1.8;
+  }
+
+  /* --- القراء --- */
+  .choose-qaree {
+    width: 95%;
+  }
+  
+  .qaree {
+    width: 45%; /* عرض مناسب ليكون هناك قارئين في الصف */
+    margin: 2.5%;
+    height: 150px;
+  }
+  
+  .qaree-name {
+    font-size: 14px;
+  }
+
+  /* --- الشريط السفلي --- */
+  .tools {
+    height: 8%; /* تكبير قليلا للضغط */
+  }
+  
+  .tool-name {
     font-size: 10px;
+    display: none; /* إخفاء النص لتوفير المساحة */
+  }
+  
+  .tool-img {
+    height: 100%; /* الصورة تأخذ كامل الارتفاع */
+  }
+  
+  .tool-img img, .tool-img svg {
+    width: 30px;
+    height: 30px;
   }
 }
