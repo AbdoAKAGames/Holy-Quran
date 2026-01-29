@@ -14,16 +14,20 @@ export function Search() {
     const [mawdee, setMawdee] = useState<boolean>(false);
     const [lastSurah, setLastSurah] = useState<string>('');
     const [currentSurahRepeats, setCurrentSurahRepeats] = useState<number>(0);
+    const [lastSearchValue, setLastSearchValue] = useState<string>('');
     const [showAllTimes, setShowAllTimes] = useState<boolean>(false);
     const [allTimes, setAllTimes] = useState<React.ReactNode>(<></>);
 
-    const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0610-\\u061A\\u06D6-\\u06ED]*";
-    const TATWEEL_HAMZA_TASHKEEL = "(?:ـ\\u0654" + TASHKEEL + ")*";
+    const SURAH_NASS = surah_nass.map(surah => surah.replace(/۞/g, ""))
+
+    const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED-ـ\\u0654]*";
 
     let total = 0;
 
     useEffect(() => {
       document.getElementsByClassName("selected")[currentMawdee]?.scrollIntoView({ behavior: "smooth" });
+      document.getElementsByClassName("current-selected")[0]?.classList.remove("current-selected");
+      document.getElementsByClassName("selected")[currentMawdee]?.classList.add("current-selected");
     }, [currentMawdee]);
 
     const escapeRegExp = (string: string) => {
@@ -46,7 +50,9 @@ export function Search() {
       "يسءلون": "يَسۡـَٔلُونَ",
       "أولئك": "أُوْلَٰٓئِكَ",
       "اولئك": "أُوْلَٰٓئِكَ",
-      "تطئوها": "تَطَـُٔوهَا",
+      "تطئوها": "تطوها",
+      "الغاوون": "الغاون",
+      "يستوون": "يستون"
     }
 
     const advancedSearchOptions = [
@@ -64,58 +70,43 @@ export function Search() {
 
     function normalizeArabic(text: string, searchType: string) {
       const newText = text
-        // توحيد الألف بكل أشكالها
         .replace(/[إأٱآا]/g, "ا")
-
-        // تحويل الألف الخنجرية (ٰ) إلى ألف
         .replace(/\u0670/g, "ا")
-
-        // توحيد الياء
         .replace(/[يى]/g, "ي")
-
-        // توحيد الهمزة
         .replace(/[ؤئ]/g, "ء")
-
-        // إزالة التشكيل وعلامات الرسم العثماني
         .replace(/[\u064B-\u065F\u06D6-\u06ED]/g, "")
-
-        // إزالة التطويل
         .replace(/ـ/g, "");
-
-        if (searchType == "no-add") {
-          return newText;
-        } else {
-          return newText.trim();
-        }
+      if (searchType == "no-add") {
+        return newText;
+      } else {
+        return newText.trim(); 
+      }
     }
 
     function arabicFlexibleRegex(word: string) {
-      const safeWord = escapeRegExp(word);
-        
-      return safeWord.replace(/./g, (char) => {
-      
+      const safeWord = escapeRegExp(word); return safeWord.replace(/./g, (char) => {
         if (char === "ا") {
-          return `${TATWEEL_HAMZA_TASHKEEL}${TASHKEEL}[اأإآٱ]${TASHKEEL}${TATWEEL_HAMZA_TASHKEEL}`;
+          return `[اأإآٱ\\u0670]${TASHKEEL}`;
         }
-      
-        if (char === "و") {
-          return `${TATWEEL_HAMZA_TASHKEEL}[وؤ]${TASHKEEL}`;
-        }
-      
+
         if (char === "ي") {
-          return `${TATWEEL_HAMZA_TASHKEEL}[يىئ]${TASHKEEL}`;
+          return `[يىۦ]${TASHKEEL}`;
         }
-      
+
+        if (char === "و") {
+          return `[وؤ](?:ـ?ٔ)?${TASHKEEL}`;
+        }
+
         if (char === "ء") {
-          return `${TATWEEL_HAMZA_TASHKEEL}ء${TASHKEEL}`;
+          return `[ء]${TASHKEEL}`;
         }
-      
+
         if (/[\u0621-\u064A]/.test(char)) {
-          return `${TATWEEL_HAMZA_TASHKEEL}${char}${TASHKEEL}`;
+          return `${char}${TASHKEEL}`;
         }
-      
-        return char;
-      });
+
+        return char; 
+      }); 
     }
 
 
@@ -133,7 +124,7 @@ export function Search() {
     function search(value: string, type?: string) {
       total = 0;
       document.getElementsByClassName('all-results')[0].innerHTML = "";
-      surah_nass.map((surah, i) => {
+      SURAH_NASS.map((surah, i) => {
         const cleanSurah = normalizeArabic(surah, type || "");
         const cleanSearch = normalizeArabic(value, type || "");
           if (cleanSurah.includes(cleanSearch)) {
@@ -149,13 +140,13 @@ export function Search() {
                 console.log(allSurah_s[i]);
                 console.log(lastSurah);
                 setCurrentSurahRepeats(searchValueRepeatCount);
-                if (allSurah_s[i] != lastSurah) {
+                if (allSurah_s[i] != lastSurah && value != lastSearchValue) {
                   setMawdee(true);
                   setCurrentMawdee(0);
                 }
                 setLastSurah(allSurah_s[i]);
-                const normalizedValue = normalizeArabic(value, type || "");
-                const flexible = arabicFlexibleRegex(normalizedValue);
+                setLastSearchValue(value);
+                const flexible = arabicFlexibleRegex(value);
                 const nass = surah.replace(
                   new RegExp(flexible, "g"),
                   match => `<span class="selected">${match}</span>`
