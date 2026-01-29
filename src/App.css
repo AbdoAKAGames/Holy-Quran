@@ -1618,6 +1618,28 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     line-height: 1.8;
   }
 
+  .saved {
+    transform: translateY(0);
+  }
+
+  .saved_part {
+    transform: translateY(500%);
+  }
+
+  @keyframes saved {
+    0% {opacity: 0; transform: translateY(0) scale(0.9);}
+    20% {opacity: 1; transform: translateY(0) scale(1);}
+    80% {opacity: 1; transform: translateY(0) scale(1);}
+    100% {opacity: 0; transform: translateY(0) scale(0.9);}
+  }
+
+  @keyframes saved-part {
+    0% {opacity: 0; transform: translateY(500%) scale(0.9);}
+    20% {opacity: 1; transform: translateY(500%) scale(1);}
+    80% {opacity: 1; transform: translateY(500%) scale(1);}
+    100% {opacity: 0; transform: translateY(500%) scale(0.9);}
+  }
+
   /* --- القراء --- */
   .choose-qaree {
     width: 95%;
