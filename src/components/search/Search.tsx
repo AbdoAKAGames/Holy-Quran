@@ -149,7 +149,7 @@ export function Search() {
                 const flexible = arabicFlexibleRegex(value);
                 const nass = surah.replace(
                   new RegExp(flexible, "g"),
-                  match => `<span class="selected">${match}</span>`
+                  match => `<span class="selected current-selected">${match}</span>`
                 );
                 const interval = setInterval(() => {
                     document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
