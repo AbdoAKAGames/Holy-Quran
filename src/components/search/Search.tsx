@@ -53,6 +53,8 @@ export function Search() {
       "الغاوون": "الغاون",
       "يستوون": "يستون",
       "هواه": "هوىاه",
+      "الرحمن": "الرحمَن",
+      "رحمن": "رحمٰن"
     }
 
     const advancedSearchOptions = [
