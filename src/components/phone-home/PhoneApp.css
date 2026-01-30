@@ -8,7 +8,7 @@
     flex-direction: column;
     background-color: #1f2937; /* Dark background */
     color: white;
-    font-family: 'Amiri', serif; /* Or any Arabic font you prefer */
+    font-family: Uthmani; /* Or any Arabic font you prefer */
     overflow: hidden; /* Prevent body scroll */
     padding-bottom: 70px; /* Space for bottom nav */
 }
