@@ -18,7 +18,8 @@ export function Search() {
 
     const SURAH_NASS = surah_nass.map(surah => surah.replace(/۞/g, ""))
 
-    const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED-ـ\\u0654]*";
+    const HARAKAT = "[\\u064B-\\u065F\\u0670\\u0654]*";
+    const QURAN_MARKS = "[\\u06D6-\\u06ED\\u0610-\\u061A]*";
 
     let total = 0;
 
@@ -50,7 +51,8 @@ export function Search() {
       "اولئك": "أُوْلَٰٓئِكَ",
       "تطئوها": "تطوها",
       "الغاوون": "الغاون",
-      "يستوون": "يستون"
+      "يستوون": "يستون",
+      "هواه": "هوىاه",
     }
 
     const advancedSearchOptions = [
@@ -82,30 +84,33 @@ export function Search() {
     }
 
     function arabicFlexibleRegex(word: string) {
-      const safeWord = escapeRegExp(word); return safeWord.replace(/./g, (char) => {
-        if (char === "ا") {
-          return `[اأإآٱ\\u0670]${TASHKEEL}`;
-        }
+  const safeWord = escapeRegExp(word);
 
-        if (char === "ي") {
-          return `[يىۦ]${TASHKEEL}`;
-        }
-
-        if (char === "و") {
-          return `[وؤ](?:ـ?ٔ)?${TASHKEEL}`;
-        }
-
-        if (char === "ء") {
-          return `[ء]${TASHKEEL}`;
-        }
-
-        if (/[\u0621-\u064A]/.test(char)) {
-          return `${char}${TASHKEEL}`;
-        }
-
-        return char; 
-      }); 
+  return safeWord.replace(/./g, (char) => {
+    if (char === "ا") {
+      return `(?:[اأإآٱ]|\\u0649\\u0670?)${HARAKAT}${QURAN_MARKS}`;
     }
+
+    if (char === "ي") {
+      return `[يىۦ]${HARAKAT}${QURAN_MARKS}`;
+    }
+
+    if (char === "و") {
+      return `[وؤ](?:ـ?ٔ)?${HARAKAT}${QURAN_MARKS}`;
+    }
+
+    if (char === "ء") {
+      return `[ء]${HARAKAT}${QURAN_MARKS}`;
+    }
+
+    if (/[\u0621-\u064A]/.test(char)) {
+      return `${char}${HARAKAT}${QURAN_MARKS}`;
+    }
+
+    return char;
+  });
+}
+
 
 
     function replaceValues(value: string) {
