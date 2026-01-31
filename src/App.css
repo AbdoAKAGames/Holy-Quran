@@ -83,7 +83,7 @@ html, body {
   border-radius: 10px;
   color: #fff;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   font-size: 23px;
   cursor: pointer;
@@ -91,7 +91,7 @@ html, body {
   transition: 0.4s;
   font-family: 'Amiri', system-ui;
   margin-top: 10px;
-  padding: 10px;
+  padding: 15px;
   border: 1px solid #555555;
   &:hover {
     color: #1a1a1a;
@@ -100,6 +100,22 @@ html, body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
     transform: scale(1.02);
   }
+}
+.surah-name {
+  width: 75%;
+  display: flex;
+  justify-content: end;
+  padding: 0 10px;
+}
+.surah-number {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background: #222;
+  color: #fbbf24;
 }
 .quran {
   width: 100%;
@@ -1538,13 +1554,13 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   }
 
   .azkar-result-container {
-    height: 35%;
+    height: 80%;
     align-items: start;
   }
   
   .azkar-result {
     width: 95%;
-    height: 80%;
+    height: 100%;
     margin-top: 0;
   }
   
@@ -1562,17 +1578,13 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     text-align: center;
     padding-bottom: 10px;
     font-size: 20px;
+    font-family: Uthmani;
   }
   
   .zekr-number {
     width: 40px;
     height: 40px;
     margin: 5px;
-    font-size: 10px;
-  }
-
-  .zekr-done-checkbox {
-    transform: scale(1);
   }
 
   /* --- العداد (السبحة) --- */
