@@ -911,8 +911,8 @@ function handleBack() {
       </>
     }
         {/* Hidden Audio Elements */}
-        <div className="phone-audio" ref={ref} style={{ display: 'none' }}></div>
-        <div className="phone-audio" ref={ref2} style={{ display: 'none' }}></div>
+        <div className="phone-audio" ref={ref}></div>
+        <div className="phone-audio" ref={ref2}></div>
         
 {currentPage == 'search' && <Search /> }
 {currentPage == 'azkar' && <Azkar />}
