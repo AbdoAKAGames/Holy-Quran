@@ -18,8 +18,7 @@ export function Search() {
 
     const SURAH_NASS = surah_nass.map(surah => surah.replace(/۞/g, ""))
 
-    const TASHKEEL =
-  "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA\\u06ED\\u0654]*";
+    const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA\\u06ED\\u0654\\u0640]*"
 
     let total = 0;
 
@@ -49,12 +48,10 @@ export function Search() {
       "يسءلون": "يَسۡـَٔلُونَ",
       "أولئك": "أُوْلَٰٓئِكَ",
       "اولئك": "أُوْلَٰٓئِكَ",
-      "تطئوها": "تطوها",
       "الغاوون": "الغاون",
       "يستوون": "يستون",
-      "هواه": "هوىاه",
       "الرحمن": "الرحمٰن",
-      "رحمن": "رحمٰن"
+      "رحمن": "رحمٰن",
     }
 
     const advancedSearchOptions = [
@@ -71,48 +68,52 @@ export function Search() {
     ]
 
     function normalizeArabic(text: string, searchType: string) {
-  const newText = text
-    .replace(/[إأٱآا]/g, "ا")
-    .replace(/\u0670/g, "ا")
-    .replace(/[يى]/g, "ي")
-    .replace(/[ؤئ]/g, "ء")
-    .replace(/[\u064B-\u065F\u06D6-\u06ED]/g, "")
-    .replace(/ـ/g, "");
+      const newText = text
+        .replace(/ىٰ/g, "ا")
+        .replace(/ـٔ/g, "ئ")
+        .replace(/[إأٱآا]/g, "ا")
+        .replace(/\u0670/g, "ا")
+        .replace(/[يى]/g, "ي")
+        .replace(/[ؤ]/g, "ء")
+        .replace(/[\u064B-\u065F\u06D6-\u06ED]/g, "")
+        .replace(/ـ/g, "");
 
-  if (searchType == "no-add") {
-    return newText;
-  } else {
-    return newText.trim();
-  }
+      if (newText.includes("واورثكم ارضهم")) console.log(newText);
+
+      if (searchType == "no-add") {
+        return newText;
+      } else {
+        return newText.trim();
+      }
     }
     
-function arabicFlexibleRegex(word: string) {
-  const safeWord = escapeRegExp(word);
-
-  return safeWord.replace(/./g, (char) => {
-    if (char === "ا") {
-      return `[اأإآٱ\\u0670]${TASHKEEL}`;
+    function arabicFlexibleRegex(word: string) {
+      const safeWord = escapeRegExp(word);
+    
+      return safeWord.replace(/./g, (char) => {
+        if (char === "ا") {
+          return `(?:[اأإآٱ\\u0670]|\\u0649\\u0670)${TASHKEEL}`;
+        }
+      
+        if (char === "ي" || char === "ى") {
+          return `[يىۦ]${TASHKEEL}`;
+        }
+      
+        if (char === "و") {
+          return `[وؤ](?:ـ?ٔ)?${TASHKEEL}`;
+        }
+      
+        if (char === "ء" || char === "ئ" || char === "ـٔ") {
+          return `(?:[ئـٔء])${TASHKEEL}`;
+        }
+      
+        if (/[\u0621-\u064A]/.test(char)) {
+          return `${char}${TASHKEEL}`;
+        }
+      
+        return char;
+      });
     }
-
-    if (char === "ي") {
-      return `[يىۦ]${TASHKEEL}`;
-    }
-
-    if (char === "و") {
-      return `[وؤ](?:ـ?ٔ)?${TASHKEEL}`;
-    }
-
-    if (char === "ء") {
-      return `[ء]${TASHKEEL}`;
-    }
-
-    if (/[\u0621-\u064A]/.test(char)) {
-      return `${char}${TASHKEEL}`;
-    }
-
-    return char;
-  });
-}
     
 
 
@@ -133,7 +134,7 @@ function arabicFlexibleRegex(word: string) {
       SURAH_NASS.map((surah, i) => {
         const cleanSurah = normalizeArabic(surah, type || "");
         const cleanSearch = normalizeArabic(value, type || "");
-          if (cleanSurah.includes(cleanSearch)) {
+        if (cleanSurah.includes(cleanSearch)) {
               const el = document.createElement('div');
               const safeCleanSearch = escapeRegExp(cleanSearch);
               const searchValueRepeatCount =
@@ -147,6 +148,7 @@ function arabicFlexibleRegex(word: string) {
                 setMawdee(true);
                 setCurrentMawdee(0);
                 const flexible = arabicFlexibleRegex(value);
+                console.log(flexible);
                 const nass = surah.replace(
                   new RegExp(flexible, "g"),
                   match => `<span class="selected">${match}</span>`
