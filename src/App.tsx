@@ -8,7 +8,7 @@ import Saved from './components/pages/Saved';
 import { Search } from './components/search/Search';
 import { Counter } from './components/counter/Counter';
 import { PhoneAzkar } from './components/phone-azkar/PhoneAzkar';
-import { Tools } from './components/tools/Tools';
+import ToolsLayout from './layouts/ToolsLayout';
 import Morning from './components/pages/azkar/Morning';
 import Night from './components/pages/azkar/Night';
 import PrayProphet from './components/pages/azkar/PrayProphet';
@@ -25,14 +25,18 @@ export default function App() {
     return (
       <>
         <Routes>
-          <Route path="/" element={<PhoneHome />} />
+          <Route element={<ToolsLayout />}>
+            <Route path="/" element={<PhoneHome />} />
+            <Route path="/azkar" element={<PhoneAzkar />} />
+            <Route path="/counter" element={<Counter />} />
+            <Route path="/search" element={<Search />} />
+          </Route>
+
           <Route path="/surah/:surahId" element={<SurahPage />} />
           <Route path="/part/:partId" element={<PartPage />} />
           <Route path="/werd/:currentWerd" element={<Werd />} />
           <Route path="/saved/:surahId/:partId" element={<Saved />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/azkar" element={<PhoneAzkar />} />
-          <Route path="/counter" element={<Counter />} />
+
           <Route path="/azkar/morning" element={<Morning />} />
           <Route path="/azkar/night" element={<Night />} />
           <Route path="/azkar/pray-prophet" element={<PrayProphet />} />
@@ -40,7 +44,6 @@ export default function App() {
           <Route path="/azkar/sleep" element={<Sleep />} />
           <Route path="/azkar/wake-up" element={<WakeUp />} />
         </Routes>
-        <Tools />
       </>
     )
   } else return (
