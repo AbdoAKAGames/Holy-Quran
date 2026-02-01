@@ -293,24 +293,19 @@ async function cancelWerd() {
       </div>
       }
       
-      {/* Display Werd */}
-      {startedWerd && <>
       <div className="phone-werd-buttons">
-        <div className="phone-open-daily-werd" onClick={() => navigate(`/werd/${currentWerd}`)}>ورد اليوم</div>
+        {startedWerd && <><div className="phone-open-daily-werd" onClick={() => navigate(`/werd/${currentWerd}`)}>ورد اليوم</div>
           <div className="phone-cancel-werd">
             <div onClick={() => cancelWerd()}>إلغاء الورد اليومي</div>
-          </div>
+          </div></>}
           <div className="phone-open-saved" onClick={openSaved}>المحفوظة</div>
       </div>
-        </>
-      }
 
       </div>
-        {/* Hidden Audio Elements */}
         <div className="phone-audio" ref={ref}></div>
         <div className="phone-audio" ref={ref2}></div>
         
-      </div> {/* End phone-content */}
+      </div>
 
     </div>
     </>
