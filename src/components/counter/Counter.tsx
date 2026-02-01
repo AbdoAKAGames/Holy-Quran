@@ -14,15 +14,11 @@ export function Counter() {
     }
 
     useEffect(() => {
-        setCounter(Number(localStorage.getItem("counter")));
-    }, [])
-
-    window.addEventListener("load", () => {
         if (!localStorage.counter) {
             localStorage.setItem("counter", "0");
         }
-    })
-
+        setCounter(Number(localStorage.getItem("counter")));
+    }, []);
 
 
     return (

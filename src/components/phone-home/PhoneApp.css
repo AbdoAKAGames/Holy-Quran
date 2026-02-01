@@ -1,0 +1,441 @@
+/* تصميم مخصص للهواتف المحمولة */
+
+/* 1. Reset & Global Styles */
+.phone-app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #1f2937; /* Dark background */
+    color: white;
+    font-family: Uthmani; /* Or any Arabic font you prefer */
+    overflow: hidden; /* Prevent body scroll */
+    padding-bottom: 70px; /* Space for bottom nav */
+}
+
+/* 2. Scrollable Content Area */
+.phone-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* 3. Header & Title */
+.phone-app-title {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #111827;
+    border-bottom: 1px solid #374151;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.phone-app-title h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fbbf24;
+}
+
+/* 4. Reading View Headers (With Back Button) */
+.phone-reading-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.phone-reading-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #111827;
+    border-bottom: 1px solid #374151;
+    margin-bottom: 15px;
+}
+
+.phone-reading-header span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fbbf24;
+}
+
+.phone-back-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+/* 5. Lists (Surahs & Parts) */
+.phone-fehres, .phone-quran-parts {
+    margin-bottom: 20px;
+    height: 260px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.phone-search-surah-names {
+    position: sticky;
+    top: 0;
+}
+
+.surrah {
+    text-align: center;
+}
+
+.basmalah {
+    text-align: center;
+}
+
+.phone-fehres h1, .phone-quran-parts h1 {
+    font-size: 1.3rem;
+    text-align: right;
+    margin-bottom: 15px;
+    color: #d1d5db;
+    padding-right: 10px;
+}
+
+.phone-surah-list-container, .phone-parts-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.phone-surah, .phone-quran-part {
+    display: flex;
+    align-items: center;
+    background-color: #374151;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.phone-surah:active, .phone-quran-part:active {
+    background-color: #4b5563;
+}
+
+.phone-surah-number {
+    background-color: #1f2937;
+    color: #fbbf24;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+.phone-surah-name {
+    font-size: 1.1rem;
+    flex: 1;
+    text-align: right;
+}
+
+.phone-quran-part {
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* 6. Reading Text (Nass) */
+.phone-nass, .phone-quran-part-nass {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #fff8dc; /* Light paper color */
+    color: black;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    line-height: 2.2;
+    text-align: justify;
+    font-size: 1.4rem;
+    direction: rtl;
+    border: 5px solid #b8860b;
+    font-family: Uthmani;
+}
+
+.phone-surah-nass-name, .phone-quran-part-nass-name {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #8b4513;
+    border-bottom: 2px solid #8b4513;
+    padding-bottom: 10px;
+}
+
+.phone-surah-nass, .phone-quran-part-nass-text {
+    height: 300px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.phone-basmalah {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* 7. Search Input */
+.phone-search-surah-names-input {
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+    background-color: #374151;
+    color: white;
+    text-align: right;
+    font-size: 1rem;
+}
+
+.phone-search-surah-names-input::placeholder {
+    color: #9ca3af;
+}
+
+/* 8. Bottom Navigation (Tools) */
+.phone-tools {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #111827;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #374151;
+    z-index: 1000;
+}
+
+.phone-tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    cursor: pointer;
+    padding: 5px 0;
+}
+
+.phone-tool-img svg {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 4px;
+}
+
+.phone-tool-name {
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+/* 9. Audio Player & Buttons */
+.phone-listen-surah {
+    background-color: #374151;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: auto; /* Push to bottom of reading view */
+}
+
+.phone-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.phone-buttons button {
+    background-color: #1f2937;
+    color: white;
+    border: 1px solid #4b5563;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.phone-buttons button:disabled {
+    opacity: 0.5;
+}
+
+.phone-save-button {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.phone-save-button button {
+    background-color: #b8860b;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.phone-listen {
+    text-align: center;
+    background-color: #059669;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* 10. Modals (Quraa, Werd) */
+.phone-choose-qaree-modal, .phone-werd-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.phone-choose-qaree, .phone-werd-modal {
+    background-color: #1f2937;
+    width: 90%;
+    max-height: 80%;
+    border-radius: 15px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.phone-choose-qaree-title {
+    background-color: #374151;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.phone-quraa {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.phone-qaree {
+    background-color: #374151;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.phone-qaree-image img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* 11. Werd Specifics */
+.phone-start-werd {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.phone-start-werd-btn {
+    background-color: #b8860b;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.phone-werd-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.phone-open-daily-werd, .phone-cancel-werd {
+    padding: 10px 20px;
+    background: #b8860b;
+    border-radius: 25px;
+}
+
+.phone-cancel-werd {
+    background: #b80b0b;
+}
+
+.phone-open-saved {
+    padding: 10px;
+    background: #059669;
+    border-radius: 25px;
+}
+
+.phone-werd-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.phone-daily-werd {
+    background-color: #fff;
+    color: black;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.phone-werd-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #b8860b;
+}
+
+.phone-werd-options {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.phone-werd-option {
+    width: 30%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #374151;
+    border-radius: 12px;
+}
+
+.phone-werd-container {
+    height: 500px;
+    overflow-y: auto;
+}
+
+/* 12. Notifications (Saved/Unsaved) */
+.phone-saved, .phone-unsaved {
+    background-color: rgba(16, 185, 129, 0.9);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 25px;
+    display: none; /* Controlled by JS */
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.phone-unsaved {
+    background-color: rgba(239, 68, 68, 0.9);
+}
