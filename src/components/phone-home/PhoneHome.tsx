@@ -243,13 +243,6 @@ async function cancelWerd() {
                 </div>
             </div>
         </div>
-
-        {!startedWerd &&
-          <div className="phone-start-werd">
-            <button className="phone-start-werd-btn" onClick={() => setWerdModal(true)}>إبدأ الورد اليومي</button>
-          </div>
-        }
-
       <div style={{width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', position: 'fixed', top: '50%', zIndex: 1000}}>
         <div className="phone-saved" ref={savedRef}>
           !تم حفظ السورة بنجاح
@@ -294,10 +287,10 @@ async function cancelWerd() {
       }
       
       <div className="phone-werd-buttons">
-        {startedWerd && <><div className="phone-open-daily-werd" onClick={() => navigate(`/werd/${currentWerd}`)}>ورد اليوم</div>
+        {startedWerd ? <><div className="phone-open-daily-werd" onClick={() => navigate(`/werd/${currentWerd}`)}>ورد اليوم</div>
           <div className="phone-cancel-werd">
             <div onClick={() => cancelWerd()}>إلغاء الورد اليومي</div>
-          </div></>}
+          </div></> : <button className="phone-start-werd-btn" onClick={() => setWerdModal(true)}>إبدأ الورد اليومي</button>}
           <div className="phone-open-saved" onClick={openSaved}>المحفوظة</div>
       </div>
 
