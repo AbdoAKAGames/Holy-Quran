@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { allSurah_s } from '../../data/surah_name/surah_name';
 import { surah_nass } from '../../data/surah/surah_nass';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../../App.css'
 
 export function Search() {
@@ -16,11 +17,28 @@ export function Search() {
     const [showAllTimes, setShowAllTimes] = useState<boolean>(false);
     const [allTimes, setAllTimes] = useState<React.ReactNode>(<></>);
 
+    const navigate = useNavigate();
+    const { state } = useLocation();
+    const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
+    const userAgent = navigator.userAgent;
+
     const SURAH_NASS = surah_nass.map(surah => surah.replace(/۞/g, ""))
 
     const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA\\u06ED\\u0654\\u0640]*"
 
     let total = 0;
+
+    useEffect(() => {
+      if (state && state.back) {
+        if (localStorage.lastSearch != null && localStorage.lastType != null) {
+          setSearchValue(localStorage.lastType == "" ? localStorage.lastSearch : "");
+          search(localStorage.lastSearch, localStorage.lastType);
+        }
+      } else if (!state || (state && !state.back)) {
+        localStorage.setItem("lastSearch", "");
+        localStorage.setItem("lastType", "");
+      }
+    }, []);
 
     useEffect(() => {
       document.getElementsByClassName("selected")[currentMawdee]?.scrollIntoView({ behavior: "smooth" });
@@ -38,8 +56,8 @@ export function Search() {
     };
 
     const replaces: Record<string, string> = {
-      "بايات": "بِـَٔايَٰتِ",
-      "بآيات": "بِـَٔايَٰتِ",
+      "بايات": "بئايات",
+      "بآيات": "بئايات",
       "امنوا": "ءامنوا",
       "آمنوا": "ءامنوا",
       "يسالون": "يَسۡـَٔلُونَ",
@@ -115,8 +133,6 @@ export function Search() {
         return char;
       });
     }
-    
-
 
     function replaceValues(value: string) {
       let newValue = value;
@@ -132,6 +148,8 @@ export function Search() {
     function search(value: string, type?: string) {
       total = 0;
       document.getElementsByClassName('all-results')[0].innerHTML = "";
+      localStorage.setItem("lastSearch", value);
+      localStorage.setItem("lastType", type || "");
       SURAH_NASS.map((surah, i) => {
         const cleanSurah = normalizeArabic(surah, type || "");
         const cleanSearch = normalizeArabic(value, type || "");
@@ -144,21 +162,33 @@ export function Search() {
               el.innerHTML = `<span>${allSurah_s[i]} - ذكرت <span style="color: #dbdf06;">${times[searchValueRepeatCount] || (searchValueRepeatCount < 11 ? searchValueRepeatCount + ' مرات' : searchValueRepeatCount + ' مرة')}</span></span>`;
               el.className = 'result';
               el.addEventListener("click", () => {
-                setCurrentSurahName('سورة ' + allSurah_s[i]);
-                setCurrentSurahRepeats(searchValueRepeatCount);
-                setMawdee(true);
-                setCurrentMawdee(0);
-                const flexible = arabicFlexibleRegex(value);
-                const nass = surah.replace(
-                  new RegExp(flexible, "g"),
-                  match => `<span class="selected">${match}</span>`
-                );
-                const interval = setInterval(() => {
-                    document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
-                    if (document.getElementsByClassName('selected')[0]) document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
-                    if (document.getElementsByClassName('selected')[0]) document.getElementsByClassName('selected')[0].classList.add("current-selected");
-                    if (document.getElementsByClassName('search-result-text')[0]) clearInterval(interval);
-                }, 1)
+                if (phoneRegEx.test(userAgent)) {
+                  navigate(`/search/result`, {
+                    state: {
+                      searchValue: value,
+                      surahText: surah,
+                      surahName: allSurah_s[i],
+                      currentSurahRepeats,
+                      currentMawdee
+                    }
+                  });
+                } else {
+                  setCurrentSurahName('سورة ' + allSurah_s[i]);
+                  setCurrentSurahRepeats(searchValueRepeatCount);
+                  setMawdee(true);
+                  setCurrentMawdee(0);
+                  const flexible = arabicFlexibleRegex(value);
+                  const nass = surah.replace(
+                    new RegExp(flexible, "g"),
+                    match => `<span class="selected">${match}</span>`
+                  );
+                  const interval = setInterval(() => {
+                      document.getElementsByClassName('search-result-text')[0].innerHTML = nass;
+                      if (document.getElementsByClassName('selected')[0]) document.getElementsByClassName('selected')[0].scrollIntoView({ behavior: "smooth" });
+                      if (document.getElementsByClassName('selected')[0]) document.getElementsByClassName('selected')[0].classList.add("current-selected");
+                      if (document.getElementsByClassName('search-result-text')[0]) clearInterval(interval);
+                  }, 1)
+                }
               });
               document.getElementsByClassName('all-results')[0]?.append(el);
               if (total == 0) setMawdee(false);

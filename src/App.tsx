@@ -15,6 +15,7 @@ import PrayProphet from './components/pages/azkar/PrayProphet';
 import AfterPray from './components/pages/azkar/AfterPray';
 import Sleep from './components/pages/azkar/Sleep';
 import WakeUp from './components/pages/azkar/WakeUp';
+import SearchResult from './components/pages/SearchResult';
 
 const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
 const userAgent = navigator.userAgent;
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/part/:partId" element={<PartPage />} />
           <Route path="/werd/:currentWerd" element={<Werd />} />
           <Route path="/saved/:surahId/:partId" element={<Saved />} />
+          <Route path="/search/result" element={<SearchResult />} />
 
           <Route path="/azkar/morning" element={<Morning />} />
           <Route path="/azkar/night" element={<Night />} />

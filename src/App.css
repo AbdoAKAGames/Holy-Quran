@@ -1447,7 +1447,10 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   }
 
   .mawdee {
-    width: 50%;
+    width: 100%;
+    height: 70px;
+    position: sticky;
+    top: 0;
   }
 
   .change-mawdee {
