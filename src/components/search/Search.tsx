@@ -168,8 +168,7 @@ export function Search() {
                       searchValue: value,
                       surahText: surah,
                       surahName: allSurah_s[i],
-                      currentSurahRepeats,
-                      currentMawdee
+                      repeats: searchValueRepeatCount,
                     }
                   });
                 } else {

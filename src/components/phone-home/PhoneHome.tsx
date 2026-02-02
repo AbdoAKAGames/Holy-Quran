@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../home/Home';
 import { allSurah_s } from '../../data/surah_name/surah_name';
 import { useNavigate } from 'react-router-dom';
 import './PhoneApp.css'
-
-export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
 
 export default function PhoneHome() {
   const [startedWerd, setStartedWerd] = useState<boolean>(false);
@@ -216,7 +214,7 @@ async function cancelWerd() {
                 <div className="phone-surah-list-container">
                     {allSurah_s.filter(surah => surah.replace("أ", "ا").replace("آ", "ا").includes(surahSearchValue.replace("أ", "ا").replace("آ", "ا"))).map((surah, i) => (
                         <div className="phone-surah" key={i} onClick={() => {
-                            navigate(`/surah/${i + 1}`);
+                            navigate(`/surah/${allSurah_s.indexOf(surah) + 1}`);
                         }}>
                         <div className="phone-surah-number">
                         {allSurah_s.indexOf(surah) + 1}

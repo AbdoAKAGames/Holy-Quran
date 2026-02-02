@@ -28,7 +28,10 @@ export function Tools() {
     }
 
     useEffect(() => {
-      handleClick("phone-home");
+      if (location.pathname == "/search") handleClick("phone-search")
+      if (location.pathname == "/azkar") handleClick("phone-azkar")
+      if (location.pathname == "/counter") handleClick("phone-counter")
+      if (location.pathname == "/") handleClick("phone-home")
     }, []);
 
     return (

@@ -6,7 +6,11 @@ export default function SearchResult() {
   const navigate = useNavigate();
 
   const [currentMawdee, setCurrentMawdee] = useState(0);
-  const currentSurahRepeats = state?.currentSurahRepeats;
+  const currentSurahRepeats = state?.repeats;
+
+  useEffect(() => {
+    console.log(state);
+  }, []);
 
   const TASHKEEL = "[\\u064B-\\u065F\\u0670\\u0654\\u06D6-\\u06ED\\u0610-\\u061A\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA\\u06ED\\u0654\\u0640]*"
 
@@ -57,9 +61,9 @@ export default function SearchResult() {
 
   const handleBack = () => {
     navigate(`/search`, {
-        state: {
-            back: true,
-        }
+      state: {
+        back: true,
+      }
     })
   }
 
@@ -80,7 +84,7 @@ export default function SearchResult() {
             </div>
             <div className="search-result" id="search-result">
               <div className="search-result-surah-name surrah">
-                {state.surahName}
+                سورة {state.surahName}
               </div>
               <div className="search-result-text" dangerouslySetInnerHTML={{ __html: highlighted }} />
             </div>

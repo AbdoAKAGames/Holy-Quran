@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { allParts } from "../../data/parts/parts";
-import { supabase } from "../home/Home";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function PartPage() {
     const { partId } = useParams();
@@ -12,9 +11,6 @@ export default function PartPage() {
     const [animatedUns, setAnimatedUns] = useState<boolean>(false);
     const [listen, setListen] = useState<boolean>(false);
     const [listening, setListening] = useState<boolean>(false);
-
-    const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
-    const userAgent = navigator.userAgent;
 
     const savedRef = useRef<HTMLDivElement>(null);
     const unsavedRef = useRef<HTMLDivElement>(null);
@@ -38,6 +34,13 @@ export default function PartPage() {
           image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Dossari.png?raw=true',
         },
     ];
+
+    useEffect(() => {
+      if (surahId) {
+        const element = document.getElementsByClassName("phone-surah-nass")[1] as HTMLDivElement;
+        if (element) element.scrollTo({ top: JSON.parse(localStorage.current_part)[0].scroll_top, behavior: "smooth" });
+      }
+    }, []);
     
     function listenPart(qaree: string) {
       if (!listening) {
@@ -128,12 +131,10 @@ export default function PartPage() {
     }
 
     async function save() {
-      let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;
-      if (phoneRegEx.test(userAgent)) {
-        const stringifiedData = JSON.stringify([{ part_num: Number(partId), scroll_top: el.scrollTop }])
-        localStorage.setItem("current_part", stringifiedData);
-      }
-      await supabase.from('current_part').update({ part_num: Number(partId), scroll_top: el.scrollTop }).eq('id', localStorage.id)
+      let el = document.getElementsByClassName('phone-surah-nass')[0] as HTMLDivElement;
+      const stringifiedData = JSON.stringify([{ part_num: Number(partId), scroll_top: el.scrollTop }])
+      localStorage.setItem("current_part", stringifiedData);
+
       if (!animated) {
         setAnimated(true);
         setTimeout(() => {
@@ -143,11 +144,9 @@ export default function PartPage() {
       }
     }
     async function unsave() {
-      await supabase.from('current_part').update({ part_num: null, scroll_top: null }).eq('id', localStorage.id)
-      if (phoneRegEx.test(userAgent)) {
-        const stringifiedData = JSON.stringify([{ part_num: null, scroll_top: null }])
-        localStorage.setItem("current_part", stringifiedData);
-      }
+      const stringifiedData = JSON.stringify([{ part_num: null, scroll_top: null }])
+      localStorage.setItem("current_part", stringifiedData);
+
       if (!animatedUns) {
         setAnimatedUns(true);
         setTimeout(() => {

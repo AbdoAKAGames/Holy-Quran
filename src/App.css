@@ -1436,8 +1436,13 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   /* --- نتائج البحث --- */
   .search-result {
     width: 95%;
-    height: 60%;
+    height: 600px;
     margin-bottom: 10px;
+    background: #fff8dc;
+  }
+
+  .search-result-surah-name {
+    background: #fff;
   }
 
   .result {
@@ -1449,8 +1454,6 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   .mawdee {
     width: 100%;
     height: 70px;
-    position: sticky;
-    top: 0;
   }
 
   .change-mawdee {
