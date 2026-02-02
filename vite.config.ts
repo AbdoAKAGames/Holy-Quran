@@ -1,7 +1,42 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import { VitePWA } from "vite-plugin-pwa";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: [
+        "favicon.svg",
+        "robots.txt",
+        "apple-touch-icon.png"
+      ],
+      manifest: {
+        name: "القرآن الكريم",
+        short_name: "القرآن",
+        description: "تطبيق قرآن كريم للقراءة والبحث",
+        theme_color: "#0f172a",
+        background_color: "#0f172a",
+        display: "standalone",
+        start_url: "/",
+        icons: [
+          {
+            src: "/icons/icon.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "/icons/icon.png",
+            sizes: "512x512",
+            type: "image/png"
+          }
+        ]
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,svg,png,woff2,mp3}"],
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
+      }
+    })
+  ]
+});
