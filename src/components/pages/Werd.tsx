@@ -15,16 +15,18 @@ export default function Werd() {
 
     const handleBack = () => navigate("/");
 
-    const getPageWerd = () => {
-        if (Number(currentWerd) < 10) {
-            return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page00${Number(currentWerd) + 1}.png?raw=true`} alt="werd" className="phone-werd-img" />
-        }
-        else if (Number(currentWerd) >= 10 && Number(currentWerd) < 100) {
-            return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page0${Number(currentWerd) + 1}.png?raw=true`} alt="werd" className="phone-werd-img" />
-        }
-        else if (Number(currentWerd) >= 100) {
-            return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page${Number(currentWerd) + 1}.png?raw=true`} alt="werd" className="phone-werd-img" />
-        }
+    function getPageImage(index: number) {
+      if (Number(currentWerd) < 10) {
+        return new URL(`../data/werd/pages/page00${index + 1}.png`, import.meta.url).href;
+      } else if (Number(currentWerd) >= 10 && Number(currentWerd) < 100) {
+        return new URL(`../data/werd/pages/page0${index + 1}.png`, import.meta.url).href;
+      } else if (Number(currentWerd) >= 100) {
+        return  new URL(`../data/werd/pages/page${index + 1}.png`, import.meta.url).href;
+      }
+    }
+
+    function getPageWerd() {
+      return  <img src={getPageImage(Number(currentWerd))} alt="werd" className="werd-img" />
     }
 
     return (

@@ -8,6 +8,8 @@ import { allSurah_s } from '../../data/surah_name/surah_name';
 import { Azkar } from '../azkar/Azkar';
 import { Counter } from '../counter/Counter';
 import { allHezb } from '../../data/hezb/hezb';
+import { quraa } from '../../data/quraa';
+import { useNavigate } from 'react-router-dom';
 import '../../App.css';
 // import { shaarawy_tafseer } from './data/tafseer/shaarawy';
 export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
@@ -37,6 +39,8 @@ export default function Home() {
   const savedRefPart = useRef<HTMLDivElement>(null);
   const unsavedRefPart = useRef<HTMLDivElement>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!localStorage.getItem("current_surah") || localStorage.getItem("current_surah") == null) {
       localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]));
@@ -53,33 +57,6 @@ export default function Home() {
 
   const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
   const userAgent = navigator.userAgent;
-
-const quraa = [
-  {
-    name: 'عبد الباسط عبد الصمد',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Abd-Elbaset-Abd-Elsamad.png?raw=true',
-  },
-  {
-    name: 'محمود خليل الحصري',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Hussary.png?raw=true',
-  },
-  {
-    name: 'محمد صديق المنشاوي',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
-  },
-  {
-    name: 'ياسر الدوسري',
-    image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Dossari.png?raw=true',
-  },
-  // {
-  //   name: 'محمد صديق المنشاوي',
-  //   image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
-  // },
-  // {
-  //   name: 'محمد صديق المنشاوي',
-  //   image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
-  // },
-];
 // const tafaseer = [
 //   {
 //     name: 'الشيخ الشعراوي',
@@ -87,185 +64,110 @@ const quraa = [
 //   },
 // ]
 
-function listenSurah(qaree: string) {
-  if (!listening) {
-    const Surah = document.createElement('audio');
-    if (qaree == 'عبد الباسط عبد الصمد') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${currentSurahNass}.mp3`;
-      }
-    }
-    else if (qaree == 'محمود خليل الحصري') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server13.mp3quran.net/husr/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server13.mp3quran.net/husr/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server13.mp3quran.net/husr/${currentSurahNass}.mp3`;
-      }
-    }
-    else if (qaree == 'محمد صديق المنشاوي') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server10.mp3quran.net/minsh/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server10.mp3quran.net/minsh/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
-      }
-    }
-    else if (qaree == 'ياسر الدوسري') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server11.mp3quran.net/yasser/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server11.mp3quran.net/yasser/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server11.mp3quran.net/yasser/${currentSurahNass}.mp3`;
-      }
-    }
-    Surah.controls = true;
-    ref.current?.append(Surah);
-    Surah.play();
-    setListening(true);
-    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
-  };
+async function listenSurah(qaree: string) {
+  if (!navigator.onLine) {
+    console.log("offline: trying cache");
+  }
   if (listening) {
     document.querySelector('audio')?.remove();
-    const Surah = document.createElement('audio');
-    if (qaree == 'عبد الباسط عبد الصمد') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${currentSurahNass}.mp3`;
-      }
-    }
-    else if (qaree == 'محمود خليل الحصري') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server13.mp3quran.net/husr/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server13.mp3quran.net/husr/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server13.mp3quran.net/husr/${currentSurahNass}.mp3`;
-      }
-    }
-    else if (qaree == 'محمد صديق المنشاوي') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server10.mp3quran.net/minsh/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server10.mp3quran.net/minsh/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
-      }
-    }
-    else if (qaree == 'ياسر الدوسري') {
-      if (currentSurahNass < 10) {
-        Surah.src = `https://server11.mp3quran.net/yasser/00${currentSurahNass}.mp3`;
-      }
-      else if (currentSurahNass >= 10 && currentSurahNass < 100) {
-        Surah.src = `https://server11.mp3quran.net/yasser/0${currentSurahNass}.mp3`;
-      } else if (currentSurahNass >= 100) {
-        Surah.src = `https://server11.mp3quran.net/yasser/${currentSurahNass}.mp3`;
-      }
-    }
-    Surah.controls = true;
-    ref.current?.append(Surah);
-    Surah.play();
-    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
   }
+  const Surah = document.createElement('audio');
+  if (qaree == 'عبد الباسط عبد الصمد') {
+    if (currentSurahNass < 10) {
+      Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${currentSurahNass}.mp3`;
+    }
+    else if (currentSurahNass >= 10 && currentSurahNass < 100) {
+      Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${currentSurahNass}.mp3`;
+    } else if (currentSurahNass >= 100) {
+      Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${currentSurahNass}.mp3`;
+    }
+  }
+  else if (qaree == 'محمود خليل الحصري') {
+    if (currentSurahNass < 10) {
+      Surah.src = `https://server13.mp3quran.net/husr/00${currentSurahNass}.mp3`;
+    }
+    else if (currentSurahNass >= 10 && currentSurahNass < 100) {
+      Surah.src = `https://server13.mp3quran.net/husr/0${currentSurahNass}.mp3`;
+    } else if (currentSurahNass >= 100) {
+      Surah.src = `https://server13.mp3quran.net/husr/${currentSurahNass}.mp3`;
+    }
+  }
+  else if (qaree == 'محمد صديق المنشاوي') {
+    if (currentSurahNass < 10) {
+      Surah.src = `https://server10.mp3quran.net/minsh/00${currentSurahNass}.mp3`;
+    }
+    else if (currentSurahNass >= 10 && currentSurahNass < 100) {
+      Surah.src = `https://server10.mp3quran.net/minsh/0${currentSurahNass}.mp3`;
+    } else if (currentSurahNass >= 100) {
+      Surah.src = `https://server10.mp3quran.net/minsh/${currentSurahNass}.mp3`;
+    }
+  }
+  else if (qaree == 'ياسر الدوسري') {
+    if (currentSurahNass < 10) {
+      Surah.src = `https://server11.mp3quran.net/yasser/00${currentSurahNass}.mp3`;
+    }
+    else if (currentSurahNass >= 10 && currentSurahNass < 100) {
+      Surah.src = `https://server11.mp3quran.net/yasser/0${currentSurahNass}.mp3`;
+    } else if (currentSurahNass >= 100) {
+      Surah.src = `https://server11.mp3quran.net/yasser/${currentSurahNass}.mp3`;
+    }
+  }
+  Surah.controls = true;
+  ref.current?.append(Surah);
+  await Surah.play();
+  setListening(true);
+  Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
 };
-function listenParts(qaree: string){
-  if (!listening) {
-    const Surah = document.createElement('audio');
-    if (qaree == 'محمود خليل الحصري') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/0${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/${currentPartNass}.mp3`;
-      }
-    }
-    else if (qaree == 'محمد صديق المنشاوي') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
-      }
-    }
-    else if (qaree == 'عبد الباسط عبد الصمد') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
-      }
-    }
-    else if (qaree == 'ياسر الدوسري') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
-      }
-    }
-    Surah.controls = true;
-    ref2.current?.append(Surah);
-    Surah.play();
-    setListening(true);
-    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
-  };
+
+function openReadingMode(type: string) {
+  navigate(`/reading-mode/${type}/${type == "surah" ? currentSurahNass : currentPartNass}`);
+}
+
+async function listenParts(qaree: string){
+  if (!navigator.onLine) {
+    console.log("offline: trying cache");
+  }
   if (listening) {
     document.querySelector('audio')?.remove();
-    const Surah = document.createElement('audio');
-    if (qaree == 'محمود خليل الحصري') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/0${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/${currentPartNass}.mp3`;
-      }
-    }
-    else if (qaree == 'محمد صديق المنشاوي') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
-      }
-    }
-    else if (qaree == 'عبد الباسط عبد الصمد') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
-      }
-    }
-    else if (qaree == 'ياسر الدوسري') {
-      if (currentPartNass < 10) {
-        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
-      }
-      else if (currentPartNass >= 10) {
-        Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
-      }
-    }
-    Surah.controls = true;
-    ref2.current?.append(Surah);
-    Surah.play();
-    Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
   }
+  const Surah = document.createElement('audio');
+  if (qaree == 'محمود خليل الحصري') {
+    if (currentPartNass < 10) {
+      Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/0${currentPartNass}.mp3`;
+    }
+    else if (currentPartNass >= 10) {
+      Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/${currentPartNass}.mp3`;
+    }
+  }
+  else if (qaree == 'محمد صديق المنشاوي') {
+    if (currentPartNass < 10) {
+      Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
+    }
+    else if (currentPartNass >= 10) {
+      Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
+    }
+  }
+  else if (qaree == 'عبد الباسط عبد الصمد') {
+    if (currentPartNass < 10) {
+      Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
+    }
+    else if (currentPartNass >= 10) {
+      Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
+    }
+  }
+  else if (qaree == 'ياسر الدوسري') {
+    if (currentPartNass < 10) {
+      Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${currentPartNass}.mp3`;
+    }
+    else if (currentPartNass >= 10) {
+      Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${currentPartNass}.mp3`;
+    }
+  }
+  Surah.controls = true;
+  ref2.current?.append(Surah);
+  await Surah.play();
+  setListening(true);
+  Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
 }
 
 window.addEventListener("load", () => {
@@ -495,16 +397,18 @@ useEffect(() => {
   handleClick("home", "home");
 }, []);
 
-function getPageWerd() {
+function getPageImage(index: number) {
   if (currentWerd < 10) {
-    return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page00${currentWerd + 1}.png?raw=true`} alt="werd" className="werd-img" />
+    return new URL(`../data/werd/pages/page00${index + 1}.png`, import.meta.url).href;
+  } else if (currentWerd >= 10 && currentWerd < 100) {
+    return new URL(`../data/werd/pages/page0${index + 1}.png`, import.meta.url).href;
+  } else if (currentWerd >= 100) {
+    return  new URL(`../data/werd/pages/page${index + 1}.png`, import.meta.url).href;
   }
-  else if (currentWerd >= 10 && currentWerd < 100) {
-    return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page0${currentWerd + 1}.png?raw=true`} alt="werd" className="werd-img" />
-  }
-  else if (currentWerd >= 100) {
-    return  <img src={`https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/data/werd/pages/page${currentWerd + 1}.png?raw=true`} alt="werd" className="werd-img" />
-  }
+}
+
+function getPageWerd() {
+  return  <img src={getPageImage(currentWerd)} alt="werd" className="werd-img" />
 }
 
 
@@ -696,6 +600,7 @@ async function cancelWerd() {
               <button disabled={currentSurahNass == 1 ? true : false} onClick={() => {setCurrentSurahNass(cu => cu - 1);let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth' })}}>السورة السابقة</button>
             </div>
           </div>
+          <div className="open-reading-mode" onClick={() => openReadingMode("surah")}>وضع القراءة</div>
           <div className="listen" onClick={() => setListen(true)}>
             الاستماع إلى سورة {allSurah_s[currentSurahNass - 1]}
           </div>
@@ -802,6 +707,7 @@ async function cancelWerd() {
               <button disabled={currentPartNass == 1 ? true : false} onClick={() => {setCurrentPartNass(cu => cu - 1);let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;el.scrollTo({ top: 0, behavior: 'smooth', })}}>الجزء السابق</button>
             </div>
           </div>
+          <div className="open-reading-mode" onClick={() => openReadingMode("part")}>وضع القراءة</div>
         <div className="listen" onClick={() => setListenPart(true)}>
           الاستماع إلى الجزء {currentPartNass}
         </div>

@@ -14,7 +14,7 @@ export default defineConfig({
       ],
       manifest: {
         name: "القرآن الكريم",
-        short_name: "القرآن",
+        short_name: "ورتلناه ترتيلا",
         description: "تطبيق قرآن كريم للقراءة والبحث",
         theme_color: "#0f172a",
         background_color: "#0f172a",
@@ -35,7 +35,25 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,woff2,mp3}"],
-        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) =>
+              url.origin === "https://archive.org" &&
+              url.pathname.endsWith(".mp3"),
+            handler: "CacheFirst",
+            options: {
+              cacheName: "quran-audio-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 30
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
       }
     })
   ]

@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { allSurah_s } from "../../data/surah_name/surah_name";
 import { surah_nass } from "../../data/surah/surah_nass";
 import { useEffect, useRef, useState } from "react";
+import { quraa } from "../../data/quraa";
 
 export default function SurahPage() {
     const { surahId } = useParams();
@@ -17,25 +18,6 @@ export default function SurahPage() {
     const unsavedRef = useRef<HTMLDivElement>(null);
     const ref = useRef<HTMLDivElement>(null);
 
-    const quraa = [
-        {
-          name: 'عبد الباسط عبد الصمد',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Abd-Elbaset-Abd-Elsamad.png?raw=true',
-        },
-        {
-          name: 'محمود خليل الحصري',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Hussary.png?raw=true',
-        },
-        {
-          name: 'محمد صديق المنشاوي',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
-        },
-        {
-          name: 'ياسر الدوسري',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Dossari.png?raw=true',
-        },
-    ];
-    
     useEffect(() => {
       if (partId) {
         const element = document.getElementsByClassName("phone-surah-nass")[0] as HTMLDivElement;
@@ -43,103 +25,59 @@ export default function SurahPage() {
       }
     }, []);
 
-    function listenSurah(qaree: string) {
-      if (!listening) {
-        const Surah = document.createElement('audio');
-        if (qaree == 'عبد الباسط عبد الصمد') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${Number(surahId)}.mp3`;
-          }
-        }
-        else if (qaree == 'محمود خليل الحصري') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server13.mp3quran.net/husr/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server13.mp3quran.net/husr/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server13.mp3quran.net/husr/${Number(surahId)}.mp3`;
-          }
-        }
-        else if (qaree == 'محمد صديق المنشاوي') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server10.mp3quran.net/minsh/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server10.mp3quran.net/minsh/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server10.mp3quran.net/minsh/${Number(surahId)}.mp3`;
-          }
-        }
-        else if (qaree == 'ياسر الدوسري') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server11.mp3quran.net/yasser/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server11.mp3quran.net/yasser/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server11.mp3quran.net/yasser/${Number(surahId)}.mp3`;
-          }
-        }
-        Surah.controls = true;
-        ref.current?.append(Surah);
-        Surah.play();
-        setListening(true);
-        Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
-      };
+    async function listenSurah(qaree: string) {
+      if (!navigator.onLine) {
+        console.log("offline: trying cache");
+      }
       if (listening) {
         document.querySelector('audio')?.remove();
-        const Surah = document.createElement('audio');
-        if (qaree == 'عبد الباسط عبد الصمد') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${Number(surahId)}.mp3`;
-          }
-        }
-        else if (qaree == 'محمود خليل الحصري') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server13.mp3quran.net/husr/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server13.mp3quran.net/husr/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server13.mp3quran.net/husr/${Number(surahId)}.mp3`;
-          }
-        }
-        else if (qaree == 'محمد صديق المنشاوي') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server10.mp3quran.net/minsh/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server10.mp3quran.net/minsh/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server10.mp3quran.net/minsh/${Number(surahId)}.mp3`;
-          }
-        }
-        else if (qaree == 'ياسر الدوسري') {
-          if (Number(surahId) < 10) {
-            Surah.src = `https://server11.mp3quran.net/yasser/00${Number(surahId)}.mp3`;
-          }
-          else if (Number(surahId) >= 10 && Number(surahId) < 100) {
-            Surah.src = `https://server11.mp3quran.net/yasser/0${Number(surahId)}.mp3`;
-          } else if (Number(surahId) >= 100) {
-            Surah.src = `https://server11.mp3quran.net/yasser/${Number(surahId)}.mp3`;
-          }
-        }
-        Surah.controls = true;
-        ref.current?.append(Surah);
-        Surah.play();
-        Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
       }
+      const Surah = document.createElement('audio');
+      if (qaree == 'عبد الباسط عبد الصمد') {
+        if (Number(surahId) < 10) {
+          Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/00${Number(surahId)}.mp3`;
+        }
+        else if (Number(surahId) >= 10 && Number(surahId) < 100) {
+          Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/0${Number(surahId)}.mp3`;
+        } else if (Number(surahId) >= 100) {
+          Surah.src = `https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/${Number(surahId)}.mp3`;
+        }
+      }
+      else if (qaree == 'محمود خليل الحصري') {
+        if (Number(surahId) < 10) {
+          Surah.src = `https://server13.mp3quran.net/husr/00${Number(surahId)}.mp3`;
+        }
+        else if (Number(surahId) >= 10 && Number(surahId) < 100) {
+          Surah.src = `https://server13.mp3quran.net/husr/0${Number(surahId)}.mp3`;
+        } else if (Number(surahId) >= 100) {
+          Surah.src = `https://server13.mp3quran.net/husr/${Number(surahId)}.mp3`;
+        }
+      }
+      else if (qaree == 'محمد صديق المنشاوي') {
+        if (Number(surahId) < 10) {
+          Surah.src = `https://server10.mp3quran.net/minsh/00${Number(surahId)}.mp3`;
+        }
+        else if (Number(surahId) >= 10 && Number(surahId) < 100) {
+          Surah.src = `https://server10.mp3quran.net/minsh/0${Number(surahId)}.mp3`;
+        } else if (Number(surahId) >= 100) {
+          Surah.src = `https://server10.mp3quran.net/minsh/${Number(surahId)}.mp3`;
+        }
+      }
+      else if (qaree == 'ياسر الدوسري') {
+        if (Number(surahId) < 10) {
+          Surah.src = `https://server11.mp3quran.net/yasser/00${Number(surahId)}.mp3`;
+        }
+        else if (Number(surahId) >= 10 && Number(surahId) < 100) {
+          Surah.src = `https://server11.mp3quran.net/yasser/0${Number(surahId)}.mp3`;
+        } else if (Number(surahId) >= 100) {
+          Surah.src = `https://server11.mp3quran.net/yasser/${Number(surahId)}.mp3`;
+        }
+      }
+      Surah.controls = true;
+      ref.current?.append(Surah);
+      await Surah.play();
+      setListening(true);
+      Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
     };
 
     const handleBack = () => {
@@ -170,6 +108,10 @@ export default function SurahPage() {
           setAnimatedUns(false);
         }, 3000);
       }
+    }
+
+    function openReadingMode() {
+      navigate(`/reading-mode/surah/${surahId}`);
     }
 
   return (
@@ -205,8 +147,13 @@ export default function SurahPage() {
                     <button disabled={Number(surahId) == 1 ? true : false} onClick={() => {location.href.includes("/saved") ? navigate(`/saved/${Number(surahId) - 1}/${partId}`) : navigate(`/surah/${Number(surahId) - 1}`);let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;if(el) el.scrollTo({ top: 0, behavior: 'smooth' })}}>السابقة</button>
                   </div>
               </div>
-              <div className="phone-listen" onClick={() => setListen(true)}>
+              <div className="phone-bottom-buttons">
+                <div className="phone-open-reading-mode open-reading-mode" onClick={openReadingMode}>
+                  وضع القراءة
+                </div>
+                <div className="phone-listen" onClick={() => setListen(true)}>
                   استماع
+                </div>
               </div>
             </div>
         </div>

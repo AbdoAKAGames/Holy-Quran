@@ -290,6 +290,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    width: 40%;
 }
 
 /* 10. Modals (Quraa, Werd) */
@@ -438,4 +439,10 @@
 
 .phone-unsaved {
     background-color: rgba(239, 68, 68, 0.9);
+}
+
+.phone-bottom-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }

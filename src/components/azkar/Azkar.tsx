@@ -5,48 +5,12 @@ import { afterPrayAzkar } from './data/afterPray';
 import { prayOurSirMohammedSegha_s } from './data/prayOurSirMohammed';
 import { sleepAzkar } from './data/sleep';
 import { wakeupAzkar } from './data/wakeup';
+import { firstRow, secondRow, thirdRow } from '../../data/azkar-rows';
 import '../../App.css'
 
 export function Azkar() {
 
     const [currentAzkar, setCurrentAzkar] = useState<string>('');
-
-    const firstRow = [
-        {
-            name: "أذكار الصباح",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/sun.png?raw=true",
-            type: "morning",
-        },
-        {
-            name: "أذكار المساء",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/moon.png?raw=true",
-            type: "night",
-        }
-    ];
-    const secondRow = [
-        {
-            name: "الصلاة على الرسول",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/parying-our-sir-muhammed.png?raw=true",
-            type: "parying-our-sir-mohammed",
-        },
-        {
-            name: "أذكار بعد الصلاة",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/mosque.png?raw=true",
-            type: "praying",
-        }
-    ];
-    const thirdRow = [
-        {
-            name: "أذكار النوم",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/sleep.png?raw=true",
-            type: "sleep",
-        },
-        {
-            name: "أذكار الاستيقاظ",
-            src: "https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/assets/wake.png?raw=true",
-            type: "wake",
-        }
-    ];
 
     return (
         <>

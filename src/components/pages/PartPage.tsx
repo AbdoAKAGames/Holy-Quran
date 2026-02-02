@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { allParts } from "../../data/parts/parts";
 import { useEffect, useRef, useState } from "react";
+import { quraa } from "../../data/quraa";
 
 export default function PartPage() {
     const { partId } = useParams();
@@ -16,25 +17,6 @@ export default function PartPage() {
     const unsavedRef = useRef<HTMLDivElement>(null);
     const ref = useRef<HTMLDivElement>(null);
 
-    const quraa = [
-        {
-          name: 'عبد الباسط عبد الصمد',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Abd-Elbaset-Abd-Elsamad.png?raw=true',
-        },
-        {
-          name: 'محمود خليل الحصري',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Hussary.png?raw=true',
-        },
-        {
-          name: 'محمد صديق المنشاوي',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Minshawi.png?raw=true',
-        },
-        {
-          name: 'ياسر الدوسري',
-          image: 'https://github.com/AbdoAKAGames/Holy-Quran/blob/main/src/quraa-images/Al-Dossari.png?raw=true',
-        },
-    ];
-
     useEffect(() => {
       if (surahId) {
         const element = document.getElementsByClassName("phone-surah-nass")[1] as HTMLDivElement;
@@ -42,88 +24,51 @@ export default function PartPage() {
       }
     }, []);
     
-    function listenPart(qaree: string) {
-      if (!listening) {
-          const Surah = document.createElement('audio');
-          if (qaree == 'محمود خليل الحصري') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/0${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/${Number(partId)}.mp3`;
-            }
-          }
-          else if (qaree == 'محمد صديق المنشاوي') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
-            }
-          }
-          else if (qaree == 'عبد الباسط عبد الصمد') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
-            }
-          }
-          else if (qaree == 'ياسر الدوسري') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
-            }
-          }
-          Surah.controls = true;
-          ref.current?.append(Surah);
-          Surah.play();
-          setListening(true);
-          Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
-        };
-        if (listening) {
-          document.querySelector('audio')?.remove();
-          const Surah = document.createElement('audio');
-          if (qaree == 'محمود خليل الحصري') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/0${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/${Number(partId)}.mp3`;
-            }
-          }
-          else if (qaree == 'محمد صديق المنشاوي') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
-            }
-          }
-          else if (qaree == 'عبد الباسط عبد الصمد') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
-            }
-          }
-          else if (qaree == 'ياسر الدوسري') {
-            if (Number(partId) < 10) {
-              Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
-            }
-            else if (Number(partId) >= 10) {
-              Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
-            }
-          }
-          Surah.controls = true;
-          ref.current?.append(Surah);
-          Surah.play();
-          setListening(true);
-          Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
+    async function listenPart(qaree: string) {
+      if (!navigator.onLine) {
+        console.log("offline: trying cache");
+      }
+      if (listening) {
+        document.querySelector('audio')?.remove();
+      }
+      const Surah = document.createElement('audio');
+      if (qaree == 'محمود خليل الحصري') {
+        if (Number(partId) < 10) {
+          Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/0${Number(partId)}.mp3`;
         }
+        else if (Number(partId) >= 10) {
+          Surah.src = `https://ia902906.us.archive.org/20/items/AlHossarry/${Number(partId)}.mp3`;
+        }
+      }
+      else if (qaree == 'محمد صديق المنشاوي') {
+        if (Number(partId) < 10) {
+          Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
+        }
+        else if (Number(partId) >= 10) {
+          Surah.src = `https://ia801903.us.archive.org/33/items/12_202007xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx31/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%20%D9%85%D8%B1%D8%AA%D9%84%20%D9%85%D8%B5%D8%AD%D9%81%20%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
+        }
+      }
+      else if (qaree == 'عبد الباسط عبد الصمد') {
+        if (Number(partId) < 10) {
+          Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
+        }
+        else if (Number(partId) >= 10) {
+          Surah.src = `https://ia803201.us.archive.org/6/items/aaaaaaaaaaaaaaaaaaaaaa812_20200812_1445/%D9%85%D8%B5%D8%AD%D9%81%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%20%D8%A7%D9%84%D9%85%D8%AC%D9%88%D8%AF%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
+        }
+      }
+      else if (qaree == 'ياسر الدوسري') {
+        if (Number(partId) < 10) {
+          Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%200${Number(partId)}.mp3`;
+        }
+        else if (Number(partId) >= 10) {
+          Surah.src = `https://ia801909.us.archive.org/19/items/a2aaaaaaaaaaaaaaaaaaaaaaaaaaaaa0200813/%D9%85%D8%B5%D8%AD%D9%81%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D9%85%D9%82%D8%B3%D9%85%20%D8%A3%D8%AC%D8%B2%D8%A7%D8%A1%20%D8%AC%D8%B2%D8%A1%20%D8%B1%D9%82%D9%85%20${Number(partId)}.mp3`;
+        }
+      }
+      Surah.controls = true;
+      ref.current?.append(Surah);
+      await Surah.play();
+      setListening(true);
+      Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
     };
 
     const handleBack = () => {
@@ -154,6 +99,10 @@ export default function PartPage() {
           setAnimatedUns(false);
         }, 3000);
       }
+    }
+
+    function openReadingMode() {
+      navigate(`/reading-mode/part/${partId}`);
     }
 
   return (
@@ -189,8 +138,13 @@ export default function PartPage() {
                     <button disabled={Number(partId) == 1 ? true : false} onClick={() => {location.href.includes("/saved") ? navigate(`/saved/${surahId}/${Number(partId) - 1}`) : navigate(`/part/${Number(partId) - 1}`);let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;if(el) el.scrollTo({ top: 0, behavior: 'smooth' })}}>السابقة</button>
                   </div>
               </div>
-              <div className="phone-listen" onClick={() => setListen(true)}>
+              <div className="phone-bottom-buttons">
+                <div className="phone-open-reading-mode open-reading-mode" onClick={openReadingMode}>
+                  وضع القراءة
+                </div>
+                <div className="phone-listen" onClick={() => setListen(true)}>
                   استماع
+                </div>
               </div>
             </div>
         </div>

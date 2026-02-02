@@ -16,6 +16,7 @@ import AfterPray from './components/pages/azkar/AfterPray';
 import Sleep from './components/pages/azkar/Sleep';
 import WakeUp from './components/pages/azkar/WakeUp';
 import SearchResult from './components/pages/SearchResult';
+import ReadingMode from './components/pages/ReadingMode';
 
 const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
 const userAgent = navigator.userAgent;
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/werd/:currentWerd" element={<Werd />} />
           <Route path="/saved/:surahId/:partId" element={<Saved />} />
           <Route path="/search/result" element={<SearchResult />} />
+          <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
 
           <Route path="/azkar/morning" element={<Morning />} />
           <Route path="/azkar/night" element={<Night />} />
@@ -49,6 +51,9 @@ export default function App() {
       </>
     )
   } else return (
-    <Home />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
+    </Routes>
   )
 }
