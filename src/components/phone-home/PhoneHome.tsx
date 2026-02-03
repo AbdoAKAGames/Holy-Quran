@@ -91,7 +91,7 @@ export default function PhoneHome() {
     } else if (JSON.parse(localStorage.current_part)[0].part_num != null && JSON.parse(localStorage.current_surah)[0].surah_num != null) {
       navigate(`/saved/${JSON.parse(localStorage.current_surah)[0].surah_num}/${JSON.parse(localStorage.current_part)[0].part_num}`);
     } else if (JSON.parse(localStorage.current_part)[0].part_num == null && JSON.parse(localStorage.current_surah)[0].surah_num == null) {
-      animate();
+      animate()
     }
   }
 
