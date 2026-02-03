@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../home/Home';
 import { allSurah_s } from '../../data/surah_name/surah_name';
 import { useNavigate } from 'react-router-dom';
@@ -9,13 +9,9 @@ export default function PhoneHome() {
   const [currentWerd, setCurrentWerd] = useState<number>(0);
   const [werdModal, setWerdModal] = useState<boolean>(false);
   const [surahSearchValue, setSurahSearchValue] = useState<string>('');
-  
-  const ref = useRef<HTMLDivElement>(null);
-  const ref2 = useRef<HTMLDivElement>(null);
-  const savedRef = useRef<HTMLDivElement>(null);
-  const unsavedRef = useRef<HTMLDivElement>(null);
-  const savedRefPart = useRef<HTMLDivElement>(null);
-  const unsavedRefPart = useRef<HTMLDivElement>(null);
+  const [animated, setAnimated] = useState<boolean>(false);
+
+  const noSavedRef = useRef<HTMLDivElement | null>(null);
 
   const navigate = useNavigate();
 
@@ -36,166 +32,179 @@ export default function PhoneHome() {
       localStorage.setItem("id", crypto.randomUUID());
     }
   })
-async function startWerd(werd: string) {
-  const date = new Date().getTime();
-  const stringifiedData = JSON.stringify([{ started: true, current_werd: werd, last_time: date, index: 0 }])
-  localStorage.setItem("werd", stringifiedData);
-  setWerdModal(false);
-  setStartedWerd(true);
-  setCurrentWerd(0);
-}
 
-window.addEventListener("load", async () => {
-  setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
-  const currentTime = new Date().getTime();
-  // console.log(currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000);
-  if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
-    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'phone-page') {
-      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 603) {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-      } else {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-      }
-    }
-    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'phone-hezb') {
-      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 59) {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-      } else {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-      }
-    }
-    if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'phone-part') {
-      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 29) {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
-      } else {
-        await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
-      }
-    }
-    setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
-  }
-})
-
-function openSaved() {
-  if (JSON.parse(localStorage.current_surah)[0].surah_num != null && JSON.parse(localStorage.current_part)[0].part_num == null) {
-    navigate(`/surah/${JSON.parse(localStorage.current_surah)[0].surah_num}`);
-  } else if (JSON.parse(localStorage.current_part)[0].part_num != null && JSON.parse(localStorage.current_surah)[0].surah_num == null) {
-    navigate(`/part/${JSON.parse(localStorage.current_part)[0].part_num}`);
-  } else if (JSON.parse(localStorage.current_part)[0].part_num != null && JSON.parse(localStorage.current_surah)[0].surah_num != null) {
-    navigate(`/saved/${JSON.parse(localStorage.current_surah)[0].surah_num}/${JSON.parse(localStorage.current_part)[0].part_num}`);
-  }
-}
-
-useEffect(() => {
-  if (!localStorage.current_surah) {
-    localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]))
-  } else {
-    if (JSON.parse(localStorage.current_surah)[0].surah_num != null) {
-      let int = setInterval(() => {
-        let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;
-        if(el) el.scrollTo({ top: JSON.parse(localStorage.current_surah)[0].scroll_top, behavior: 'smooth' });
-        if (el) {
-          clearInterval(int);
-        }
-      }, 100);
+  function animate() {
+    if (!animated) {
+      if (noSavedRef.current) noSavedRef.current.style.display = "flex";
+      setAnimated(true);
+      setTimeout(() => {
+        if (noSavedRef.current) noSavedRef.current.style.display = "none";
+        setAnimated(false);
+      }, 3000);
     }
   }
-  if (!localStorage.current_part) {
-    localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]))
-  } else {
-    if (JSON.parse(localStorage.current_part)[0].part_num != null) {
-      let int = setInterval(() => {
-        let el = document.getElementsByClassName('phone-quran-part-nass')[0] as HTMLDivElement;
-        if(el) el.scrollTo({ top: JSON.parse(localStorage.current_part)[0].scroll_top, behavior: 'smooth' });
-        if (el) {
-          clearInterval(int);
-        }
-      }, 100);
-    }
-  }
-}, []);
 
-useEffect(() => {
-  const currentTime = new Date().getTime();
-  if (localStorage.werd != null) {
-    if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
-      if (JSON.parse(localStorage.werd)[0].current_werd == 'phone-page') {
-        if (JSON.parse(localStorage.werd)[0].index != 603) {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-page', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
-          localStorage.setItem("werd", stringifiedData);
+  async function startWerd(werd: string) {
+    const date = new Date().getTime();
+    const stringifiedData = JSON.stringify([{ started: true, current_werd: werd, last_time: date, index: 0 }])
+    localStorage.setItem("werd", stringifiedData);
+    setWerdModal(false);
+    setStartedWerd(true);
+    setCurrentWerd(0);
+  }
+
+  window.addEventListener("load", async () => {
+    setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+    const currentTime = new Date().getTime();
+    // console.log(currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000);
+    if (currentTime - (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).last_time >= 24*60*60*1000) {
+      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'phone-page') {
+        if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 603) {
+          await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
         } else {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-page', last_time: new Date().getTime(), index: 0 }])
-          localStorage.setItem("werd", stringifiedData);
+          await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
         }
       }
-      if (JSON.parse(localStorage.werd)[0].current_werd == 'phone-hezb') {
-        if (JSON.parse(localStorage.werd)[0].index != 59) {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-hezb', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
-          localStorage.setItem("werd", stringifiedData);
+      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'phone-hezb') {
+        if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 59) {
+          await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
         } else {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-hezb', last_time: new Date().getTime(), index: 0 }])
-          localStorage.setItem("werd", stringifiedData);
+          await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
         }
       }
-      if (JSON.parse(localStorage.werd)[0].current_werd == 'phone-part') {
-        if (JSON.parse(localStorage.werd)[0].index != 29) {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-part', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
-          localStorage.setItem("werd", stringifiedData);
+      if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).current_werd == 'phone-part') {
+        if ((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index != 29) {
+          await supabase.from('werd').update([{ last_time: new Date().getTime(), index: (await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index + 1 }]).eq('id', localStorage.id);
         } else {
-          const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-part', last_time: new Date().getTime(), index: 0 }])
-          localStorage.setItem("werd", stringifiedData);
+          await supabase.from('werd').update([{ last_time: new Date().getTime(), index: 0 }]).eq('id', localStorage.id);
         }
       }
+      setCurrentWerd((await supabase.from('werd').select().eq('id', localStorage.id)).data?.at(0).index);
+    }
+  })
+
+  function openSaved() {
+    if (JSON.parse(localStorage.current_surah)[0].surah_num != null && JSON.parse(localStorage.current_part)[0].part_num == null) {
+      navigate(`/surah/${JSON.parse(localStorage.current_surah)[0].surah_num}`);
+    } else if (JSON.parse(localStorage.current_part)[0].part_num != null && JSON.parse(localStorage.current_surah)[0].surah_num == null) {
+      navigate(`/part/${JSON.parse(localStorage.current_part)[0].part_num}`);
+    } else if (JSON.parse(localStorage.current_part)[0].part_num != null && JSON.parse(localStorage.current_surah)[0].surah_num != null) {
+      navigate(`/saved/${JSON.parse(localStorage.current_surah)[0].surah_num}/${JSON.parse(localStorage.current_part)[0].part_num}`);
+    } else if (JSON.parse(localStorage.current_part)[0].part_num == null && JSON.parse(localStorage.current_surah)[0].surah_num == null) {
+      animate();
+    }
+  }
+
+  useEffect(() => {
+    if (!localStorage.current_surah) {
+      localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]))
+    } else {
+      if (JSON.parse(localStorage.current_surah)[0].surah_num != null) {
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;
+          if(el) el.scrollTo({ top: JSON.parse(localStorage.current_surah)[0].scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+    if (!localStorage.current_part) {
+      localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]))
+    } else {
+      if (JSON.parse(localStorage.current_part)[0].part_num != null) {
+        let int = setInterval(() => {
+          let el = document.getElementsByClassName('phone-quran-part-nass')[0] as HTMLDivElement;
+          if(el) el.scrollTo({ top: JSON.parse(localStorage.current_part)[0].scroll_top, behavior: 'smooth' });
+          if (el) {
+            clearInterval(int);
+          }
+        }, 100);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentTime = new Date().getTime();
+    if (localStorage.werd != null) {
+      if (currentTime - JSON.parse(localStorage.werd)[0].last_time >= 24*60*60*1000) {
+        if (JSON.parse(localStorage.werd)[0].current_werd == 'phone-page') {
+          if (JSON.parse(localStorage.werd)[0].index != 603) {
+            const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-page', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+            localStorage.setItem("werd", stringifiedData);
+          } else {
+            const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-page', last_time: new Date().getTime(), index: 0 }])
+            localStorage.setItem("werd", stringifiedData);
+          }
+        }
+        if (JSON.parse(localStorage.werd)[0].current_werd == 'phone-hezb') {
+          if (JSON.parse(localStorage.werd)[0].index != 59) {
+            const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-hezb', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+            localStorage.setItem("werd", stringifiedData);
+          } else {
+            const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-hezb', last_time: new Date().getTime(), index: 0 }])
+            localStorage.setItem("werd", stringifiedData);
+          }
+        }
+        if (JSON.parse(localStorage.werd)[0].current_werd == 'phone-part') {
+          if (JSON.parse(localStorage.werd)[0].index != 29) {
+            const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-part', last_time: new Date().getTime(), index: JSON.parse(localStorage.werd)[0].index + 1 }])
+            localStorage.setItem("werd", stringifiedData);
+          } else {
+            const stringifiedData = JSON.stringify([{ started: true, current_werd: 'phone-part', last_time: new Date().getTime(), index: 0 }])
+            localStorage.setItem("werd", stringifiedData);
+          }
+        }
+        setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const data = localStorage.getItem("werd");
+    if (data == null) {
+      const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
+      localStorage.setItem("werd", stringifiedData);
+    } else {
+      setStartedWerd(JSON.parse(data)[0].started);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (localStorage.werd && JSON.parse(localStorage.werd)[0].started) {
+      setStartedWerd(JSON.parse(localStorage.werd)[0].started);
       setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
     }
-  }
-}, []);
+  }, []);
+  useEffect(() => {
+    const element = document.getElementsByClassName('phone-first')[0] as HTMLDivElement;
+    if(element) element.click();
+  }, []);
 
-useEffect(() => {
-  const data = localStorage.getItem("werd");
-  if (data == null) {
-    const stringifiedData = JSON.stringify([{ id: localStorage.id, started: false, current_werd: '', index: null, last_time: null }]);
+
+  useEffect(() => {
+    let int = setInterval(() => {
+      let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start', });
+        clearInterval(int);
+      }
+    }, 1);
+    let int2 = setInterval(() => {
+      let el = document.getElementsByClassName('phone-quran-part-nass')[0] as HTMLDivElement;
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start', });
+        clearInterval(int2);
+      }
+    }, 1);
+  }, []);
+
+  async function cancelWerd() {
+    const stringifiedData = JSON.stringify([{ started: false, current_werd: '', last_time: 0, index: 0 }]);
     localStorage.setItem("werd", stringifiedData);
-  } else {
-    setStartedWerd(JSON.parse(data)[0].started);
+    setStartedWerd(false);
   }
-}, []);
-
-
-useEffect(() => {
-  if (localStorage.werd && JSON.parse(localStorage.werd)[0].started) {
-    setStartedWerd(JSON.parse(localStorage.werd)[0].started);
-    setCurrentWerd(JSON.parse(localStorage.werd)[0].index);
-  }
-}, []);
-useEffect(() => {
-  const element = document.getElementsByClassName('phone-first')[0] as HTMLDivElement;
-  if(element) element.click();
-}, []);
-
-
-useEffect(() => {
-  let int = setInterval(() => {
-    let el = document.getElementsByClassName('phone-nass')[0] as HTMLDivElement;
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start', });
-      clearInterval(int);
-    }
-  }, 1);
-  let int2 = setInterval(() => {
-    let el = document.getElementsByClassName('phone-quran-part-nass')[0] as HTMLDivElement;
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start', });
-      clearInterval(int2);
-    }
-  }, 1);
-}, []);
-
-async function cancelWerd() {
-  const stringifiedData = JSON.stringify([{ started: false, current_werd: '', last_time: 0, index: 0 }]);
-  localStorage.setItem("werd", stringifiedData);
-  setStartedWerd(false);
-}
-
 
   return (
     <>
@@ -241,25 +250,10 @@ async function cancelWerd() {
                 </div>
             </div>
         </div>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', position: 'fixed', top: '50%', zIndex: 1000}}>
-        <div className="phone-saved" ref={savedRef}>
-          !تم حفظ السورة بنجاح
-        </div>
-      </div>
-      <div style={{width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', position: 'fixed', top: '50%', zIndex: 1000}}>
-        <div className="phone-unsaved" ref={unsavedRef}>
-          !تم إلغاء حفظ السورة بنجاح
-        </div>
-      </div>
 
-       <div style={{width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', position: 'fixed', top: '50%', zIndex: 1000}}>
-        <div className="phone-saved phone-saved_part" ref={savedRefPart}>
-          !تم حفظ الجزء بنجاح
-        </div>
-      </div>
       <div style={{width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', position: 'fixed', top: '50%', zIndex: 1000}}>
-        <div className="phone-unsaved phone-saved_part" ref={unsavedRefPart}>
-          !تم إلغاء حفظ الجزء بنجاح
+        <div className="phone-unsaved phone-saved_part" ref={noSavedRef}>
+          !لا يوجد سور أو أجزاء محفوظة
         </div>
       </div>
       
@@ -292,10 +286,7 @@ async function cancelWerd() {
           <div className="phone-open-saved" onClick={openSaved}>المحفوظة</div>
       </div>
 
-      </div>
-        <div className="phone-audio" ref={ref}></div>
-        <div className="phone-audio" ref={ref2}></div>
-        
+      </div>        
       </div>
 
     </div>
