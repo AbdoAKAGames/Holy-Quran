@@ -25,7 +25,7 @@ export default function App() {
 
   if (phoneRegEx.test(userAgent)) {
     return (
-      <>
+      <main id="main-content">
         <Routes>
           <Route element={<ToolsLayout />}>
             <Route path="/" element={<PhoneHome />} />
@@ -48,12 +48,14 @@ export default function App() {
           <Route path="/azkar/sleep" element={<Sleep />} />
           <Route path="/azkar/wake-up" element={<WakeUp />} />
         </Routes>
-      </>
+      </main>
     )
   } else return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
-    </Routes>
+    <main id="main-content">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
+      </Routes>
+    </main>
   )
 }
