@@ -1064,7 +1064,7 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
   width: 45%;
   height: 80%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   font-size: 30px;
   cursor: pointer;
@@ -1078,9 +1078,16 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   }
 }
+.type-name {
+  width: 50%;
+  text-align: center;
+}
 .type-img {
   width: 50%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
     width: 50%;
     height: 100%;
@@ -1688,16 +1695,6 @@ audio::-webkit-media-controls-current-time-display, audio::-webkit-media-control
 
   .saved_part {
     transform: translateY(500%);
-  }
-
-  .open-reading-mode {
-    width: 40%;
-    background: #059669;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #000;
   }
 
   @keyframes saved {

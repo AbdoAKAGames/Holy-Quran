@@ -1,9 +1,9 @@
-import Sun from "..//assets/sun.png";
-import Night from "..//assets/moon.png";
-import PrayProphet from "..//assets/parying-our-sir-muhammed.png";
-import AfterPray from "..//assets/mosque.png";
-import Sleep from "..//assets/sleep.png";
-import Wake from "../assets/sleep.png";
+import Sun from "../assets/sun.png";
+import Night from "../assets/moon.png";
+import PrayProphet from "../assets/parying-our-sir-muhammed.png";
+import AfterPray from "../assets/mosque.png";
+import Sleep from "../assets/sleep.png";
+import Wake from "../assets/wake.png";
 
 export const firstRow = [
     {

@@ -11,7 +11,6 @@ export default function PartPage() {
     const [animated, setAnimated] = useState<boolean>(false);
     const [animatedUns, setAnimatedUns] = useState<boolean>(false);
     const [listen, setListen] = useState<boolean>(false);
-    const [listening, setListening] = useState<boolean>(false);
 
     const savedRef = useRef<HTMLDivElement>(null);
     const unsavedRef = useRef<HTMLDivElement>(null);
@@ -28,7 +27,7 @@ export default function PartPage() {
       if (!navigator.onLine) {
         console.log("offline: trying cache");
       }
-      if (listening) {
+      if (document.querySelector('audio')) {
         document.querySelector('audio')?.remove();
       }
       const Surah = document.createElement('audio');
@@ -67,7 +66,6 @@ export default function PartPage() {
       Surah.controls = true;
       ref.current?.append(Surah);
       await Surah.play();
-      setListening(true);
       Surah.scrollIntoView({ block: "center", behavior: 'smooth' });
     };
 
@@ -139,7 +137,7 @@ export default function PartPage() {
                   </div>
               </div>
               <div className="phone-bottom-buttons">
-                <div className="phone-open-reading-mode open-reading-mode" onClick={openReadingMode}>
+                <div className="phone-open-reading-mode" onClick={openReadingMode}>
                   وضع القراءة
                 </div>
                 <div className="phone-listen" onClick={() => setListen(true)}>

@@ -17,16 +17,16 @@ export default function Werd() {
 
     function getPageImage(index: number) {
       if (Number(currentWerd) < 10) {
-        return new URL(`../data/werd/pages/page00${index + 1}.png`, import.meta.url).href;
+        return new URL(`../../data/werd/pages/page00${index + 1}.png`, import.meta.url).href;
       } else if (Number(currentWerd) >= 10 && Number(currentWerd) < 100) {
-        return new URL(`../data/werd/pages/page0${index + 1}.png`, import.meta.url).href;
+        return new URL(`../../data/werd/pages/page0${index + 1}.png`, import.meta.url).href;
       } else if (Number(currentWerd) >= 100) {
-        return  new URL(`../data/werd/pages/page${index + 1}.png`, import.meta.url).href;
+        return  new URL(`../../data/werd/pages/page${index + 1}.png`, import.meta.url).href;
       }
     }
 
     function getPageWerd() {
-      return  <img src={getPageImage(Number(currentWerd))} alt="werd" className="werd-img" />
+      return  <img src={getPageImage(Number(currentWerd))} alt="werd" className="phone-werd-img" />
     }
 
     return (
