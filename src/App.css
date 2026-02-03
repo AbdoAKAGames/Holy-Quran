@@ -1,6 +1,13 @@
+@font-face {
+  font-family: Uthmani;
+  src: url(./Uthmani.otf);
+}
 html, body {
   height: 100%;
   user-select: none;
+  margin: 0;
+  background: #000;
+  font-family: 'Uthmani', serif;
 }
 #main-content {
   width: 100%;
