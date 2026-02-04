@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { allSurah_s } from '../../data/surah_name/surah_name';
 import { surah_nass } from '../../data/surah/surah_nass';
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../../App.css'
 
 export function Search() {
 

@@ -6,7 +6,6 @@ import { prayOurSirMohammedSegha_s } from './data/prayOurSirMohammed';
 import { sleepAzkar } from './data/sleep';
 import { wakeupAzkar } from './data/wakeup';
 import { firstRow, secondRow, thirdRow } from '../../data/azkar-rows';
-import '../../App.css'
 
 export function Azkar() {
 

@@ -10,7 +10,6 @@ import { Counter } from '../counter/Counter';
 import { allHezb } from '../../data/hezb/hezb';
 import { quraa } from '../../data/quraa';
 import { useNavigate } from 'react-router-dom';
-import '../../App.css';
 // import { shaarawy_tafseer } from './data/tafseer/shaarawy';
 export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
 

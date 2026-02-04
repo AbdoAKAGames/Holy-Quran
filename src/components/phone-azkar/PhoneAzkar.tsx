@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { firstRow, secondRow, thirdRow } from '../../data/azkar-rows';
-import '../../App.css'
 
 export function PhoneAzkar() {
     const navigate = useNavigate();

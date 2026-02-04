@@ -1,13 +1,5 @@
-@font-face {
-  font-family: Uthmani;
-  src: url(./Uthmani.otf);
-}
 html, body {
   height: 100%;
-  margin: 0;
-  user-select: none;
-  background-color: #1c1c1c; /* خلفية داكنة جداً (رصاصي غامق) */
-  font-family: Uthmani;
 }
 #root {
   height: 100%;
