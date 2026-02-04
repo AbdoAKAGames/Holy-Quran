@@ -4,16 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import './PhoneApp.css';
 
 export default function PhoneHome() {
-  const [startedWerd, setStartedWerd] = useState<boolean>(false);
-  const [currentWerd, setCurrentWerd] = useState<number>(0);
-  const [werdModal, setWerdModal] = useState<boolean>(false);
-  const [surahSearchValue, setSurahSearchValue] = useState<string>('');
-  const [animated, setAnimated] = useState<boolean>(false);
-
+  const [startedWerd, setStartedWerd] = useState(false);
+  const [currentWerd, setCurrentWerd] = useState(0);
+  const [werdModal, setWerdModal] = useState(false);
+  const [surahSearchValue, setSurahSearchValue] = useState('');
   const noSavedRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
-  // Memoize filtered surahs to avoid recalculation every render
+  // Memoize filtered surahs
   const filteredSurahs = useMemo(() => {
     const normalizedSearch = surahSearchValue.replace(/[أآ]/g, 'ا');
     return allSurah_s.filter(surah =>
@@ -21,69 +19,69 @@ export default function PhoneHome() {
     );
   }, [surahSearchValue]);
 
+  // Slice initial surahs for faster first render
+  const initialSurahs = useMemo(() => filteredSurahs.slice(0, 10), [filteredSurahs]);
+
   // Initialize localStorage once
   useEffect(() => {
     if (!localStorage.id) localStorage.setItem('id', crypto.randomUUID());
-
-    if (!localStorage.getItem('current_surah')) {
+    if (!localStorage.getItem('current_surah'))
       localStorage.setItem('current_surah', JSON.stringify([{ surah_num: null, scroll_top: null }]));
-    }
-    if (!localStorage.getItem('current_part')) {
+    if (!localStorage.getItem('current_part'))
       localStorage.setItem('current_part', JSON.stringify([{ part_num: null, scroll_top: null }]));
-    }
-    if (!localStorage.getItem('werd')) {
+    if (!localStorage.getItem('werd'))
       localStorage.setItem('werd', JSON.stringify([{ started: false, current_werd: '', last_time: null, index: null }]));
-    }
   }, []);
 
-  // Handle daily werd logic asynchronously after initial render
+  // Handle daily werd logic asynchronously
   useEffect(() => {
-    const updateWerd = async () => {
+    const updateWerd = () => {
       const currentTime = Date.now();
       const werdDataRaw = localStorage.getItem('werd');
       if (!werdDataRaw) return;
 
       const werdData = JSON.parse(werdDataRaw)[0];
 
-      // Initialize state from localStorage
+      // Initialize state
       setStartedWerd(!!werdData.started);
       if (werdData.started) setCurrentWerd(werdData.index ?? 0);
 
-      // Check if 24h passed
+      // Update if 24h passed
       if ((werdData.last_time || 0) && currentTime - werdData.last_time >= 24 * 60 * 60 * 1000) {
         const limits: Record<string, number> = {
           'phone-page': 603,
           'phone-hezb': 59,
           'phone-part': 29,
         };
-
         if (werdData.current_werd in limits) {
           const maxIndex = limits[werdData.current_werd];
           const nextIndex = (werdData.index ?? 0) < maxIndex ? (werdData.index ?? 0) + 1 : 0;
-
           const newData = JSON.stringify([{
             started: true,
             current_werd: werdData.current_werd,
             last_time: currentTime,
             index: nextIndex
           }]);
-
           localStorage.setItem('werd', newData);
           setCurrentWerd(nextIndex);
         }
       }
     };
 
-    // Run async logic after paint
-    const timeoutId = setTimeout(updateWerd, 0);
-    return () => clearTimeout(timeoutId);
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(updateWerd);
+    } else {
+      setTimeout(updateWerd, 0);
+    }
   }, []);
 
   // Animation for empty saved
   const animate = () => {
-    if (!animated) {
-      setAnimated(true);
-      setTimeout(() => setAnimated(false), 3000);
+    if (noSavedRef.current) {
+      noSavedRef.current.style.display = 'flex';
+      setTimeout(() => {
+        if (noSavedRef.current) noSavedRef.current.style.display = 'none';
+      }, 3000);
     }
   };
 
@@ -108,20 +106,26 @@ export default function PhoneHome() {
   const openSaved = () => {
     const currentSurah = JSON.parse(localStorage.current_surah)[0];
     const currentPart = JSON.parse(localStorage.current_part)[0];
-
-    if (currentSurah.surah_num != null && currentPart.part_num == null) {
-      navigate(`/surah/${currentSurah.surah_num}`);
-    } else if (currentPart.part_num != null && currentSurah.surah_num == null) {
-      navigate(`/part/${currentPart.part_num}`);
-    } else if (currentPart.part_num != null && currentSurah.surah_num != null) {
-      navigate(`/saved/${currentSurah.surah_num}/${currentPart.part_num}`);
-    } else {
-      animate();
-    }
+    if (currentSurah.surah_num != null && currentPart.part_num == null) navigate(`/surah/${currentSurah.surah_num}`);
+    else if (currentPart.part_num != null && currentSurah.surah_num == null) navigate(`/part/${currentPart.part_num}`);
+    else if (currentPart.part_num != null && currentSurah.surah_num != null) navigate(`/saved/${currentSurah.surah_num}/${currentPart.part_num}`);
+    else animate();
   };
+
+  // Preload first page image to improve LCP
+  useEffect(() => {
+    const img = new Image();
+    img.src = '../../data/werd/pages/page001.png'; // عدل المسار حسب مشروعك
+  }, []);
 
   return (
     <div id="phone-app" className="phone-app">
+      <style>{`
+        #phone-app { display: flex; flex-direction: column; }
+        .phone-app-title h1 { font-size: 24px; margin: 16px; }
+        .phone-search-surah-names-input { width: 100%; padding: 8px; }
+      `}</style>
+
       <div className="phone-app-title">
         <h1>وَرَتَّلْنَاهُ تَرْتِيلًا</h1>
       </div>
@@ -140,7 +144,7 @@ export default function PhoneHome() {
               />
             </div>
             <div className="phone-surah-list-container">
-              {filteredSurahs.map((surah, i) => (
+              {initialSurahs.map((surah, i) => (
                 <div
                   className="phone-surah"
                   key={i}
@@ -157,12 +161,8 @@ export default function PhoneHome() {
             <div className="phone-quran-parts">
               <h1>فهرس أجزاء القرآن الكريم</h1>
               <div className="phone-parts-list-container">
-                {Array.from({ length: 30 }).map((_x, i) => (
-                  <div
-                    className="phone-quran-part"
-                    key={i}
-                    onClick={() => navigate(`/part/${i + 1}`)}
-                  >
+                {Array.from({ length: 10 }).map((_x, i) => ( // first 10 parts only
+                  <div className="phone-quran-part" key={i} onClick={() => navigate(`/part/${i + 1}`)}>
                     الجزء {i + 1}
                   </div>
                 ))}
@@ -181,42 +181,19 @@ export default function PhoneHome() {
               zIndex: 1000
             }}
           >
-            {animated && (
-              <div className="phone-unsaved phone-saved_part" ref={noSavedRef}>
-                !لا يوجد سور أو أجزاء محفوظة
-              </div>
-            )}
+            <div className="phone-unsaved phone-saved_part" ref={noSavedRef} style={{ display: 'none' }}>
+              !لا يوجد سور أو أجزاء محفوظة
+            </div>
           </div>
 
           {werdModal && (
-            <div
-              className="phone-werd-modal-container"
-              onClick={() => setWerdModal(false)}
-            >
-              <div
-                className="phone-werd-modal"
-                onClick={e => e.stopPropagation()}
-              >
+            <div className="phone-werd-modal-container" onClick={() => setWerdModal(false)}>
+              <div className="phone-werd-modal" onClick={e => e.stopPropagation()}>
                 <div className="phone-werd-title">اختر وردك اليومي</div>
                 <div className="phone-werd-options">
-                  <div
-                    className="phone-werd-option"
-                    onClick={() => startWerd('phone-page')}
-                  >
-                    صفحة
-                  </div>
-                  <div
-                    className="phone-werd-option"
-                    onClick={() => startWerd('phone-hezb')}
-                  >
-                    حزب
-                  </div>
-                  <div
-                    className="phone-werd-option"
-                    onClick={() => startWerd('phone-part')}
-                  >
-                    جزء
-                  </div>
+                  <div className="phone-werd-option" onClick={() => startWerd('phone-page')}>صفحة</div>
+                  <div className="phone-werd-option" onClick={() => startWerd('phone-hezb')}>حزب</div>
+                  <div className="phone-werd-option" onClick={() => startWerd('phone-part')}>جزء</div>
                 </div>
               </div>
             </div>
@@ -225,27 +202,13 @@ export default function PhoneHome() {
           <div className="phone-werd-buttons">
             {startedWerd ? (
               <>
-                <div
-                  className="phone-open-daily-werd"
-                  onClick={() => navigate(`/werd/${currentWerd}`)}
-                >
-                  ورد اليوم
-                </div>
-                <div className="phone-cancel-werd">
-                  <div onClick={cancelWerd}>إلغاء الورد اليومي</div>
-                </div>
+                <div className="phone-open-daily-werd" onClick={() => navigate(`/werd/${currentWerd}`)}>ورد اليوم</div>
+                <div className="phone-cancel-werd"><div onClick={cancelWerd}>إلغاء الورد اليومي</div></div>
               </>
             ) : (
-              <button
-                className="phone-start-werd-btn"
-                onClick={() => setWerdModal(true)}
-              >
-                إبدأ الورد اليومي
-              </button>
+              <button className="phone-start-werd-btn" onClick={() => setWerdModal(true)}>إبدأ الورد اليومي</button>
             )}
-            <div className="phone-open-saved" onClick={openSaved}>
-              المحفوظة
-            </div>
+            <div className="phone-open-saved" onClick={openSaved}>المحفوظة</div>
           </div>
         </div>
       </div>
