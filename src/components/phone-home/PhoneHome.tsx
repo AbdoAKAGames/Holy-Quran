@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { allSurah_s } from '../../data/surah_name/surah_name';
 import { useNavigate } from 'react-router-dom';
 import './PhoneApp.css';
+import { Helmet } from 'react-helmet-async';
 
 export default function PhoneHome() {
   const [startedWerd, setStartedWerd] = useState<boolean>(false);
@@ -120,7 +121,14 @@ export default function PhoneHome() {
     }
   };
 
-  return (
+  return (<>
+    <Helmet>
+      <title>القرآن الكريم | قراءة وتلاوة – ورتلناه ترتيلا</title>
+      <meta
+        name="description"
+        content="اقرأ القرآن الكريم كاملًا برواية حفص، مع سور وأجزاء القرآن، تلاوة بصوت نخبة من المشايخ، أذكار، مسبحة إلكترونية، وباحث قرآني – تطبيق ورتلناه ترتيلا."
+      />
+    </Helmet>
     <div id="phone-app" className="phone-app">
       <div className="phone-app-title">
         <h1>وَرَتَّلْنَاهُ تَرْتِيلًا</h1>
@@ -250,5 +258,6 @@ export default function PhoneHome() {
         </div>
       </div>
     </div>
+    </>
   );
 }

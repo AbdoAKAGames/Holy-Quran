@@ -106,7 +106,7 @@ export default function PartPage() {
 
   return (<>
     <Helmet>
-      <title>الجزء {Number(partId)} - تطبيق القرآن الكريم</title>
+      <title>{`الجزء ${Number(partId)} - تطبيق القرآن الكريم`}</title>
       <meta name="description" content={`قراءة الجزء ${Number(partId)} من القرآن الكريم بسهولة مع تطبيق القرآن الكريم، متابعة ورد اليوم وحفظ الأجزاء.`}></meta>
     </Helmet>
     <div className="phone-view">
