@@ -26,7 +26,7 @@ export default function Werd() {
     }
 
     function getPageWerd() {
-      return  <img src={getPageImage(Number(currentWerd))} alt="werd" className="phone-werd-img" />
+      return  <img src={getPageImage(Number(currentWerd))} alt="werd" className="phone-werd-img" loading="lazy" />
     }
 
     return (
