@@ -9,6 +9,7 @@ import { Counter } from '../counter/Counter';
 import { allHezb } from '../../data/hezb/hezb';
 import { quraa } from '../../data/quraa';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
 
@@ -275,6 +276,13 @@ export default function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>القرآن الكريم | قراءة وتلاوة – ورتلناه ترتيلا</title>
+        <meta
+          name="description"
+          content="اقرأ القرآن الكريم كاملًا برواية حفص، مع سور وأجزاء القرآن، تلاوة بصوت نخبة من المشايخ، أذكار، مسبحة إلكترونية، وباحث قرآني – تطبيق ورتلناه ترتيلا."
+        />
+      </Helmet>
       <div id="app">
         <div className="app-title">
           <h1>وَرَتَّلْنَاهُ تَرْتِيلًا</h1>

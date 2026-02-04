@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async';
 
 export function Counter() {
     const [counter, setCounter] = useState<number>(0);
@@ -22,6 +23,9 @@ export function Counter() {
 
     return (
         <>
+            <Helmet>
+                <title>المسبحة الإلكترونية - تطبيق القرآن الكريم</title>
+            </Helmet>
             <div className="counter-title">المسبحة الإلكترونية</div>
             <div className="counter-container">
                 <div className="counter-button" onClick={newCounter}>

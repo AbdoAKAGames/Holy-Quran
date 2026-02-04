@@ -139,7 +139,7 @@ export function Search() {
     function replaceValues(value: string) {
       let newValue = value;
       Object.keys(replaces).map(key => {
-        if (newValue == key) {
+        if (newValue.includes(key)) {
           newValue = newValue.replace(key, replaces[key]);
         }
       })

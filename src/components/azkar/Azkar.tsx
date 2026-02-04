@@ -6,6 +6,7 @@ import { prayOurSirMohammedSegha_s } from './data/prayOurSirMohammed';
 import { sleepAzkar } from './data/sleep';
 import { wakeupAzkar } from './data/wakeup';
 import { firstRow, secondRow, thirdRow } from '../../data/azkar-rows';
+import { Helmet } from 'react-helmet-async';
 
 export function Azkar() {
 
@@ -13,6 +14,10 @@ export function Azkar() {
 
     return (
         <>
+            <Helmet>
+                <title>الأذكار - تطبيق القرآن الكريم</title>
+                <meta name="description" content="تطبيق القرآن الكريم لقراءة الأذكار اليومية بسهولة، مع أذكار الصباح والمساء والنوم والاستيقاظ والأذكار بعد الصلاة."></meta>
+            </Helmet>
             <div className="azkar-title">الأذكار</div>
             <div className="azkar-container">
                 <div className="azkar-types">
