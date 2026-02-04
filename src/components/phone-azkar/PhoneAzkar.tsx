@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { firstRow, secondRow, thirdRow } from '../../data/azkar-rows';
+import { Helmet } from 'react-helmet-async';
 
 export function PhoneAzkar() {
     const navigate = useNavigate();
@@ -7,6 +8,10 @@ export function PhoneAzkar() {
 
     return (
         <>
+            <Helmet>
+                <title>الأذكار - تطبيق القرآن الكريم</title>
+                <meta name="description" content="تطبيق القرآن الكريم لقراءة الأذكار اليومية بسهولة، مع أذكار الصباح والمساء والنوم والاستيقاظ والأذكار بعد الصلاة."></meta>
+            </Helmet>
             <div className="azkar-title">الأذكار</div>
             <div className="azkar-container">
                 <div className="azkar-types">

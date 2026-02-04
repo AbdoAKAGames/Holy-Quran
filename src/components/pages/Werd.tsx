@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { allHezb } from "../../data/hezb/hezb";
 import { allParts } from "../../data/parts/parts";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function Werd() {
     const [dailyWerd, setDailyWerd] = useState<string>("");
@@ -29,7 +30,11 @@ export default function Werd() {
       return  <img src={getPageImage(Number(currentWerd))} alt="werd" className="phone-werd-img" loading="lazy" />
     }
 
-    return (
+    return (<>
+        <Helmet>
+          <title>ورد اليوم - تطبيق القرآن الكريم</title>
+          <meta name="description" content="ابدأ وردك اليومي من القرآن الكريم بسهولة داخل تطبيق القرآن الكريم، وتابع تقدمك اليومي في القراءة والحفظ."></meta>
+        </Helmet>
         <div className="phone-reading-view">
             <div className="phone-reading-header">
                 <button className="phone-back-btn" onClick={handleBack}>
@@ -51,5 +56,6 @@ export default function Werd() {
               </div>
             </div>
         </div>
+        </>
     )
 }

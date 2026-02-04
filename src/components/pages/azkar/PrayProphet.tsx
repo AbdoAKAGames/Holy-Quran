@@ -1,10 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { prayOurSirMohammedSegha_s } from "../../azkar/data/prayOurSirMohammed";
+import { Helmet } from "react-helmet-async";
 
 export default function PrayProphet() {
     const navigate = useNavigate();
 
-    return (
+    return (<>
+        <Helmet>
+            <title>صيغ الصلاة على الرسول ﷺ - تطبيق القرآن الكريم</title>
+            <meta name="description" content="صيغ الصلاة على النبي ﷺ مكتوبة للمتابعة والقراءة داخل تطبيق القرآن الكريم."></meta>
+        </Helmet>
         <div className="phone-reading-view">
             <div className="phone-reading-header">
                 <button className="phone-back-btn" onClick={() => navigate("/azkar")}>
@@ -30,5 +35,6 @@ export default function PrayProphet() {
                 </div>
             </div>
         </div>
+        </>
     )
 }

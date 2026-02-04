@@ -182,7 +182,7 @@ export default function PhoneHome() {
             }}
           >
             {animated && (
-              <div className="phone-unsaved phone-saved_part" ref={noSavedRef}>
+              <div className="phone-unsaved phone-saved_part" ref={noSavedRef} style={{ display: "flex" }}>
                 !لا يوجد سور أو أجزاء محفوظة
               </div>
             )}

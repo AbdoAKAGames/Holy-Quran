@@ -1,10 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { wakeupAzkar } from "../../azkar/data/wakeup"
+import { Helmet } from "react-helmet-async";
 
 export default function WakeUp() {
     const navigate = useNavigate();
 
-    return (
+    return (<>
+    <Helmet>
+        <title>أذكار الاستيقاظ - تطبيق القرآن الكريم</title>
+        <meta name="description" content="أذكار الاستيقاظ مكتوبة للمتابعة بعد الاستيقاظ داخل تطبيق القرآن الكريم."></meta>
+    </Helmet>
         <div className="phone-reading-view">
             <div className="phone-reading-header">
                 <button className="phone-back-btn" onClick={() => navigate("/azkar")}>
@@ -36,5 +41,6 @@ export default function WakeUp() {
                 </div>
             </div>
         </div>
+        </>
     )
 }

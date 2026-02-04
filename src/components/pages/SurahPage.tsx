@@ -3,6 +3,7 @@ import { allSurah_s } from "../../data/surah_name/surah_name";
 import { surah_nass } from "../../data/surah/surah_nass";
 import { useEffect, useRef, useState } from "react";
 import { quraa } from "../../data/quraa";
+import { Helmet } from "react-helmet-async";
 
 export default function SurahPage() {
     const { surahId } = useParams();
@@ -112,7 +113,11 @@ export default function SurahPage() {
       navigate(`/reading-mode/surah/${surahId}`);
     }
 
-  return (
+  return (<>
+    <Helmet>
+      <title>سورة {allSurah_s[Number(surahId) - 1]} - تطبيق القرآن الكريم</title>
+      <meta name="description" content={`قراءة سورة ${allSurah_s[Number(surahId) - 1]} كاملة بسهولة في تطبيق القرآن الكريم، مع إمكانية متابعة الورد اليومي وحفظ السور.`}></meta>
+    </Helmet>
     <div className="phone-view">
         <div className="phone-reading-view">
                 <div className="phone-reading-header">
@@ -190,5 +195,6 @@ export default function SurahPage() {
       }
         <div className="phone-audio" ref={ref}></div>
     </div>
+    </>
   );
 }

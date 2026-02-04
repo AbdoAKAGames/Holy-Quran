@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function SearchResult() {
   const { state } = useLocation();
@@ -67,7 +68,11 @@ export default function SearchResult() {
     })
   }
 
-  return (
+  return (<>
+  <Helmet>
+    <title>نتائج البحث - تطبيق القرآن الكريم</title>
+    <meta name="description" content="ابحث عن السور، الأجزاء، أو الأذكار داخل تطبيق القرآن الكريم بسهولة وسرعة واحصل على نتائج دقيقة."></meta>
+  </Helmet>
     <div className="phone-view">
         <div className="phone-reading-view">
             <div className="phone-reading-header">
@@ -90,15 +95,6 @@ export default function SearchResult() {
             </div>
         </div>
     </div>
-    // <div className="search-surah-page">
-    //   <div className="search-surah-header">
-    //     سورة {}
-    //   </div>      
-
-    //   <div
-    //     className="search-surah-text"
-    //     dangerouslySetInnerHTML={{ __html: highlighted }}
-    //   />
-    // </div>
+    </>
   );
 }

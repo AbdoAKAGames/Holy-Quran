@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { allParts } from "../../data/parts/parts";
 import { useEffect, useRef, useState } from "react";
 import { quraa } from "../../data/quraa";
+import { Helmet } from "react-helmet-async";
 
 export default function PartPage() {
     const { partId } = useParams();
@@ -103,7 +104,11 @@ export default function PartPage() {
       navigate(`/reading-mode/part/${partId}`);
     }
 
-  return (
+  return (<>
+    <Helmet>
+      <title>الجزء {Number(partId)} - تطبيق القرآن الكريم</title>
+      <meta name="description" content={`قراءة الجزء ${Number(partId)} من القرآن الكريم بسهولة مع تطبيق القرآن الكريم، متابعة ورد اليوم وحفظ الأجزاء.`}></meta>
+    </Helmet>
     <div className="phone-view">
         <div className="phone-reading-view">
                 <div className="phone-reading-header">
@@ -181,5 +186,6 @@ export default function PartPage() {
       }
         <div className="phone-audio" ref={ref}></div>
     </div>
+    </>
   );
 }

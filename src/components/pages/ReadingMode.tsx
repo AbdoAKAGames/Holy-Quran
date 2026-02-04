@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { allSurah_s } from "../../data/surah_name/surah_name";
 import { allParts } from "../../data/parts/parts";
 import { surah_nass } from "../../data/surah/surah_nass";
+import { Helmet } from "react-helmet-async";
 
 export default function ReadingMode() {
     const { type, id } = useParams();
@@ -11,6 +12,10 @@ export default function ReadingMode() {
 
     return (
         <>
+            <Helmet>
+                <title>وضع القراءة - {type == "surah" ? `سورة ${allSurah_s[Number(id) - 1]}` : `الجزء ${Number(id)}`} - تطبيق القرآن الكريم</title>
+                <meta name="description" content="وضع قراءة مريح للقرآن الكريم مع تكبير الخط وتصفح الصفحات بسهولة داخل تطبيق القرآن الكريم."></meta>
+            </Helmet>
             <div className="phone-view reading-mode-phone-view">
                 <div className="phone-reading-view reading-mode-phone-reading-view">
                         <div className="phone-reading-header">
