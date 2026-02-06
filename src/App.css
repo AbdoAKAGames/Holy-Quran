@@ -7,6 +7,7 @@ html, body, #main-content, #root, #app {
   margin: 0;
   padding: 0;
   font-family: 'Uthmani', 'Scheherazade New', 'Amiri', serif;
+  unicode-bidi: embed;
 }
 
 #app {
