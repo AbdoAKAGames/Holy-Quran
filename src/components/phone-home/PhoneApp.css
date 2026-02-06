@@ -1,5 +1,7 @@
 /* تصميم مخصص للهواتف المحمولة */
-
+body {
+    direction: rtl;
+}
 /* 1. Reset & Global Styles */
 .phone-app {
     width: 100%;
