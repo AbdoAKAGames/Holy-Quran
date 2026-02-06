@@ -17,11 +17,18 @@ import Sleep from './components/pages/azkar/Sleep';
 import WakeUp from './components/pages/azkar/WakeUp';
 import SearchResult from './components/pages/SearchResult';
 import ReadingMode from './components/pages/ReadingMode';
+import { useEffect } from 'react';
 
 const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
 const userAgent = navigator.userAgent;
 
 export default function App() {
+
+  useEffect(() => {
+    if (phoneRegEx.test(userAgent)) {
+      document.body.style.direction = "rtl";
+    }
+  }, []);
 
   if (phoneRegEx.test(userAgent)) {
     return (

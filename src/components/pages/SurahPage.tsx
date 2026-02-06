@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { allSurah_s } from "../../data/surah_name/surah_name";
 import { surah_nass } from "../../data/surah/surah_nass";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 export default function SurahPage() {
     const { surahId } = useParams();
     const { partId } = useParams();
+    const { state } = useLocation();
     const navigate = useNavigate();
 
     const [animated, setAnimated] = useState<boolean>(false);
@@ -19,7 +20,7 @@ export default function SurahPage() {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-      if (partId) {
+      if (state && state.saved) {
         const element = document.getElementsByClassName("phone-surah-nass")[0] as HTMLDivElement;
         if (element) element.scrollTo({ top: JSON.parse(localStorage.current_surah)[0].scroll_top, behavior: "smooth" });
       }

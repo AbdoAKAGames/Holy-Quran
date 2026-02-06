@@ -111,11 +111,23 @@ export default function PhoneHome() {
     const currentPart = JSON.parse(localStorage.current_part)[0];
 
     if (currentSurah.surah_num != null && currentPart.part_num == null) {
-      navigate(`/surah/${currentSurah.surah_num}`);
+      navigate(`/surah/${currentSurah.surah_num}`, {
+        state: {
+          saved: true,
+        }
+      });
     } else if (currentPart.part_num != null && currentSurah.surah_num == null) {
-      navigate(`/part/${currentPart.part_num}`);
+      navigate(`/part/${currentPart.part_num}`, {
+        state: {
+          saved: true,
+        }
+      });
     } else if (currentPart.part_num != null && currentSurah.surah_num != null) {
-      navigate(`/saved/${currentSurah.surah_num}/${currentPart.part_num}`);
+      navigate(`/saved/${currentSurah.surah_num}/${currentPart.part_num}`, {
+        state: {
+          saved: true,
+        }
+      });
     } else {
       animate();
     }
