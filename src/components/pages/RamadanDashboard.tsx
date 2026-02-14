@@ -16,7 +16,7 @@ export default function RamadanDashboard() {
     const saved = localStorage.getItem("ramadan_plan_v3");
     if (saved) {
       const plan = JSON.parse(saved);
-      setCurrentPage(plan.currentPage);
+      setCurrentPage(plan.readPages.length);
       setStartDate(plan.startDate);
       setStreak(plan.streak);
     }
