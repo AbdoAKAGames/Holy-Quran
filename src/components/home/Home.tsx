@@ -271,7 +271,7 @@ export default function Home() {
   function getPageImage(index: number) {
     const num = index + 1;
     const padded = num < 10 ? `00${num}` : num < 100 ? `0${num}` : `${num}`;
-    return new URL(`/werd/pages/page${padded}.png`, import.meta.url).href;
+    return new URL(`/pages/page${padded}.png`, import.meta.url).href;
   }
 
   return (

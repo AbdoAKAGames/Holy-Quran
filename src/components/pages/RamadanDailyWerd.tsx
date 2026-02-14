@@ -104,7 +104,7 @@ export default function RamadanDailyWerd() {
                 pagesToShow.map(page => (
                   <div key={page} className="page-card-large">
                     <img
-                      src={`/werd/pages/page${pad(page)}.png`}
+                      src={`/pages/page${pad(page)}.png`}
                       alt={`page-${page}`}
                       loading="lazy"
                     />
