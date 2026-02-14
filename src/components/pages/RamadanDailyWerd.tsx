@@ -11,7 +11,7 @@ export default function RamadanDailyWerd() {
     const navigate = useNavigate();
     
     const [pagesToShow, setPagesToShow] = useState<number[]>([]);
-    const [readPages, setReadPages] = useState<number[]>([]);
+    const [_readPages, setReadPages] = useState<number[]>([]);
     const [plan, setPlan] = useState<any>(null);
     
     useEffect(() => {

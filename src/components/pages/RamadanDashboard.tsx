@@ -4,7 +4,6 @@ import StarsBackground from "../StarsBackground";
 import "../../styles/ramadan.css";
 
 const TOTAL_PAGES = 604;
-const TOTAL_DAYS = 30;
 
 export default function RamadanDashboard() {
   const navigate = useNavigate();
