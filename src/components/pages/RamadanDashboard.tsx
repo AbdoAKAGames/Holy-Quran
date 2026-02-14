@@ -13,7 +13,7 @@ export default function RamadanDashboard() {
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
-    const saved = localStorage.getItem("ramadan_plan_v2");
+    const saved = localStorage.getItem("ramadan_plan_v3");
     if (saved) {
       const plan = JSON.parse(saved);
       setCurrentPage(plan.currentPage);
