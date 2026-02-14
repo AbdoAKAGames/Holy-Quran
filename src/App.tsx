@@ -18,6 +18,8 @@ import WakeUp from './components/pages/azkar/WakeUp';
 import SearchResult from './components/pages/SearchResult';
 import ReadingMode from './components/pages/ReadingMode';
 import { useEffect } from 'react';
+import RamadanDashboardElite from './components/pages/RamadanDashboard';
+import RamadanDailyWerd from './components/pages/RamadanDailyWerd';
 
 const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
 const userAgent = navigator.userAgent;
@@ -54,6 +56,9 @@ export default function App() {
           <Route path="/azkar/after-pray" element={<AfterPray />} />
           <Route path="/azkar/sleep" element={<Sleep />} />
           <Route path="/azkar/wake-up" element={<WakeUp />} />
+
+          <Route path="/ramadan" element={<RamadanDashboardElite />} />
+          <Route path="/ramadan-daily" element={<RamadanDailyWerd />} />
         </Routes>
       </main>
     )
@@ -62,6 +67,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
+        <Route path="/ramadan" element={<RamadanDashboardElite />} />
+        <Route path="/ramadan-daily" element={<RamadanDailyWerd />} />
       </Routes>
     </main>
   )
