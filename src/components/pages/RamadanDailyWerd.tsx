@@ -1,124 +1,136 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import StarsBackground from "../StarsBackground";
 import "../../styles/ramadan.css";
 
 const TOTAL_PAGES = 604;
-const TOTAL_DAYS = 30;
-const BASE_PAGES_PER_DAY = Math.ceil(TOTAL_PAGES / TOTAL_DAYS);
+const RAMADAN_DAYS = 30;
+const RAMADAN_START = new Date("2025-03-01");
+
+type RamadanPlan = {
+  startDate: string;
+  readPages: number[];
+  streak: number;
+  lastCompletedDay: string;
+  khatmas: number;
+};
 
 export default function RamadanDailyWerd() {
-    const navigate = useNavigate();
-    
-    const [pagesToShow, setPagesToShow] = useState<number[]>([]);
-    const [_readPages, setReadPages] = useState<number[]>([]);
-    const [plan, setPlan] = useState<any>(null);
-    
-    useEffect(() => {
-      let saved = JSON.parse(
-        localStorage.getItem("ramadan_plan_v3") || "null"
-      );
-    
-      if (!saved) {
-        saved = {
-          startDate: new Date().toISOString(),
-          readPages: [],
-          streak: 0,
-          lastCompletedDay: ""
-        };
-        localStorage.setItem("ramadan_plan_v3", JSON.stringify(saved));
-      }
-    
-      setPlan(saved);
-      setReadPages(saved.readPages || []);
-    
-      const startDate = new Date(saved.startDate);
-      const today = new Date();
-    
-      const diffDays = Math.floor(
-        (today.getTime() - startDate.getTime()) /
+  const navigate = useNavigate();
+  const [plan, setPlan] = useState<RamadanPlan | null>(null);
+  const [todayPages, setTodayPages] = useState<number[]>([]);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("ramadan_plan_v3");
+    if (!saved) {
+      navigate("/ramadan-dashboard");
+      return;
+    }
+
+    const parsed: RamadanPlan = JSON.parse(saved);
+    setPlan(parsed);
+
+    const today = new Date();
+
+    let diffDays =
+      Math.floor(
+        (today.getTime() - RAMADAN_START.getTime()) /
           (1000 * 60 * 60 * 24)
       ) + 1;
-    
-      const currentDay = Math.min(diffDays, TOTAL_DAYS);
-    
-      const expectedMaxPage = Math.min(
-        currentDay * BASE_PAGES_PER_DAY,
-        TOTAL_PAGES
-      );
-    
-      const pages = [];
-      for (let i = 1; i <= expectedMaxPage; i++) {
-        if (!saved.readPages.includes(i)) {
-          pages.push(i);
-        }
+
+    if (diffDays < 1) diffDays = 1;
+    if (diffDays > RAMADAN_DAYS) diffDays = RAMADAN_DAYS;
+
+    const totalTarget = TOTAL_PAGES * parsed.khatmas;
+    const pagesPerDay = Math.ceil(totalTarget / RAMADAN_DAYS);
+
+    const startPage = (diffDays - 1) * pagesPerDay + 1;
+    const endPage = Math.min(diffDays * pagesPerDay, totalTarget);
+
+    const pages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    setTodayPages(pages);
+
+    const todayStr = today.toDateString();
+    if (parsed.lastCompletedDay === todayStr) {
+      setCompleted(true);
+    }
+  }, [navigate]);
+
+  const completeToday = () => {
+    if (!plan || completed) return;
+
+    const todayStr = new Date().toDateString();
+
+    const updatedPages = [
+      ...new Set([...plan.readPages, ...todayPages]),
+    ];
+
+    let newStreak = 1;
+
+    if (plan.lastCompletedDay) {
+      const last = new Date(plan.lastCompletedDay);
+      const diff =
+        (new Date().getTime() - last.getTime()) /
+        (1000 * 60 * 60 * 24);
+
+      if (Math.floor(diff) === 1) {
+        newStreak = plan.streak + 1;
       }
-    
-      setPagesToShow(pages);
-    }, []);
-  
-    const markPageAsRead = (pageNumber: number) => {
-      if (!plan.readPages.includes(pageNumber)) {
-        const updatedPages = [...plan.readPages, pageNumber];
-        
-        const todayKey = new Date().toDateString();
-        
-        let newStreak = plan.streak;
-        if (plan.lastCompletedDay !== todayKey) {
-          newStreak += 1;
-          plan.lastCompletedDay = todayKey;
-        }
-      
-        const updatedPlan = {
-          ...plan,
-          readPages: updatedPages,
-          streak: newStreak
-        };
-      
-        localStorage.setItem(
-          "ramadan_plan_v3",
-          JSON.stringify(updatedPlan)
-        );
-      
-        setPlan(updatedPlan);
-        setReadPages(updatedPages);
-        setPagesToShow(pagesToShow.filter(p => p !== pageNumber));
-      }
+    }
+
+    const updatedPlan: RamadanPlan = {
+      ...plan,
+      readPages: updatedPages,
+      streak: newStreak,
+      lastCompletedDay: todayStr,
     };
-  
-    const pad = (num: number) => String(num).padStart(3, "0");
-  
-    return (
-      <div className="ramadan-container">
-        <StarsBackground />
-        <h1 className="ramadan-title">📖 ورد رمضان اليومي</h1>
-        <div className="ramadan-werd-return" onClick={() => navigate("/ramadan")}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          رجوع
-        </div>
-    
-        <div className="pages-container">
-              {pagesToShow.length === 0 ? (
-                <p className="done-text">✔ لا يوجد صفحات متبقية اليوم</p>
-              ) : (
-                pagesToShow.map(page => (
-                  <div key={page} className="page-card-large">
-                    <img
-                      src={`/pages/page${pad(page)}.png`}
-                      alt={`page-${page}`}
-                      loading="lazy"
-                    />
-    
-                    <button
-                      className="gold-btn large-btn"
-                      onClick={() => markPageAsRead(page)}
-                    >
-                      أتممت قراءة الصفحة {page}
-                    </button>
-                  </div>
-                ))
-              )}
-          </div>
-      </div>
+
+    localStorage.setItem(
+      "ramadan_plan_v3",
+      JSON.stringify(updatedPlan)
     );
+
+    setPlan(updatedPlan);
+    setCompleted(true);
+  };
+
+  if (!plan) return null;
+
+  return (
+    <div className="ramadan-container">
+      <h1 className="ramadan-title">📖 ورد اليوم</h1>
+
+      <div className="card">
+        <p>الصفحات المطلوبة اليوم:</p>
+
+        <p>
+          {todayPages.length > 0
+            ? `${todayPages[0]} - ${
+                todayPages[todayPages.length - 1]
+              }`
+            : "انتهت الخطة 🎉"}
+        </p>
+      </div>
+
+      <button
+        className="gold-btn"
+        onClick={completeToday}
+        disabled={completed}
+      >
+        {completed ? "تم الإكمال ✅" : "إتمام ورد اليوم"}
+      </button>
+
+      <button
+        className="gold-btn"
+        style={{ marginTop: 10 }}
+        onClick={() => navigate("/ramadan-dashboard")}
+      >
+        العودة للوحة التحكم
+      </button>
+    </div>
+  );
 }
