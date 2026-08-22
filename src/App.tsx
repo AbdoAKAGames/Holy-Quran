@@ -31,30 +31,30 @@ export default function App() {
   }, []);
 
     return (
-  <main id="main-content">
-    <Routes>
-      <Route path="/" element={window.innerWidth <= 768 ? <PhoneHome /> : <Home />} />
-      
-      <Route element={<ToolsLayout />}>
-        <Route path="/azkar" element={<PhoneAzkar />} />
-        <Route path="/counter" element={<Counter />} />
-        <Route path="/search" element={<Search />} />
-      </Route>
-
-      <Route path="/surah/:surahId" element={<SurahPage />} />
-      <Route path="/part/:partId" element={<PartPage />} />
-      <Route path="/werd/:currentWerd" element={<Werd />} />
-      <Route path="/saved/:surahId/:partId" element={<Saved />} />
-      <Route path="/search/result" element={<SearchResult />} />
-      <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
-
-      <Route path="/azkar/morning" element={<Morning />} />
-      <Route path="/azkar/night" element={<Night />} />
-      <Route path="/azkar/pray-prophet" element={<PrayProphet />} />
-      <Route path="/azkar/after-pray" element={<AfterPray />} />
-      <Route path="/azkar/sleep" element={<Sleep />} />
-      <Route path="/azkar/wake-up" element={<WakeUp />} />
-    </Routes>
-  </main>
+      <main id="main-content">
+        <Routes>
+          <Route path="/" element={window.innerWidth <= 768 ? <PhoneHome /> : <Home />} />
+          
+          <Route element={<ToolsLayout />}>
+            <Route path="/azkar" element={<PhoneAzkar />} />
+            <Route path="/counter" element={<Counter />} />
+            <Route path="/search" element={<Search />} />
+          </Route>
+        
+          <Route path="/surah/:surahId" element={<SurahPage />} />
+          <Route path="/part/:partId" element={<PartPage />} />
+          <Route path="/werd/:currentWerd" element={<Werd />} />
+          <Route path="/saved/:surahId/:partId" element={<Saved />} />
+          <Route path="/search/result" element={<SearchResult />} />
+          <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
+        
+          <Route path="/azkar/morning" element={<Morning />} />
+          <Route path="/azkar/night" element={<Night />} />
+          <Route path="/azkar/pray-prophet" element={<PrayProphet />} />
+          <Route path="/azkar/after-pray" element={<AfterPray />} />
+          <Route path="/azkar/sleep" element={<Sleep />} />
+          <Route path="/azkar/wake-up" element={<WakeUp />} />
+        </Routes>
+      </main>
 );
 }
