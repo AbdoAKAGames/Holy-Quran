@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Search } from '../search/Search';
 import { allParts } from '../../data/parts/parts';
 import { surah_nass } from '../../data/surah/surah_nass';
@@ -10,8 +9,6 @@ import { allHezb } from '../../data/hezb/hezb';
 import { quraa } from '../../data/quraa';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-
-export const supabase = createClient("https://qyaesdyfffwhzckftdsy.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5YWVzZHlmZmZ3aHpja2Z0ZHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg2Nzk0NzcsImV4cCI6MjA0NDI1NTQ3N30.QIxNcaBBYwwK_By_X4_QEElgjpTp3NyYQMETrWDOB10");
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<string>('home');
@@ -38,11 +35,15 @@ export default function Home() {
   const unsavedRefPart = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
-  const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
-  const isMobile = phoneRegEx.test(navigator.userAgent);
 
-  // دالة مساعدة لتنسيق رقم السورة/الجزء في روابط الصوتيات
   const formatAudioNum = (num: number) => num < 10 ? `00${num}` : num < 100 ? `0${num}` : `${num}`;
+
+  const filteredSurahs = useMemo(() => {
+    const normalizedSearch = surahSearchValue.replace(/[أآ]/g, 'ا');
+    return allSurah_s.filter(surah =>
+      surah.replace(/[أآ]/g, 'ا').includes(normalizedSearch)
+    );
+  }, [surahSearchValue]);
 
   // دالة موحدة لتشغيل الصوت
   async function playAudio(type: 'surah' | 'part', qareeName: string, number: number) {
@@ -77,67 +78,61 @@ export default function Home() {
     }
   }
 
-  // تهيئة التطبيق (localStorage, Supabase, Werd)
   useEffect(() => {
-    handleClick("home", "home"); // Set initial active tab
+    handleClick("home", "home");
 
-    const initApp = async () => {
-      // 1. Initialize LocalStorage if missing
-      if (!localStorage.id) localStorage.setItem("id", crypto.randomUUID());
-      if (!localStorage.getItem("current_surah")) localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]));
-      if (!localStorage.getItem("current_part")) localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]));
-      if (!localStorage.getItem("werd")) localStorage.setItem("werd", JSON.stringify([{ started: false, current_werd: '', last_time: null, index: null }]));
+    const initApp = () => {
+      if (!localStorage.getItem("id")) {
+        localStorage.setItem("id", crypto.randomUUID());
+      }
 
-      const userId = localStorage.id;
+      if (!localStorage.getItem("current_surah")) {
+        localStorage.setItem(
+          "current_surah",
+          JSON.stringify([{ surah_num: null, scroll_top: null }])
+        );
+      }
 
-      // 2. Fetch/Sync Data
-      if (isMobile) {
-        // Mobile: Prefer LocalStorage
-        const lsSurah = JSON.parse(localStorage.current_surah)[0];
-        const lsPart = JSON.parse(localStorage.current_part)[0];
-        const lsWerd = JSON.parse(localStorage.werd)[0];
+      if (!localStorage.getItem("current_part")) {
+        localStorage.setItem(
+          "current_part",
+          JSON.stringify([{ part_num: null, scroll_top: null }])
+        );
+      }
 
-        if (lsSurah.surah_num) {
-            setCurrentSurahNass(lsSurah.surah_num);
-            scrollToElement('.nass', lsSurah.scroll_top);
-        }
-        if (lsPart.part_num) {
-            setCurrentPartNass(lsPart.part_num);
-            scrollToElement('.quran-part-nass', lsPart.scroll_top);
-        }
-        if (lsWerd.started) {
-             setStartedWerd(lsWerd.started);
-             setDailyWerd(lsWerd.current_werd);
-             setCurrentWerd(lsWerd.index);
-             checkWerdUpdate(lsWerd, true);
-        }
-      } else {
-        // Desktop: Prefer Supabase
-        const { data: surahData } = await supabase.from('current_surah').select().eq('id', userId);
-        if (!surahData?.length) {
-          await supabase.from('current_surah').insert([{ id: userId, surah_num: null, scroll_top: null }]);
-        } else if (surahData[0].surah_num) {
-          setCurrentSurahNass(surahData[0].surah_num);
-          scrollToElement('.nass', surahData[0].scroll_top);
-        }
+      if (!localStorage.getItem("werd")) {
+        localStorage.setItem(
+          "werd",
+          JSON.stringify([
+            {
+              started: false,
+              current_werd: "",
+              last_time: null,
+              index: null,
+            },
+          ])
+        );
+      }
 
-        const { data: partData } = await supabase.from('current_part').select().eq('id', userId);
-        if (!partData?.length) {
-           await supabase.from('current_part').insert([{ id: userId, part_num: null, scroll_top: null }]);
-        } else if (partData[0].part_num) {
-           setCurrentPartNass(partData[0].part_num);
-           scrollToElement('.quran-part-nass', partData[0].scroll_top);
-        }
+      const surah = JSON.parse(localStorage.getItem("current_surah")!)[0];
+      const part = JSON.parse(localStorage.getItem("current_part")!)[0];
+      const werd = JSON.parse(localStorage.getItem("werd")!)[0];
 
-        const { data: werdData } = await supabase.from('werd').select().eq('id', userId);
-        if (!werdData?.length) {
-           await supabase.from('werd').insert([{ id: userId, started: false, current_werd: '', index: null, last_time: null }]);
-        } else {
-           setStartedWerd(werdData[0].started);
-           setDailyWerd(werdData[0].current_werd);
-           setCurrentWerd(werdData[0].index);
-           checkWerdUpdate(werdData[0], false);
-        }
+      if (surah.surah_num) {
+        setCurrentSurahNass(surah.surah_num);
+        scrollToElement(".nass", surah.scroll_top);
+      }
+
+      if (part.part_num) {
+        setCurrentPartNass(part.part_num);
+        scrollToElement(".quran-part-nass", part.scroll_top);
+      }
+
+      if (werd.started) {
+        setStartedWerd(true);
+        setDailyWerd(werd.current_werd);
+        setCurrentWerd(werd.index);
+        checkWerdUpdate(werd);
       }
     };
 
@@ -155,24 +150,33 @@ export default function Home() {
     }, 100);
   };
 
-  // التحقق من تحديث الورد اليومي
-  const checkWerdUpdate = async (data: any, isLocalStorage: boolean) => {
-    const currentTime = new Date().getTime();
-    if (currentTime - data.last_time >= 24 * 60 * 60 * 1000) {
-        let newIndex = data.index + 1;
-        const limits: {[key: string]: number} = { 'page': 603, 'hezb': 59, 'part': 29 };
-        
-        if (data.index === limits[data.current_werd]) newIndex = 0;
+  const checkWerdUpdate = (data: any) => {
+    const currentTime = Date.now();
 
-        const newData = { last_time: currentTime, index: newIndex };
-        
-        if (isLocalStorage) {
-            const updated = [{ ...data, ...newData }];
-            localStorage.setItem("werd", JSON.stringify(updated));
-        } else {
-            await supabase.from('werd').update([newData]).eq('id', localStorage.id);
-        }
-        setCurrentWerd(newIndex);
+    if (currentTime - data.last_time >= 24 * 60 * 60 * 1000) {
+      let newIndex = data.index + 1;
+      const limits: Record<string, number> = {
+        page: 603,
+        hezb: 59,
+        part: 29,
+      };
+
+      if (data.index === limits[data.current_werd]) {
+        newIndex = 0;
+      }
+
+      localStorage.setItem(
+        "werd",
+        JSON.stringify([
+          {
+            ...data,
+            last_time: currentTime,
+            index: newIndex,
+          },
+        ])
+      );
+
+      setCurrentWerd(newIndex);
     }
   };
 
@@ -181,39 +185,83 @@ export default function Home() {
   }
 
   async function save() {
-    let el = document.getElementsByClassName('nass')[0] as HTMLDivElement;
-    const scroll = el.scrollTop;
-    if (isMobile) {
-      localStorage.setItem("current_surah", JSON.stringify([{ surah_num: currentSurahNass, scroll_top: scroll }]));
-    }
-    await supabase.from('current_surah').update({ surah_num: currentSurahNass, scroll_top: scroll }).eq('id', localStorage.id);
+    const el = document.getElementsByClassName("nass")[0] as HTMLDivElement;
+
+    localStorage.setItem(
+      "current_surah",
+      JSON.stringify([
+        {
+          surah_num: currentSurahNass,
+          scroll_top: el.scrollTop,
+        },
+      ])
+    );
+
     triggerAnimation(setAnimated, savedRef);
   }
 
   async function unsave() {
-    if (isMobile) {
-      localStorage.setItem("current_surah", JSON.stringify([{ surah_num: null, scroll_top: null }]));
-    }
-    await supabase.from('current_surah').update({ surah_num: null, scroll_top: null }).eq('id', localStorage.id);
+    localStorage.setItem(
+      "current_surah",
+      JSON.stringify([{ surah_num: null, scroll_top: null }])
+    );
+
     triggerAnimation(setAnimatedUns, unsavedRef);
   }
 
   async function savePart() {
-    let el = document.getElementsByClassName('quran-part-nass')[0] as HTMLDivElement;
-    const scroll = el.scrollTop;
-    if (isMobile) {
-      localStorage.setItem("current_part", JSON.stringify([{ part_num: currentPartNass, scroll_top: scroll }]));
-    }
-    await supabase.from('current_part').update({ part_num: currentPartNass, scroll_top: scroll }).eq('id', localStorage.id);
+    const el = document.getElementsByClassName(
+      "quran-part-nass"
+    )[0] as HTMLDivElement;
+
+    localStorage.setItem(
+      "current_part",
+      JSON.stringify([
+        {
+          part_num: currentPartNass,
+          scroll_top: el.scrollTop,
+        },
+      ])
+    );
+
     triggerAnimation(setAnimatedPart, savedRefPart);
   }
 
   async function unsavePart() {
-    if (isMobile) {
-      localStorage.setItem("current_part", JSON.stringify([{ part_num: null, scroll_top: null }]));
-    }
-    await supabase.from('current_part').update({ part_num: null, scroll_top: null }).eq('id', localStorage.id);
+    localStorage.setItem(
+      "current_part",
+      JSON.stringify([{ part_num: null, scroll_top: null }])
+    );
+
     triggerAnimation(setAnimatedUnsPart, unsavedRefPart);
+  }
+
+  async function startWerd(werd: string) {
+    const payload = {
+      started: true,
+      current_werd: werd,
+      last_time: Date.now(),
+      index: 0,
+    };
+
+    localStorage.setItem("werd", JSON.stringify([payload]));
+
+    setWerdModal(false);
+    setStartedWerd(true);
+    setCurrentWerd(0);
+    setDailyWerd(werd);
+  }
+
+  async function cancelWerd() {
+    const payload = {
+      started: false,
+      current_werd: "",
+      last_time: 0,
+      index: 0,
+    };
+
+    localStorage.setItem("werd", JSON.stringify([payload]));
+    setStartedWerd(false);
   }
 
   const triggerAnimation = (setAnim: Function, ref: any) => {
@@ -223,29 +271,6 @@ export default function Home() {
         setAnim(false);
     }, 3000);
   };
-
-  async function startWerd(werd: string) {
-    const date = new Date().getTime();
-    const payload = { started: true, current_werd: werd, last_time: date, index: 0 };
-    
-    await supabase.from('werd').update([payload]).eq('id', localStorage.id);
-    if (isMobile) {
-      localStorage.setItem("werd", JSON.stringify([payload]));
-    }
-    setWerdModal(false);
-    setStartedWerd(true);
-    setCurrentWerd(0);
-    setDailyWerd(werd);
-  }
-
-  async function cancelWerd() {
-    const payload = { started: false, current_werd: '', last_time: 0, index: 0 };
-    await supabase.from("werd").update(payload).eq("id", localStorage.id);
-    if (isMobile) {
-      localStorage.setItem("werd", JSON.stringify([payload]));
-    }
-    setStartedWerd(false);
-  }
 
   function handleClick(className: string, newPage: string) {
     const allElements = [
@@ -294,9 +319,9 @@ export default function Home() {
               <div className="search-surah-names">
                 <input type="text" className="search-surah-names-input" value={surahSearchValue} onChange={e => setSurahSearchValue(e.target.value)} placeholder="البحث في السور" />
               </div>
-              {allSurah_s.filter(surah => surah.replace("أ", "ا").replace("آ", "ا").includes(surahSearchValue.replace("أ", "ا").replace("آ", "ا"))).map((surah, i) => (
-                <div className="surah" key={i} onClick={() => { setCurrentSurahNass(i + 1); scrollToElement('.nass', 0); }}>
-                  <div className="surah-number">{i + 1}</div>
+              {filteredSurahs.map((surah, i) => (
+                <div className="surah" key={i} onClick={() => { setCurrentSurahNass(allSurah_s.indexOf(surah) + 1); scrollToElement('.nass', 0); }}>
+                  <div className="surah-number">{allSurah_s.indexOf(surah) + 1}</div>
                   <div className="surah-name">سورة {surah}</div>
                 </div>
               ))}
@@ -460,16 +485,6 @@ export default function Home() {
         {currentPage === 'counter' && <Counter />}
 
         <div className="tools">
-          <div className="tool" onClick={() => { handleClick('ramadan', 'ramadan');navigate("/ramadan") }}>
-            <div className="tool-img">
-            <svg className="ramadan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="120" height="50" fill="#fff">
-              <path d="M281.603,179.637c0.828,0,1.5-0.671,1.5-1.5v-4.601h4.451c0.828,0,1.5-0.671,1.5-1.5v-9.699c0-0.829-0.672-1.5-1.5-1.5   h-24.146c-3.842-27.97-40.149-45.072-56.818-51.509c0.26-0.794,0.404-1.637,0.404-2.515c0-3.405-2.109-6.332-5.133-7.646   c1.078-0.939,1.76-2.294,1.76-3.806c0-1.994-1.182-3.722-2.906-4.57l-0.781-6.204c3.354-0.748,5.861-3.736,5.861-7.315v-0.5   c0-4.142-3.357-7.5-7.5-7.5c-4.143,0-7.5,3.358-7.5,7.5v0.5c0,3.579,2.508,6.567,5.861,7.315l-0.781,6.204   c-1.725,0.849-2.906,2.576-2.906,4.57c0,1.512,0.682,2.866,1.758,3.806c-3.021,1.313-5.131,4.24-5.131,7.646   c0,0.877,0.144,1.721,0.404,2.515c-16.67,6.437-52.977,23.539-56.818,51.509h-24.148c-0.828,0-1.5,0.671-1.5,1.5v9.699   c0,0.829,0.672,1.5,1.5,1.5h4.451v4.601c0,0.829,0.672,1.5,1.5,1.5h3.271v162.282h-3.271c-0.828,0-1.5,0.671-1.5,1.5v4.598h-4.451   c-0.828,0-1.5,0.671-1.5,1.5v9.702c0,0.829,0.672,1.5,1.5,1.5h32.018c17.57,23.99,57.244,35.867,57.244,35.867   s39.674-11.877,57.244-35.867h32.016c0.828,0,1.5-0.671,1.5-1.5v-9.702c0-0.829-0.672-1.5-1.5-1.5h-4.451v-4.598   c0-0.829-0.672-1.5-1.5-1.5h-3.27V179.637H281.603z M161.343,331.651h-26.795V228.584c0-24.726,13.396-40.929,13.396-40.929   s13.398,16.203,13.398,40.929V331.651z M221.644,331.651h-46.701V228.584c0-24.726,23.352-40.929,23.352-40.929   s23.35,16.203,23.35,40.929V331.651z M262.04,331.651h-26.795V228.584c0-24.726,13.396-40.929,13.396-40.929   s13.398,16.203,13.398,40.929V331.651z"></path>
-            </svg>
-            </div>
-            <div className="tool-name ramadan">
-              رمضان
-            </div>
-          </div>
           <div className="tool" onClick={() => { handleClick('counter', 'counter') }}>
             <div className="tool-img">
               <svg className="counter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="120" height="50" fill="#fff">

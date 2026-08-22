@@ -18,8 +18,6 @@ import WakeUp from './components/pages/azkar/WakeUp';
 import SearchResult from './components/pages/SearchResult';
 import ReadingMode from './components/pages/ReadingMode';
 import { useEffect } from 'react';
-import RamadanDashboardElite from './components/pages/RamadanDashboard';
-import RamadanDailyWerd from './components/pages/RamadanDailyWerd';
 
 const phoneRegEx = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i;
 const userAgent = navigator.userAgent;
@@ -32,44 +30,31 @@ export default function App() {
     }
   }, []);
 
-  if (phoneRegEx.test(userAgent)) {
     return (
-      <main id="main-content">
-        <Routes>
-          <Route element={<ToolsLayout />}>
-            <Route path="/" element={<PhoneHome />} />
-            <Route path="/azkar" element={<PhoneAzkar />} />
-            <Route path="/counter" element={<Counter />} />
-            <Route path="/search" element={<Search />} />
-          </Route>
+  <main id="main-content">
+    <Routes>
+      <Route path="/" element={window.innerWidth <= 768 ? <PhoneHome /> : <Home />} />
+      
+      <Route element={<ToolsLayout />}>
+        <Route path="/azkar" element={<PhoneAzkar />} />
+        <Route path="/counter" element={<Counter />} />
+        <Route path="/search" element={<Search />} />
+      </Route>
 
-          <Route path="/surah/:surahId" element={<SurahPage />} />
-          <Route path="/part/:partId" element={<PartPage />} />
-          <Route path="/werd/:currentWerd" element={<Werd />} />
-          <Route path="/saved/:surahId/:partId" element={<Saved />} />
-          <Route path="/search/result" element={<SearchResult />} />
-          <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
+      <Route path="/surah/:surahId" element={<SurahPage />} />
+      <Route path="/part/:partId" element={<PartPage />} />
+      <Route path="/werd/:currentWerd" element={<Werd />} />
+      <Route path="/saved/:surahId/:partId" element={<Saved />} />
+      <Route path="/search/result" element={<SearchResult />} />
+      <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
 
-          <Route path="/azkar/morning" element={<Morning />} />
-          <Route path="/azkar/night" element={<Night />} />
-          <Route path="/azkar/pray-prophet" element={<PrayProphet />} />
-          <Route path="/azkar/after-pray" element={<AfterPray />} />
-          <Route path="/azkar/sleep" element={<Sleep />} />
-          <Route path="/azkar/wake-up" element={<WakeUp />} />
-
-          <Route path="/ramadan" element={<RamadanDashboardElite />} />
-          <Route path="/ramadan-daily" element={<RamadanDailyWerd />} />
-        </Routes>
-      </main>
-    )
-  } else return (
-    <main id="main-content">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/reading-mode/:type/:id" element={<ReadingMode />} />
-        <Route path="/ramadan" element={<RamadanDashboardElite />} />
-        <Route path="/ramadan-daily" element={<RamadanDailyWerd />} />
-      </Routes>
-    </main>
-  )
+      <Route path="/azkar/morning" element={<Morning />} />
+      <Route path="/azkar/night" element={<Night />} />
+      <Route path="/azkar/pray-prophet" element={<PrayProphet />} />
+      <Route path="/azkar/after-pray" element={<AfterPray />} />
+      <Route path="/azkar/sleep" element={<Sleep />} />
+      <Route path="/azkar/wake-up" element={<WakeUp />} />
+    </Routes>
+  </main>
+);
 }
