@@ -33,13 +33,13 @@ export default function App() {
     return (
       <main id="main-content">
         <Routes>
-          <Route path="/" element={window.innerWidth <= 768 ? <PhoneHome /> : <Home />} />
-          
-          <Route element={<ToolsLayout />}>
+          {window.innerWidth > 768 && <Route path="/" element={<Home />} />}
+          {window.innerWidth <= 768 && <Route element={<ToolsLayout />}>
+            <Route path="/" element={<PhoneHome />} />
             <Route path="/azkar" element={<PhoneAzkar />} />
             <Route path="/counter" element={<Counter />} />
             <Route path="/search" element={<Search />} />
-          </Route>
+          </Route>}
         
           <Route path="/surah/:surahId" element={<SurahPage />} />
           <Route path="/part/:partId" element={<PartPage />} />
